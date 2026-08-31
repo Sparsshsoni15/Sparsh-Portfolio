@@ -2,10 +2,9 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
 const links = [
-    { label: "About", href: "#about" },
-    { label: "Skills", href: "#skills" },
-    { label: "Work", href: "#work" },
-    { label: "GitHub", href: "#github" },
+  { label: "About", href: "#about" },
+  { label: "Skills", href: "#skills" },
+  { label: "Work", href: "#work" },
 ];
 
 function Navbar() {
