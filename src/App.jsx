@@ -1,5 +1,6 @@
 import Background from "./components/Background";
 import Navbar from "./components/Navbar";
+import About from "./sections/About";
 import Hero from "./sections/Hero";
 
 function App() {
@@ -7,15 +8,10 @@ function App() {
     <div className="min-h-screen bg-[#050507] text-white">
       <Background />
       <Navbar />
+
       <main>
         <Hero />
-
-        <section
-          id="about"
-          className="flex min-h-screen items-center justify-center px-6"
-        >
-          <h2 className="text-4xl font-bold">About — Coming Next</h2>
-        </section>
+        <About />
 
         <section
           id="skills"
