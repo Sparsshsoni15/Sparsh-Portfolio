@@ -7,23 +7,30 @@ import Work from "./sections/Work";
 
 function App() {
   return (
-    <div className="min-h-screen bg-[#050507] text-white">
+    <div className="relative min-h-screen bg-black">
+      {/* Animated Ballpit Background */}
       <Background />
-      <Navbar />
 
-      <main>
-        <Hero />
-        <About />
-        <Skills />
-        <Work />
-       
-        <section
-          id="github"
-          className="flex min-h-screen items-center justify-center px-6"
-        >
-          <h2 className="text-4xl font-bold">GitHub — Coming Next</h2>
-        </section>
-      </main>
+      {/* Website Content */}
+      <div className="relative z-10">
+        <Navbar />
+
+        <main>
+          <Hero />
+          <About />
+          <Skills />
+          <Work />
+
+          <section
+            id="github"
+            className="flex min-h-screen items-center justify-center px-6"
+          >
+            <h2 className="text-4xl font-bold">
+              GitHub — Coming Next
+            </h2>
+          </section>
+        </main>
+      </div>
     </div>
   );
 }
