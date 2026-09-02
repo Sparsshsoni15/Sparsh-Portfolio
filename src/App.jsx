@@ -8,7 +8,7 @@ import Work from "./sections/Work";
 function App() {
   return (
     <div className="relative min-h-screen bg-black">
-      
+
       <Background />
 
       <div className="relative z-10">
