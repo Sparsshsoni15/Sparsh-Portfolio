@@ -150,3 +150,394 @@ a {
 
   animation: particles 25s linear infinite;
 }
+/* =========================================
+   PORTFOLIO ANIMATED BACKGROUND
+   ========================================= */
+
+.portfolio-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 35%,
+      rgba(25, 18, 65, 0.55) 0%,
+      rgba(6, 7, 18, 0.9) 45%,
+      #020208 100%
+    );
+
+  --mouse-x: 0;
+  --mouse-y: 0;
+}
+
+/* Ambient purple/blue lights */
+
+.ambient-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.glow-one {
+  width: 550px;
+  height: 550px;
+  left: -180px;
+  top: 5%;
+  background: rgba(93, 43, 220, 0.13);
+
+  transform: translate(
+    calc(var(--mouse-x) * 20px),
+    calc(var(--mouse-y) * 15px)
+  );
+
+  animation: glowFloatOne 12s ease-in-out infinite alternate;
+}
+
+.glow-two {
+  width: 650px;
+  height: 650px;
+  right: -250px;
+  top: 15%;
+  background: rgba(55, 75, 255, 0.11);
+
+  transform: translate(
+    calc(var(--mouse-x) * -25px),
+    calc(var(--mouse-y) * -15px)
+  );
+
+  animation: glowFloatTwo 15s ease-in-out infinite alternate;
+}
+
+.glow-three {
+  width: 700px;
+  height: 500px;
+  left: 35%;
+  bottom: -300px;
+  background: rgba(120, 40, 255, 0.1);
+  filter: blur(120px);
+
+  animation: glowFloatThree 14s ease-in-out infinite alternate;
+}
+
+
+/* =========================================
+   SMOOTH FLOWING WAVES
+   ========================================= */
+
+.wave {
+  position: absolute;
+  width: 150%;
+  height: 260px;
+
+  left: -25%;
+
+  border-radius: 50%;
+
+  opacity: 0.65;
+
+  filter: blur(1px);
+
+  will-change: transform;
+
+  transform:
+    translate3d(
+      calc(var(--mouse-x) * 8px),
+      calc(var(--mouse-y) * 5px),
+      0
+    );
+}
+
+/* Main purple wave */
+
+.wave-one {
+  top: 20%;
+  border-top: 1px solid rgba(130, 85, 255, 0.18);
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(110, 55, 255, 0.12),
+      transparent 65%
+    );
+
+  box-shadow:
+    0 -30px 80px rgba(96, 45, 255, 0.08),
+    0 30px 100px rgba(70, 50, 255, 0.06);
+
+  animation: waveOne 18s ease-in-out infinite alternate;
+}
+
+/* Blue wave */
+
+.wave-two {
+  top: 52%;
+  height: 300px;
+
+  border-top: 1px solid rgba(65, 105, 255, 0.16);
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(45, 75, 255, 0.1),
+      transparent 68%
+    );
+
+  box-shadow:
+    0 -35px 100px rgba(55, 75, 255, 0.07),
+    0 35px 100px rgba(75, 45, 255, 0.07);
+
+  animation: waveTwo 22s ease-in-out infinite alternate;
+}
+
+/* Lower purple wave */
+
+.wave-three {
+  bottom: -2%;
+  height: 270px;
+
+  border-top: 1px solid rgba(120, 75, 255, 0.2);
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(95, 45, 255, 0.13),
+      transparent 67%
+    );
+
+  box-shadow:
+    0 -40px 120px rgba(100, 50, 255, 0.1);
+
+  animation: waveThree 20s ease-in-out infinite alternate;
+}
+
+
+/* =========================================
+   STARS / PARTICLES
+   ========================================= */
+
+.stars {
+  position: absolute;
+  inset: 0;
+}
+
+.star {
+  position: absolute;
+
+  border-radius: 50%;
+
+  background: rgba(145, 125, 255, 0.8);
+
+  box-shadow:
+    0 0 5px rgba(120, 100, 255, 0.8),
+    0 0 12px rgba(100, 80, 255, 0.35);
+
+  animation: starPulse ease-in-out infinite;
+}
+
+
+/* =========================================
+   VIGNETTE
+   ========================================= */
+
+.background-vignette {
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 35%,
+      rgba(0, 0, 0, 0.25) 75%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
+}
+
+
+/* =========================================
+   ANIMATIONS
+   ========================================= */
+
+@keyframes waveOne {
+  0% {
+    transform:
+      translate3d(
+        calc(var(--mouse-x) * 8px - 3%),
+        calc(var(--mouse-y) * 5px),
+        0
+      )
+      rotate(-2deg)
+      scaleY(0.9);
+  }
+
+  50% {
+    transform:
+      translate3d(
+        calc(var(--mouse-x) * 8px + 4%),
+        calc(var(--mouse-y) * 5px + 15px),
+        0
+      )
+      rotate(2deg)
+      scaleY(1.15);
+  }
+
+  100% {
+    transform:
+      translate3d(
+        calc(var(--mouse-x) * 8px - 2%),
+        calc(var(--mouse-y) * 5px - 10px),
+        0
+      )
+      rotate(-1deg)
+      scaleY(0.95);
+  }
+}
+
+@keyframes waveTwo {
+  0% {
+    transform:
+      translate3d(
+        calc(var(--mouse-x) * -8px + 3%),
+        calc(var(--mouse-y) * -5px),
+        0
+      )
+      rotate(2deg)
+      scaleY(0.95);
+  }
+
+  50% {
+    transform:
+      translate3d(
+        calc(var(--mouse-x) * -8px - 4%),
+        calc(var(--mouse-y) * -5px - 20px),
+        0
+      )
+      rotate(-2deg)
+      scaleY(1.12);
+  }
+
+  100% {
+    transform:
+      translate3d(
+        calc(var(--mouse-x) * -8px + 2%),
+        calc(var(--mouse-y) * -5px + 10px),
+        0
+      )
+      rotate(1deg)
+      scaleY(0.9);
+  }
+}
+
+@keyframes waveThree {
+  0% {
+    transform:
+      translate3d(-3%, 0, 0)
+      rotate(-2deg)
+      scaleY(0.9);
+  }
+
+  50% {
+    transform:
+      translate3d(4%, -15px, 0)
+      rotate(2deg)
+      scaleY(1.15);
+  }
+
+  100% {
+    transform:
+      translate3d(-2%, 10px, 0)
+      rotate(-1deg)
+      scaleY(0.95);
+  }
+}
+
+@keyframes glowFloatOne {
+  from {
+    transform:
+      translate(
+        calc(var(--mouse-x) * 20px - 20px),
+        calc(var(--mouse-y) * 15px)
+      );
+  }
+
+  to {
+    transform:
+      translate(
+        calc(var(--mouse-x) * 20px + 70px),
+        calc(var(--mouse-y) * 15px + 40px)
+      );
+  }
+}
+
+@keyframes glowFloatTwo {
+  from {
+    transform:
+      translate(
+        calc(var(--mouse-x) * -25px),
+        calc(var(--mouse-y) * -15px)
+      );
+  }
+
+  to {
+    transform:
+      translate(
+        calc(var(--mouse-x) * -25px - 60px),
+        calc(var(--mouse-y) * -15px + 50px)
+      );
+  }
+}
+
+@keyframes glowFloatThree {
+  from {
+    transform: translateX(-30px);
+  }
+
+  to {
+    transform: translateX(80px);
+  }
+}
+
+@keyframes starPulse {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.7);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: scale(1.4);
+  }
+}
+
+
+/* =========================================
+   PERFORMANCE
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .wave,
+  .ambient-glow,
+  .star {
+    animation: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .wave {
+    width: 220%;
+    left: -60%;
+  }
+
+  .ambient-glow {
+    filter: blur(80px);
+  }
+
+  .star {
+    box-shadow: 0 0 6px rgba(120, 100, 255, 0.4);
+  }
+}
