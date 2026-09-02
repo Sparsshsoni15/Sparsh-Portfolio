@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const themes = [
   {
@@ -33,33 +33,91 @@ function ThemeSwitcher() {
     localStorage.getItem("portfolio-theme") || "default"
   );
 
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("portfolio-theme", theme);
   }, [theme]);
 
-  return (
-    <div className="relative">
-      <select
-        value={theme}
-        onChange={(e) => setTheme(e.target.value)}
-        aria-label="Select theme"
-        className="cursor-pointer appearance-none rounded-full border border-white/10 bg-white/5 px-4 py-2.5 pr-9 text-sm text-white backdrop-blur-md outline-none transition-all duration-300 hover:border-purple-500/50"
-      >
-        {themes.map((item) => (
-          <option
-            key={item.name}
-            value={item.name}
-            className="bg-zinc-900 text-white"
-          >
-            {item.icon} {item.label}
-          </option>
-        ))}
-      </select>
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setOpen(false);
+      }
+    }
 
-      <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-zinc-400">
-        ▼
-      </span>
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const selectedTheme =
+    themes.find((item) => item.name === theme) || themes[0];
+
+  return (
+    <div ref={dropdownRef} className="relative">
+      {/* Theme Button */}
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        aria-label="Select theme"
+        aria-expanded={open}
+        className="theme-text theme-border theme-surface flex min-w-[170px] items-center justify-between gap-3 rounded-full border px-4 py-2.5 text-sm font-medium backdrop-blur-md outline-none transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--theme-primary)]"
+      >
+        <span className="flex items-center gap-2">
+          <span className="text-base">{selectedTheme.icon}</span>
+          <span>{selectedTheme.label}</span>
+        </span>
+
+        <span
+          className={`theme-muted text-xs transition-transform duration-300 ${
+            open ? "rotate-180" : ""
+          }`}
+        >
+          ▼
+        </span>
+      </button>
+
+      {/* Dropdown */}
+      {open && (
+        <div className="theme-border theme-surface absolute right-0 top-full z-[100] mt-2 w-full min-w-[170px] overflow-hidden rounded-2xl border p-1.5 shadow-2xl backdrop-blur-xl">
+          {themes.map((item) => {
+            const isActive = theme === item.name;
+
+            return (
+              <button
+                key={item.name}
+                type="button"
+                onClick={() => {
+                  setTheme(item.name);
+                  setOpen(false);
+                }}
+                className={`theme-text flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm transition-all duration-200 ${
+                  isActive
+                    ? "bg-[var(--theme-primary)] text-white"
+                    : "hover:bg-[var(--theme-surface-hover)]"
+                }`}
+              >
+                <span className="text-base">{item.icon}</span>
+
+                <span>{item.label}</span>
+
+                {isActive && (
+                  <span className="ml-auto text-xs text-white">✓</span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
