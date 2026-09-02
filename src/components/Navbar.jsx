@@ -26,7 +26,7 @@ function Navbar() {
                         <a
                             key={link.label}
                             href={link.href}
-                            className="text-sm text-zinc-400 transition hover:text-white"
+                            className="theme-muted text-sm transition-colors hover:text-[var(--theme-primary)]"
                         >
                             {link.label}
                         </a>
@@ -36,7 +36,7 @@ function Navbar() {
                         href="https://github.com/Sparsshsoni15"
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm transition hover:border-purple-500/50 hover:bg-purple-500/10"
+                        className="theme-border theme-surface flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-all duration-300 hover:-translate-y-0.5"
                     >
                         <svg
                             width="16"
