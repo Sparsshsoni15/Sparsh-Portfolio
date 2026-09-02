@@ -18,12 +18,11 @@ function Navbar() {
         {/* LOGO */}
         <a
           href="#"
-          className="text-lg font-bold tracking-[0.25em]"
+          className="theme-text text-lg font-bold tracking-[0.25em]"
         >
           SPARSH
           <span className="theme-primary">.</span>
         </a>
-
 
         {/* DESKTOP NAVIGATION */}
         <div className="hidden items-center gap-8 md:flex">
@@ -38,24 +37,12 @@ function Navbar() {
             </a>
           ))}
 
-
           {/* GITHUB */}
           <a
             href="https://github.com/Sparsshsoni15"
             target="_blank"
             rel="noreferrer"
-            className="
-              theme-border
-              theme-surface
-              flex items-center gap-2
-              rounded-full
-              border
-              px-4 py-2
-              text-sm
-              transition-all duration-300
-              hover:-translate-y-0.5
-              hover:border-[var(--theme-primary)]
-            "
+            className="theme-text theme-border theme-surface flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--theme-primary)]"
           >
             <svg
               width="16"
@@ -70,49 +57,24 @@ function Navbar() {
             GitHub
           </a>
 
-
           {/* THEME SWITCHER */}
           <ThemeSwitcher />
-
         </div>
-
 
         {/* MOBILE MENU BUTTON */}
         <button
           onClick={() => setOpen(!open)}
-          className="
-            theme-border
-            theme-surface
-            rounded-lg
-            border
-            p-2
-            transition-all duration-300
-            hover:border-[var(--theme-primary)]
-            md:hidden
-          "
+          className="theme-text theme-border theme-surface rounded-lg border p-2 transition-all duration-300 hover:border-[var(--theme-primary)] md:hidden"
           aria-label="Toggle menu"
           aria-expanded={open}
         >
           {open ? <X size={20} /> : <Menu size={20} />}
         </button>
-
       </nav>
-
 
       {/* MOBILE MENU */}
       {open && (
-        <div
-          className="
-            theme-border
-            theme-surface
-            mx-4
-            rounded-2xl
-            border
-            p-5
-            backdrop-blur-xl
-            md:hidden
-          "
-        >
+        <div className="theme-border theme-surface mx-4 rounded-2xl border p-5 backdrop-blur-xl md:hidden">
           <div className="flex flex-col gap-5">
 
             {links.map((link) => (
@@ -120,16 +82,11 @@ function Navbar() {
                 key={link.label}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="
-                  theme-muted
-                  transition-colors duration-300
-                  hover:text-[var(--theme-primary)]
-                "
+                className="theme-muted transition-colors duration-300 hover:text-[var(--theme-primary)]"
               >
                 {link.label}
               </a>
             ))}
-
 
             {/* MOBILE THEME SWITCHER */}
             <div className="pt-2">

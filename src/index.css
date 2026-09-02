@@ -546,124 +546,107 @@ a {
 ========================================= */
 
 :root {
+  --theme-bg: #050507;
+  --theme-surface: rgba(255, 255, 255, 0.05);
+
+  --theme-text: #ffffff;
+  --theme-text-secondary: #d4d4d8;
+  --theme-text-muted: #a1a1aa;
+
   --theme-primary: #8b5cf6;
   --theme-secondary: #3b82f6;
 
-  --theme-bg: #030305;
-  --theme-surface: rgba(255, 255, 255, 0.04);
-  --theme-border: rgba(255, 255, 255, 0.10);
-
-  --theme-text: #ffffff;
-  --theme-heading: #ffffff;
-  --theme-muted: #a1a1aa;
-
-  --theme-button-text: #ffffff;
-  --theme-glow: rgba(139, 92, 246, 0.20);
+  --theme-border: rgba(255, 255, 255, 0.12);
 }
 
-
 /* =========================================
-   DEFAULT — DARK
+   DEFAULT - DARK PURPLE
 ========================================= */
 
 html[data-theme="default"] {
+  --theme-bg: #050507;
+  --theme-surface: rgba(255, 255, 255, 0.05);
+
+  --theme-text: #ffffff;
+  --theme-text-secondary: #d4d4d8;
+  --theme-text-muted: #a1a1aa;
+
   --theme-primary: #8b5cf6;
   --theme-secondary: #3b82f6;
 
-  --theme-bg: #030305;
-  --theme-surface: rgba(255, 255, 255, 0.04);
-  --theme-border: rgba(255, 255, 255, 0.10);
-
-  --theme-text: #ffffff;
-  --theme-heading: #ffffff;
-  --theme-muted: #a1a1aa;
-
-  --theme-button-text: #ffffff;
-  --theme-glow: rgba(139, 92, 246, 0.20);
+  --theme-border: rgba(255, 255, 255, 0.12);
 }
 
-
 /* =========================================
-   RETRO — LIGHT / WARM
+   RETRO - WARM LIGHT
 ========================================= */
 
 html[data-theme="retro"] {
-  --theme-primary: #c2410c;
-  --theme-secondary: #ea580c;
-
   --theme-bg: #fff7ed;
-  --theme-surface: rgba(124, 45, 18, 0.06);
-  --theme-border: rgba(124, 45, 18, 0.20);
+  --theme-surface: rgba(120, 53, 15, 0.06);
 
   --theme-text: #431407;
-  --theme-heading: #271006;
-  --theme-muted: #7c2d12;
+  --theme-text-secondary: #7c2d12;
+  --theme-text-muted: #9a3412;
 
-  --theme-button-text: #ffffff;
-  --theme-glow: rgba(234, 88, 12, 0.15);
+  --theme-primary: #ea580c;
+  --theme-secondary: #dc2626;
+
+  --theme-border: rgba(120, 53, 15, 0.18);
 }
 
-
 /* =========================================
-   CYBERPUNK — DARK
+   CYBERPUNK - DARK
 ========================================= */
 
 html[data-theme="cyberpunk"] {
+  --theme-bg: #05000b;
+  --theme-surface: rgba(255, 0, 255, 0.06);
+
+  --theme-text: #ffffff;
+  --theme-text-secondary: #e9d5ff;
+  --theme-text-muted: #c084fc;
+
   --theme-primary: #ff00ff;
   --theme-secondary: #00ffff;
 
-  --theme-bg: #05000b;
-  --theme-surface: rgba(255, 0, 255, 0.07);
-  --theme-border: rgba(0, 255, 255, 0.30);
-
-  --theme-text: #ffffff;
-  --theme-heading: #ffffff;
-  --theme-muted: #d8b4fe;
-
-  --theme-button-text: #ffffff;
-  --theme-glow: rgba(255, 0, 255, 0.22);
+  --theme-border: rgba(255, 0, 255, 0.2);
 }
 
-
 /* =========================================
-   VALENTINE — BABY PINK / LIGHT
+   VALENTINE - BABY PINK LIGHT
 ========================================= */
 
 html[data-theme="valentine"] {
-  --theme-primary: #db2777;
-  --theme-secondary: #ec4899;
+  --theme-bg: #fff1f5;
+  --theme-surface: rgba(190, 24, 93, 0.06);
 
-  --theme-bg: #fff1f7;
-  --theme-surface: rgba(219, 39, 119, 0.06);
+  --theme-text: #500724;
+  --theme-text-secondary: #831843;
+  --theme-text-muted: #9d174d;
+
+  --theme-primary: #ec4899;
+  --theme-secondary: #f472b6;
+
   --theme-border: rgba(190, 24, 93, 0.18);
-
-  --theme-text: #4a1730;
-  --theme-heading: #3b1025;
-  --theme-muted: #831843;
-
-  --theme-button-text: #ffffff;
-  --theme-glow: rgba(236, 72, 153, 0.18);
 }
 
-
 /* =========================================
-   AQUA — LIGHT
+   AQUA - LIGHT
 ========================================= */
 
 html[data-theme="aqua"] {
+  --theme-bg: #ecfeff;
+  --theme-surface: rgba(8, 145, 178, 0.06);
+
+  --theme-text: #083344;
+  --theme-text-secondary: #155e75;
+  --theme-text-muted: #0e7490;
+
   --theme-primary: #0891b2;
   --theme-secondary: #2563eb;
 
-  --theme-bg: #ecfeff;
-  --theme-surface: rgba(8, 145, 178, 0.06);
-  --theme-border: rgba(8, 145, 178, 0.20);
-
-  --theme-text: #083344;
-  --theme-heading: #062a3a;
-  --theme-muted: #155e75;
-
-  --theme-button-text: #ffffff;
-  --theme-glow: rgba(6, 182, 212, 0.18);
+  --theme-border: rgba(8, 51, 68, 0.18);
 }
 
 
@@ -677,42 +660,33 @@ body {
   color: var(--theme-text);
 
   transition:
-    background-color 500ms ease,
-    color 500ms ease;
+    background-color 400ms ease,
+    color 400ms ease;
 }
 
 
 /* =========================================
-   THEME TEXT UTILITIES
+   GLOBAL TEXT CLASSES
 ========================================= */
 
 .theme-text {
   color: var(--theme-text);
 }
 
-.theme-heading {
-  color: var(--theme-heading);
+.theme-secondary-text {
+  color: var(--theme-text-secondary);
 }
 
 .theme-muted {
-  color: var(--theme-muted);
+  color: var(--theme-text-muted);
 }
 
 .theme-primary {
   color: var(--theme-primary);
 }
 
-.theme-secondary {
-  color: var(--theme-secondary);
-}
-
-
-/* =========================================
-   THEME SURFACES
-========================================= */
-
 .theme-surface {
-  background: var(--theme-surface);
+  background-color: var(--theme-surface);
 }
 
 .theme-border {
@@ -721,44 +695,21 @@ body {
 
 
 /* =========================================
-   THEME GRADIENT
-========================================= */
-
-.theme-gradient {
-  background: linear-gradient(
-    90deg,
-    var(--theme-primary),
-    var(--theme-secondary)
-  );
-}
-
-.theme-gradient-text {
-  background: linear-gradient(
-    90deg,
-    var(--theme-primary),
-    var(--theme-secondary)
-  );
-
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-
-/* =========================================
-   THEME BACKGROUND
+   THEME-AWARE BACKGROUND
 ========================================= */
 
 .portfolio-background {
   background:
     radial-gradient(
       ellipse at 50% 35%,
-      var(--theme-glow),
-      transparent 60%
+      color-mix(
+        in srgb,
+        var(--theme-primary) 15%,
+        transparent
+      ),
+      transparent 55%
     ),
     var(--theme-bg);
-
-  transition: background 700ms ease;
 }
 
 
@@ -767,13 +718,17 @@ body {
 ========================================= */
 
 .glow-one {
-  background: var(--theme-glow);
+  background: color-mix(
+    in srgb,
+    var(--theme-primary) 15%,
+    transparent
+  );
 }
 
 .glow-two {
   background: color-mix(
     in srgb,
-    var(--theme-secondary) 15%,
+    var(--theme-secondary) 12%,
     transparent
   );
 }
@@ -781,7 +736,7 @@ body {
 .glow-three {
   background: color-mix(
     in srgb,
-    var(--theme-primary) 12%,
+    var(--theme-primary) 10%,
     transparent
   );
 }
@@ -794,7 +749,7 @@ body {
 .wave-one {
   border-top-color: color-mix(
     in srgb,
-    var(--theme-primary) 30%,
+    var(--theme-primary) 25%,
     transparent
   );
 
@@ -803,17 +758,17 @@ body {
       ellipse at center,
       color-mix(
         in srgb,
-        var(--theme-primary) 15%,
+        var(--theme-primary) 12%,
         transparent
       ),
-      transparent 68%
+      transparent 65%
     );
 }
 
 .wave-two {
   border-top-color: color-mix(
     in srgb,
-    var(--theme-secondary) 28%,
+    var(--theme-secondary) 22%,
     transparent
   );
 
@@ -822,51 +777,17 @@ body {
       ellipse at center,
       color-mix(
         in srgb,
-        var(--theme-secondary) 13%,
+        var(--theme-secondary) 10%,
         transparent
       ),
-      transparent 70%
+      transparent 68%
     );
 }
 
 .wave-three {
   border-top-color: color-mix(
     in srgb,
-    var(--theme-primary) 30%,
+    var(--theme-primary) 25%,
     transparent
   );
-}
-
-
-/* =========================================
-   THEME STARS
-========================================= */
-
-.star {
-  background: var(--theme-primary);
-
-  box-shadow:
-    0 0 5px var(--theme-primary),
-    0 0 14px var(--theme-glow);
-}
-
-
-/* =========================================
-   THEME SCROLLBAR
-========================================= */
-
-::-webkit-scrollbar-track {
-  background: var(--theme-bg);
-}
-
-::-webkit-scrollbar-thumb {
-  background: color-mix(
-    in srgb,
-    var(--theme-primary) 35%,
-    var(--theme-bg)
-  );
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--theme-primary);
 }

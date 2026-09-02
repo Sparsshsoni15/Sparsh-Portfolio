@@ -35,7 +35,9 @@ function Hero() {
                     SPARSH
                     <br />
 
-                    <span className="theme-gradient-text">
+                    <span
+                        className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent"
+                    >
                         SONI
                     </span>
                 </motion.h1>
@@ -94,7 +96,7 @@ function Hero() {
                         href="https://github.com/Sparsshsoni15"
                         target="_blank"
                         rel="noreferrer"
-                        className="theme-border theme-surface flex items-center gap-3 rounded-full border px-6 py-3 font-semibold transition-all duration-300 hover:-translate-y-1"
+                        className="theme-text theme-border flex items-center gap-3 rounded-full border px-6 py-3 font-semibold transition-all duration-300 hover:border-[var(--theme-primary)] hover:bg-[color-mix(in_srgb,var(--theme-primary)_10%,transparent)]"
                     >
                         GitHub
                     </a>
