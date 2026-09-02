@@ -2,29 +2,29 @@ import { useEffect, useState } from "react";
 
 const themes = [
   {
-    name: "Default",
-    value: "default",
-    icon: "◉",
+    name: "default",
+    label: "Default",
+    icon: "◐",
   },
   {
-    name: "Retro",
-    value: "retro",
-    icon: "▣",
+    name: "retro",
+    label: "Retro",
+    icon: "◈",
   },
   {
-    name: "Cyberpunk",
-    value: "cyberpunk",
-    icon: "⚡",
+    name: "cyberpunk",
+    label: "Cyberpunk",
+    icon: "☢",
   },
   {
-    name: "Valentine",
-    value: "valentine",
+    name: "valentine",
+    label: "Valentine",
     icon: "♥",
   },
   {
-    name: "Aqua",
-    value: "aqua",
-    icon: "◈",
+    name: "aqua",
+    label: "Aqua",
+    icon: "≈",
   },
 ];
 
@@ -43,38 +43,21 @@ function ThemeSwitcher() {
       <select
         value={theme}
         onChange={(e) => setTheme(e.target.value)}
-        className="
-          cursor-pointer
-          appearance-none
-          rounded-full
-          border border-white/10
-          bg-white/[0.04]
-          px-5 py-2.5
-          pr-10
-          text-sm
-          text-zinc-300
-          outline-none
-          backdrop-blur-md
-          transition-all
-          duration-300
-          hover:border-purple-500/40
-          hover:bg-purple-500/10
-          focus:border-purple-500/50
-        "
-        aria-label="Choose website theme"
+        aria-label="Select theme"
+        className="cursor-pointer appearance-none rounded-full border border-white/10 bg-white/5 px-4 py-2.5 pr-9 text-sm text-white backdrop-blur-md outline-none transition-all duration-300 hover:border-purple-500/50"
       >
         {themes.map((item) => (
           <option
-            key={item.value}
-            value={item.value}
-            className="bg-zinc-950 text-white"
+            key={item.name}
+            value={item.name}
+            className="bg-zinc-900 text-white"
           >
-            {item.icon} {item.name}
+            {item.icon} {item.label}
           </option>
         ))}
       </select>
 
-      <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-purple-400">
+      <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-zinc-400">
         ▼
       </span>
     </div>

@@ -49,6 +49,8 @@ function Navbar() {
                         </svg>
                         GitHub
                     </a>
+
+                    <ThemeSwitcher />
                 </div>
 
                 <button
