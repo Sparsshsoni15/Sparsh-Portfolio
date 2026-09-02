@@ -6,6 +6,7 @@ import Skills from "./sections/Skills";
 import Work from "./sections/Work";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import Achievements from "./sections/Achievements";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <About />
           <Skills />
           <Work />
+          <Achievements />
           <Contact />
         </main>
 
