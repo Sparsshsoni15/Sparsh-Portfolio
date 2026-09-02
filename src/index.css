@@ -1,16 +1,42 @@
 @import "tailwindcss";
 
+/* =========================================
+   BASE
+========================================= */
+
 :root {
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
-
-  color: #ffffff;
-  background: #050507;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Default theme */
+  --theme-primary: #8b5cf6;
+  --theme-secondary: #3b82f6;
+
+  --theme-bg: #030305;
+  --theme-bg-secondary: #08080d;
+
+  --theme-surface: rgba(255, 255, 255, 0.035);
+  --theme-surface-hover: rgba(255, 255, 255, 0.07);
+
+  --theme-text: #ffffff;
+  --theme-text-secondary: #d4d4d8;
+  --theme-text-muted: #a1a1aa;
+  --theme-text-subtle: #71717a;
+
+  --theme-border: rgba(255, 255, 255, 0.1);
+  --theme-border-strong: rgba(255, 255, 255, 0.18);
+
+  --theme-glow: rgba(139, 92, 246, 0.12);
+
+  --theme-selection: rgba(139, 92, 246, 0.3);
+
+  --theme-scrollbar: #302050;
+  --theme-scrollbar-hover: #7c3aed;
 }
 
 * {
@@ -19,13 +45,19 @@
 
 html {
   scroll-behavior: smooth;
+  background: var(--theme-bg);
+  color: var(--theme-text);
 }
 
 body {
   margin: 0;
   min-width: 320px;
-  background: #050507;
-  color: #ffffff;
+  background: var(--theme-bg);
+  color: var(--theme-text);
+
+  transition:
+    background-color 400ms ease,
+    color 400ms ease;
 }
 
 button,
@@ -38,26 +70,253 @@ a {
   text-decoration: none;
 }
 
+/* =========================================
+   SELECTION
+========================================= */
+
 ::selection {
-  background: rgba(139, 92, 246, 0.32);
-  color: white;
+  background: var(--theme-selection);
+  color: var(--theme-text);
 }
+
+/* =========================================
+   SCROLLBAR
+========================================= */
 
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #050507;
+  background: var(--theme-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #302050;
+  background: var(--theme-scrollbar);
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #7c3aed;
+  background: var(--theme-scrollbar-hover);
+}
+
+/* =========================================
+   DEFAULT THEME
+========================================= */
+
+html[data-theme="default"] {
+  --theme-primary: #8b5cf6;
+  --theme-secondary: #3b82f6;
+
+  --theme-bg: #030305;
+  --theme-bg-secondary: #08080d;
+
+  --theme-surface: rgba(255, 255, 255, 0.035);
+  --theme-surface-hover: rgba(255, 255, 255, 0.07);
+
+  --theme-text: #ffffff;
+  --theme-text-secondary: #d4d4d8;
+  --theme-text-muted: #a1a1aa;
+  --theme-text-subtle: #71717a;
+
+  --theme-border: rgba(255, 255, 255, 0.1);
+  --theme-border-strong: rgba(255, 255, 255, 0.18);
+
+  --theme-glow: rgba(139, 92, 246, 0.12);
+
+  --theme-selection: rgba(139, 92, 246, 0.3);
+
+  --theme-scrollbar: #302050;
+  --theme-scrollbar-hover: #7c3aed;
+}
+
+/* =========================================
+   RETRO THEME
+========================================= */
+
+html[data-theme="retro"] {
+  --theme-primary: #f59e0b;
+  --theme-secondary: #ef4444;
+
+  --theme-bg: #17120a;
+  --theme-bg-secondary: #21180d;
+
+  --theme-surface: rgba(255, 247, 237, 0.055);
+  --theme-surface-hover: rgba(255, 247, 237, 0.1);
+
+  --theme-text: #fff7ed;
+  --theme-text-secondary: #fed7aa;
+  --theme-text-muted: #fdba74;
+  --theme-text-subtle: #d97706;
+
+  --theme-border: rgba(255, 247, 237, 0.13);
+  --theme-border-strong: rgba(255, 247, 237, 0.22);
+
+  --theme-glow: rgba(245, 158, 11, 0.13);
+
+  --theme-selection: rgba(245, 158, 11, 0.3);
+
+  --theme-scrollbar: #78350f;
+  --theme-scrollbar-hover: #f59e0b;
+}
+
+/* =========================================
+   CYBERPUNK THEME
+========================================= */
+
+html[data-theme="cyberpunk"] {
+  --theme-primary: #ff00ff;
+  --theme-secondary: #00ffff;
+
+  --theme-bg: #05000b;
+  --theme-bg-secondary: #0b0014;
+
+  --theme-surface: rgba(255, 255, 255, 0.04);
+  --theme-surface-hover: rgba(255, 0, 255, 0.08);
+
+  --theme-text: #ffffff;
+  --theme-text-secondary: #f0d9ff;
+  --theme-text-muted: #d8a8ff;
+  --theme-text-subtle: #b96cff;
+
+  --theme-border: rgba(255, 0, 255, 0.16);
+  --theme-border-strong: rgba(0, 255, 255, 0.25);
+
+  --theme-glow: rgba(255, 0, 255, 0.14);
+
+  --theme-selection: rgba(255, 0, 255, 0.3);
+
+  --theme-scrollbar: #5b136e;
+  --theme-scrollbar-hover: #ff00ff;
+}
+
+/* =========================================
+   VALENTINE - BABY PINK LIGHT THEME
+========================================= */
+
+html[data-theme="valentine"] {
+  --theme-primary: #ec4899;
+  --theme-secondary: #f472b6;
+
+  --theme-bg: #fff5fa;
+  --theme-bg-secondary: #ffeaf4;
+
+  --theme-surface: rgba(255, 255, 255, 0.78);
+  --theme-surface-hover: rgba(236, 72, 153, 0.1);
+
+  --theme-text: #3b1028;
+  --theme-text-secondary: #5f2142;
+  --theme-text-muted: #8f4568;
+  --theme-text-subtle: #b76b8e;
+
+  --theme-border: rgba(157, 23, 77, 0.14);
+  --theme-border-strong: rgba(157, 23, 77, 0.24);
+
+  --theme-glow: rgba(244, 114, 182, 0.18);
+
+  --theme-selection: rgba(236, 72, 153, 0.2);
+
+  --theme-scrollbar: #f9a8d4;
+  --theme-scrollbar-hover: #ec4899;
+}
+
+/* =========================================
+   AQUA - LIGHT THEME
+========================================= */
+
+html[data-theme="aqua"] {
+  --theme-primary: #0891b2;
+  --theme-secondary: #2563eb;
+
+  --theme-bg: #f0fdff;
+  --theme-bg-secondary: #e0f7fa;
+
+  --theme-surface: rgba(255, 255, 255, 0.78);
+  --theme-surface-hover: rgba(8, 145, 178, 0.1);
+
+  --theme-text: #082f49;
+  --theme-text-secondary: #164e63;
+  --theme-text-muted: #155e75;
+  --theme-text-subtle: #3f7184;
+
+  --theme-border: rgba(8, 47, 73, 0.14);
+  --theme-border-strong: rgba(8, 47, 73, 0.24);
+
+  --theme-glow: rgba(8, 145, 178, 0.14);
+
+  --theme-selection: rgba(8, 145, 178, 0.2);
+
+  --theme-scrollbar: #67e8f9;
+  --theme-scrollbar-hover: #0891b2;
+}
+
+/* =========================================
+   THEME UTILITY CLASSES
+========================================= */
+
+.theme-text {
+  color: var(--theme-text);
+}
+
+.theme-secondary-text {
+  color: var(--theme-text-secondary);
+}
+
+.theme-muted {
+  color: var(--theme-text-muted);
+}
+
+.theme-subtle {
+  color: var(--theme-text-subtle);
+}
+
+.theme-primary {
+  color: var(--theme-primary);
+}
+
+.theme-border {
+  border-color: var(--theme-border);
+}
+
+.theme-border-strong {
+  border-color: var(--theme-border-strong);
+}
+
+.theme-surface {
+  background-color: var(--theme-surface);
+}
+
+.theme-surface-hover:hover {
+  background-color: var(--theme-surface-hover);
+}
+
+.theme-bg {
+  background-color: var(--theme-bg);
+}
+
+/* =========================================
+   THEME-AWARE PORTFOLIO BACKGROUND
+========================================= */
+
+.portfolio-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 35%,
+      var(--theme-glow),
+      transparent 55%
+    ),
+    var(--theme-bg);
+
+  --mouse-x: 0;
+  --mouse-y: 0;
+
+  transition: background 400ms ease;
 }
 
 /* =========================================
@@ -137,8 +396,16 @@ a {
 
 .background-particles {
   background-image:
-    radial-gradient(circle, rgba(168, 85, 247, 0.8) 1px, transparent 1px),
-    radial-gradient(circle, rgba(96, 165, 250, 0.7) 1px, transparent 1px);
+    radial-gradient(
+      circle,
+      color-mix(in srgb, var(--theme-primary) 70%, transparent) 1px,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle,
+      color-mix(in srgb, var(--theme-secondary) 60%, transparent) 1px,
+      transparent 1px
+    );
 
   background-size:
     120px 120px,
@@ -150,30 +417,10 @@ a {
 
   animation: particles 25s linear infinite;
 }
+
 /* =========================================
-   PORTFOLIO ANIMATED BACKGROUND
-   ========================================= */
-
-.portfolio-background {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-
-  background:
-    radial-gradient(
-      ellipse at 50% 35%,
-      rgba(25, 18, 65, 0.55) 0%,
-      rgba(6, 7, 18, 0.9) 45%,
-      #020208 100%
-    );
-
-  --mouse-x: 0;
-  --mouse-y: 0;
-}
-
-/* Ambient purple/blue lights */
+   AMBIENT GLOWS
+========================================= */
 
 .ambient-glow {
   position: absolute;
@@ -188,7 +435,12 @@ a {
   height: 550px;
   left: -180px;
   top: 5%;
-  background: rgba(93, 43, 220, 0.13);
+
+  background: color-mix(
+    in srgb,
+    var(--theme-primary) 15%,
+    transparent
+  );
 
   transform: translate(
     calc(var(--mouse-x) * 20px),
@@ -203,7 +455,12 @@ a {
   height: 650px;
   right: -250px;
   top: 15%;
-  background: rgba(55, 75, 255, 0.11);
+
+  background: color-mix(
+    in srgb,
+    var(--theme-secondary) 12%,
+    transparent
+  );
 
   transform: translate(
     calc(var(--mouse-x) * -25px),
@@ -218,28 +475,30 @@ a {
   height: 500px;
   left: 35%;
   bottom: -300px;
-  background: rgba(120, 40, 255, 0.1);
+
+  background: color-mix(
+    in srgb,
+    var(--theme-primary) 10%,
+    transparent
+  );
+
   filter: blur(120px);
 
   animation: glowFloatThree 14s ease-in-out infinite alternate;
 }
 
-
 /* =========================================
-   SMOOTH FLOWING WAVES
-   ========================================= */
+   WAVES
+========================================= */
 
 .wave {
   position: absolute;
   width: 150%;
   height: 260px;
-
   left: -25%;
 
   border-radius: 50%;
-
   opacity: 0.65;
-
   filter: blur(1px);
 
   will-change: transform;
@@ -252,73 +511,119 @@ a {
     );
 }
 
-/* Main purple wave */
-
 .wave-one {
   top: 20%;
-  border-top: 1px solid rgba(130, 85, 255, 0.18);
+
+  border-top: 1px solid
+    color-mix(
+      in srgb,
+      var(--theme-primary) 25%,
+      transparent
+    );
 
   background:
     radial-gradient(
       ellipse at center,
-      rgba(110, 55, 255, 0.12),
+      color-mix(
+        in srgb,
+        var(--theme-primary) 12%,
+        transparent
+      ),
       transparent 65%
     );
 
   box-shadow:
-    0 -30px 80px rgba(96, 45, 255, 0.08),
-    0 30px 100px rgba(70, 50, 255, 0.06);
+    0 -30px 80px
+      color-mix(
+        in srgb,
+        var(--theme-primary) 8%,
+        transparent
+      ),
+    0 30px 100px
+      color-mix(
+        in srgb,
+        var(--theme-secondary) 6%,
+        transparent
+      );
 
   animation: waveOne 18s ease-in-out infinite alternate;
 }
-
-/* Blue wave */
 
 .wave-two {
   top: 52%;
   height: 300px;
 
-  border-top: 1px solid rgba(65, 105, 255, 0.16);
+  border-top: 1px solid
+    color-mix(
+      in srgb,
+      var(--theme-secondary) 22%,
+      transparent
+    );
 
   background:
     radial-gradient(
       ellipse at center,
-      rgba(45, 75, 255, 0.1),
+      color-mix(
+        in srgb,
+        var(--theme-secondary) 10%,
+        transparent
+      ),
       transparent 68%
     );
 
   box-shadow:
-    0 -35px 100px rgba(55, 75, 255, 0.07),
-    0 35px 100px rgba(75, 45, 255, 0.07);
+    0 -35px 100px
+      color-mix(
+        in srgb,
+        var(--theme-secondary) 7%,
+        transparent
+      ),
+    0 35px 100px
+      color-mix(
+        in srgb,
+        var(--theme-primary) 7%,
+        transparent
+      );
 
   animation: waveTwo 22s ease-in-out infinite alternate;
 }
-
-/* Lower purple wave */
 
 .wave-three {
   bottom: -2%;
   height: 270px;
 
-  border-top: 1px solid rgba(120, 75, 255, 0.2);
+  border-top: 1px solid
+    color-mix(
+      in srgb,
+      var(--theme-primary) 25%,
+      transparent
+    );
 
   background:
     radial-gradient(
       ellipse at center,
-      rgba(95, 45, 255, 0.13),
+      color-mix(
+        in srgb,
+        var(--theme-primary) 12%,
+        transparent
+      ),
       transparent 67%
     );
 
   box-shadow:
-    0 -40px 120px rgba(100, 50, 255, 0.1);
+    0 -40px 120px
+      color-mix(
+        in srgb,
+        var(--theme-primary) 10%,
+        transparent
+      );
 
   animation: waveThree 20s ease-in-out infinite alternate;
 }
 
-
 /* =========================================
    STARS / PARTICLES
-   ========================================= */
+========================================= */
 
 .stars {
   position: absolute;
@@ -327,22 +632,34 @@ a {
 
 .star {
   position: absolute;
-
   border-radius: 50%;
 
-  background: rgba(145, 125, 255, 0.8);
+  background: color-mix(
+    in srgb,
+    var(--theme-primary) 80%,
+    var(--theme-secondary)
+  );
 
   box-shadow:
-    0 0 5px rgba(120, 100, 255, 0.8),
-    0 0 12px rgba(100, 80, 255, 0.35);
+    0 0 5px
+      color-mix(
+        in srgb,
+        var(--theme-primary) 80%,
+        transparent
+      ),
+    0 0 12px
+      color-mix(
+        in srgb,
+        var(--theme-secondary) 35%,
+        transparent
+      );
 
   animation: starPulse ease-in-out infinite;
 }
 
-
 /* =========================================
    VIGNETTE
-   ========================================= */
+========================================= */
 
 .background-vignette {
   position: absolute;
@@ -352,15 +669,22 @@ a {
     radial-gradient(
       ellipse at center,
       transparent 35%,
-      rgba(0, 0, 0, 0.25) 75%,
-      rgba(0, 0, 0, 0.6) 100%
+      color-mix(
+        in srgb,
+        var(--theme-bg) 25%,
+        transparent
+      ) 75%,
+      color-mix(
+        in srgb,
+        var(--theme-bg) 65%,
+        transparent
+      ) 100%
     );
 }
 
-
 /* =========================================
    ANIMATIONS
-   ========================================= */
+========================================= */
 
 @keyframes waveOne {
   0% {
@@ -514,10 +838,9 @@ a {
   }
 }
 
-
 /* =========================================
    PERFORMANCE
-   ========================================= */
+========================================= */
 
 @media (prefers-reduced-motion: reduce) {
   .wave,
@@ -538,300 +861,12 @@ a {
   }
 
   .star {
-    box-shadow: 0 0 6px rgba(120, 100, 255, 0.4);
+    box-shadow:
+      0 0 6px
+        color-mix(
+          in srgb,
+          var(--theme-primary) 40%,
+          transparent
+        );
   }
-}
-/* =========================================
-   PORTFOLIO THEMES
-========================================= */
-
-:root {
-  --theme-primary: #8b5cf6;
-  --theme-secondary: #3b82f6;
-
-  --theme-bg: #030305;
-  --theme-surface: rgba(255, 255, 255, 0.035);
-  --theme-surface-hover: rgba(255, 255, 255, 0.06);
-
-  --theme-text: #ffffff;
-  --theme-text-secondary: #d4d4d8;
-  --theme-text-muted: #a1a1aa;
-  --theme-text-subtle: #71717a;
-
-  --theme-border: rgba(255, 255, 255, 0.10);
-  --theme-border-strong: rgba(255, 255, 255, 0.16);
-
-  --theme-glow: rgba(139, 92, 246, 0.12);
-}
-
-/* =========================================
-   DEFAULT - DARK
-========================================= */
-
-html[data-theme="default"] {
-  --theme-primary: #8b5cf6;
-  --theme-secondary: #3b82f6;
-
-  --theme-bg: #030305;
-  --theme-surface: rgba(255, 255, 255, 0.035);
-  --theme-surface-hover: rgba(255, 255, 255, 0.07);
-
-  --theme-text: #ffffff;
-  --theme-text-secondary: #d4d4d8;
-  --theme-text-muted: #a1a1aa;
-  --theme-text-subtle: #71717a;
-
-  --theme-border: rgba(255, 255, 255, 0.10);
-  --theme-border-strong: rgba(255, 255, 255, 0.18);
-
-  --theme-glow: rgba(139, 92, 246, 0.12);
-}
-
-/* =========================================
-   RETRO - DARK WARM
-========================================= */
-
-html[data-theme="retro"] {
-  --theme-primary: #f59e0b;
-  --theme-secondary: #ef4444;
-
-  --theme-bg: #17120a;
-  --theme-surface: rgba(255, 247, 237, 0.055);
-  --theme-surface-hover: rgba(255, 247, 237, 0.09);
-
-  --theme-text: #fff7ed;
-  --theme-text-secondary: #fed7aa;
-  --theme-text-muted: #fdba74;
-  --theme-text-subtle: #c2410c;
-
-  --theme-border: rgba(255, 247, 237, 0.13);
-  --theme-border-strong: rgba(255, 247, 237, 0.22);
-
-  --theme-glow: rgba(245, 158, 11, 0.13);
-}
-
-/* =========================================
-   CYBERPUNK - DARK
-========================================= */
-
-html[data-theme="cyberpunk"] {
-  --theme-primary: #ff00ff;
-  --theme-secondary: #00ffff;
-
-  --theme-bg: #05000b;
-  --theme-surface: rgba(255, 255, 255, 0.035);
-  --theme-surface-hover: rgba(255, 255, 255, 0.07);
-
-  --theme-text: #ffffff;
-  --theme-text-secondary: #e9d5ff;
-  --theme-text-muted: #c084fc;
-  --theme-text-subtle: #a855f7;
-
-  --theme-border: rgba(255, 0, 255, 0.16);
-  --theme-border-strong: rgba(0, 255, 255, 0.22);
-
-  --theme-glow: rgba(255, 0, 255, 0.14);
-}
-
-/* =========================================
-   VALENTINE - LIGHT BABY PINK
-========================================= */
-
-html[data-theme="valentine"] {
-  --theme-primary: #ec4899;
-  --theme-secondary: #f472b6;
-
-  --theme-bg: #fff7fb;
-  --theme-surface: rgba(236, 72, 153, 0.055);
-  --theme-surface-hover: rgba(236, 72, 153, 0.10);
-
-  --theme-text: #3f172d;
-  --theme-text-secondary: #6b2149;
-  --theme-text-muted: #9d4b73;
-  --theme-text-subtle: #b76b8e;
-
-  --theme-border: rgba(157, 23, 77, 0.14);
-  --theme-border-strong: rgba(157, 23, 77, 0.22);
-
-  --theme-glow: rgba(236, 72, 153, 0.12);
-}
-
-/* =========================================
-   AQUA - LIGHT
-========================================= */
-
-html[data-theme="aqua"] {
-  --theme-primary: #0891b2;
-  --theme-secondary: #2563eb;
-
-  --theme-bg: #f0fdff;
-  --theme-surface: rgba(8, 145, 178, 0.055);
-  --theme-surface-hover: rgba(8, 145, 178, 0.10);
-
-  --theme-text: #082f49;
-  --theme-text-secondary: #164e63;
-  --theme-text-muted: #155e75;
-  --theme-text-subtle: #3f7184;
-
-  --theme-border: rgba(8, 47, 73, 0.14);
-  --theme-border-strong: rgba(8, 47, 73, 0.22);
-
-  --theme-glow: rgba(8, 145, 178, 0.12);
-}
-
-/* =========================================
-   GLOBAL THEME
-========================================= */
-
-html,
-body {
-  background-color: var(--theme-bg);
-  color: var(--theme-text);
-
-  transition:
-    background-color 400ms ease,
-    color 400ms ease;
-}
-
-/* =========================================
-   THEME UTILITY CLASSES
-========================================= */
-
-.theme-text {
-  color: var(--theme-text);
-}
-
-.theme-secondary-text {
-  color: var(--theme-text-secondary);
-}
-
-.theme-muted {
-  color: var(--theme-text-muted);
-}
-
-.theme-subtle {
-  color: var(--theme-text-subtle);
-}
-
-.theme-primary {
-  color: var(--theme-primary);
-}
-
-.theme-border {
-  border-color: var(--theme-border);
-}
-
-.theme-border-strong {
-  border-color: var(--theme-border-strong);
-}
-
-.theme-surface {
-  background-color: var(--theme-surface);
-}
-
-.theme-surface-hover:hover {
-  background-color: var(--theme-surface-hover);
-}
-
-/* =========================================
-   THEME-AWARE BACKGROUND
-========================================= */
-
-.portfolio-background {
-  background:
-    radial-gradient(
-      ellipse at 50% 35%,
-      var(--theme-glow),
-      transparent 55%
-    ),
-    var(--theme-bg);
-}
-
-/* =========================================
-   THEME GLOWS
-========================================= */
-
-.glow-one {
-  background: color-mix(
-    in srgb,
-    var(--theme-primary) 15%,
-    transparent
-  );
-}
-
-.glow-two {
-  background: color-mix(
-    in srgb,
-    var(--theme-secondary) 12%,
-    transparent
-  );
-}
-
-.glow-three {
-  background: color-mix(
-    in srgb,
-    var(--theme-primary) 10%,
-    transparent
-  );
-}
-
-/* =========================================
-   THEME WAVES
-========================================= */
-
-.wave-one {
-  border-top-color: color-mix(
-    in srgb,
-    var(--theme-primary) 25%,
-    transparent
-  );
-
-  background:
-    radial-gradient(
-      ellipse at center,
-      color-mix(
-        in srgb,
-        var(--theme-primary) 12%,
-        transparent
-      ),
-      transparent 65%
-    );
-}
-
-.wave-two {
-  border-top-color: color-mix(
-    in srgb,
-    var(--theme-secondary) 22%,
-    transparent
-  );
-
-  background:
-    radial-gradient(
-      ellipse at center,
-      color-mix(
-        in srgb,
-        var(--theme-secondary) 10%,
-        transparent
-      ),
-      transparent 68%
-    );
-}
-
-.wave-three {
-  border-top-color: color-mix(
-    in srgb,
-    var(--theme-primary) 25%,
-    transparent
-  );
-
-  background:
-    radial-gradient(
-      ellipse at center,
-      color-mix(
-        in srgb,
-        var(--theme-primary) 12%,
-        transparent
-      ),
-      transparent 67%
-    );
 }

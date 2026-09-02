@@ -1,4 +1,4 @@
-import { BrainCircuit, Code2, Database, GitBranch, Terminal } from "lucide-react";
+import { BrainCircuit, Code2, GitBranch, Terminal } from "lucide-react";
 import { motion } from "motion/react";
 
 const skillGroups = [
@@ -36,13 +36,16 @@ function SkillBar({ name, level, delay }) {
   return (
     <div className="group">
       <div className="mb-2 flex items-center justify-between">
-        <span className="text-sm text-zinc-300">{name}</span>
-        <span className="font-mono text-xs text-zinc-600">
+        <span className="theme-secondary-text text-sm">
+          {name}
+        </span>
+
+        <span className="theme-subtle font-mono text-xs">
           {level}%
         </span>
       </div>
 
-      <div className="h-[3px] overflow-hidden rounded-full bg-white/10">
+      <div className="h-[3px] overflow-hidden rounded-full bg-[var(--theme-border)]">
         <motion.div
           initial={{ width: 0 }}
           whileInView={{ width: `${level}%` }}
@@ -52,7 +55,7 @@ function SkillBar({ name, level, delay }) {
             delay,
             ease: "easeOut",
           }}
-          className="h-full rounded-full bg-gradient-to-r from-purple-500 to-blue-500"
+          className="h-full rounded-full bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)]"
         />
       </div>
     </div>
@@ -75,14 +78,14 @@ function Skills() {
           transition={{ duration: 0.7 }}
           className="mb-16"
         >
-          <div className="mb-5 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-purple-400">
-            <span className="h-px w-10 bg-purple-500" />
+          <div className="theme-primary mb-5 flex items-center gap-3 text-sm uppercase tracking-[0.3em]">
+            <span className="h-px w-10 bg-[var(--theme-primary)]" />
             02 / Skills
           </div>
 
-          <h2 className="max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+          <h2 className="theme-text max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
             Tools I use to{" "}
-            <span className="bg-gradient-to-r from-purple-300 to-blue-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent">
               bring ideas to life.
             </span>
           </h2>
@@ -106,29 +109,36 @@ function Skills() {
                     duration: 0.7,
                     delay: groupIndex * 0.1,
                   }}
-                  className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.025] p-7 md:p-8"
+                  className="theme-border theme-surface relative overflow-hidden rounded-3xl border p-7 backdrop-blur-sm md:p-8"
                 >
+                  {/* Header */}
                   <div className="mb-10 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-purple-500/20 bg-purple-500/10">
-                        <Icon size={19} className="text-purple-400" />
+
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[color-mix(in_srgb,var(--theme-primary)_20%,transparent)] bg-[color-mix(in_srgb,var(--theme-primary)_10%,transparent)]">
+                        <Icon
+                          size={19}
+                          className="theme-primary"
+                        />
                       </div>
 
                       <div>
-                        <p className="font-semibold text-white">
+                        <p className="theme-text font-semibold">
                           {group.title}
                         </p>
-                        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600">
+
+                        <p className="theme-subtle font-mono text-[10px] uppercase tracking-[0.2em]">
                           Skill set
                         </p>
                       </div>
                     </div>
 
-                    <span className="font-mono text-xs text-zinc-700">
+                    <span className="theme-subtle font-mono text-xs">
                       0{groupIndex + 1}
                     </span>
                   </div>
 
+                  {/* Skill bars */}
                   <div className="space-y-7">
                     {group.skills.map((skill, index) => (
                       <SkillBar
@@ -150,30 +160,39 @@ function Skills() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.8 }}
-            className="relative overflow-hidden rounded-3xl border border-purple-500/20 bg-purple-500/[0.035] p-8"
+            className="theme-border theme-surface relative overflow-hidden rounded-3xl border p-8"
           >
-            <div className="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-purple-600/10 blur-3xl" />
+            {/* Decorative glow */}
+            <div
+              className="absolute -right-20 -top-20 h-56 w-56 rounded-full blur-3xl"
+              style={{
+                background:
+                  "color-mix(in srgb, var(--theme-primary) 12%, transparent)",
+              }}
+            />
 
             <div className="relative">
+
               <div className="mb-8 flex items-center justify-between">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-purple-500/20 bg-purple-500/10">
+
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[color-mix(in_srgb,var(--theme-primary)_20%,transparent)] bg-[color-mix(in_srgb,var(--theme-primary)_10%,transparent)]">
                   <BrainCircuit
                     size={19}
-                    className="text-purple-400"
+                    className="theme-primary"
                   />
                 </div>
 
-                <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600">
+                <span className="theme-subtle flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em]">
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-400" />
                   Learning
                 </span>
               </div>
 
-              <h3 className="text-2xl font-bold">
+              <h3 className="theme-text text-2xl font-bold">
                 Currently exploring
               </h3>
 
-              <p className="mt-3 text-sm leading-7 text-zinc-500">
+              <p className="theme-muted mt-3 text-sm leading-7">
                 Technologies and concepts I'm actively learning and
                 experimenting with.
               </p>
@@ -189,10 +208,16 @@ function Skills() {
                       duration: 0.5,
                       delay: index * 0.1,
                     }}
-                    className="flex items-center gap-3 rounded-xl border border-white/5 bg-black/20 px-4 py-3"
+                    className="theme-border theme-surface flex items-center gap-3 rounded-xl border px-4 py-3"
                   >
-                    <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />
-                    <span className="text-sm text-zinc-300">
+                    <span
+                      className="h-1.5 w-1.5 rounded-full"
+                      style={{
+                        backgroundColor: "var(--theme-primary)",
+                      }}
+                    />
+
+                    <span className="theme-secondary-text text-sm">
                       {item}
                     </span>
                   </motion.div>
@@ -208,20 +233,20 @@ function Skills() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-3 rounded-2xl border border-white/5 bg-white/[0.015] px-6 py-5"
+          className="theme-border theme-surface mt-6 flex flex-wrap items-center gap-x-8 gap-y-3 rounded-2xl border px-6 py-5"
         >
-          <span className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-zinc-700">
+          <span className="theme-subtle flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em]">
             <GitBranch size={14} />
             Stack
           </span>
 
-          <span className="text-sm text-zinc-500">React</span>
-          <span className="text-sm text-zinc-500">JavaScript</span>
-          <span className="text-sm text-zinc-500">Tailwind</span>
-          <span className="text-sm text-zinc-500">C++</span>
-          <span className="text-sm text-zinc-500">Git</span>
-          <span className="text-sm text-zinc-500">GitHub</span>
-          <span className="text-sm text-zinc-500">Vite</span>
+          <span className="theme-muted text-sm">React</span>
+          <span className="theme-muted text-sm">JavaScript</span>
+          <span className="theme-muted text-sm">Tailwind</span>
+          <span className="theme-muted text-sm">C++</span>
+          <span className="theme-muted text-sm">Git</span>
+          <span className="theme-muted text-sm">GitHub</span>
+          <span className="theme-muted text-sm">Vite</span>
         </motion.div>
 
       </div>
