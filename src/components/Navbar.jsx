@@ -1,5 +1,6 @@
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const links = [
   { label: "About", href: "#about" },
