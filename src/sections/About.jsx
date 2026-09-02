@@ -1,3 +1,4 @@
+import sparshPhoto from "../assets/sparsh.jpg";
 import {
   ArrowUpRight,
   Code2,
