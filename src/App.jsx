@@ -4,6 +4,8 @@ import Hero from "./sections/Hero";
 import About from "./sections/About";
 import Skills from "./sections/Skills";
 import Work from "./sections/Work";
+import Contact from "./components/Contact";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
           <About />
           <Skills />
           <Work />
+          <Contact />
+          <Footer />
 
           <section
             id="github"
