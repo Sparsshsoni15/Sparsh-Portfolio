@@ -72,13 +72,13 @@ function About() {
                 </span>
               </div>
 
-              <p className="max-w-3xl text-xl leading-9 text-zinc-300 md:text-2xl md:leading-10">
+              <p className="theme-secondary-text max-w-3xl text-xl leading-9 md:text-2xl md:leading-10">
                 I'm an engineering student and developer who enjoys turning
                 ideas into{" "}
                 <span className="text-white">real digital experiences.</span>
               </p>
 
-              <p className="mt-6 max-w-2xl text-base leading-8 text-zinc-500">
+              <p className="theme-muted mt-6 max-w-2xl text-base leading-8">
                 My journey started with curiosity about how things work and
                 gradually turned into a passion for software development,
                 problem solving and emerging technologies. I'm constantly
@@ -121,7 +121,7 @@ function About() {
                     duration: 0.6,
                     delay: index * 0.12,
                   }}
-                  className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.025] p-7 transition-all duration-300 hover:-translate-y-1 hover:border-purple-500/30 hover:bg-purple-500/[0.04]"
+                  className="theme-border theme-surface group relative overflow-hidden rounded-3xl border p-8 backdrop-blur-sm ..."
                 >
                   <div className="mb-8 flex items-center justify-between">
                     <Icon

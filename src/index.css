@@ -546,53 +546,68 @@ a {
 ========================================= */
 
 :root {
-  --theme-bg: #050507;
-  --theme-surface: rgba(255, 255, 255, 0.05);
+  --theme-primary: #8b5cf6;
+  --theme-secondary: #3b82f6;
+
+  --theme-bg: #030305;
+  --theme-surface: rgba(255, 255, 255, 0.035);
+  --theme-surface-hover: rgba(255, 255, 255, 0.06);
 
   --theme-text: #ffffff;
   --theme-text-secondary: #d4d4d8;
   --theme-text-muted: #a1a1aa;
+  --theme-text-subtle: #71717a;
 
-  --theme-primary: #8b5cf6;
-  --theme-secondary: #3b82f6;
+  --theme-border: rgba(255, 255, 255, 0.10);
+  --theme-border-strong: rgba(255, 255, 255, 0.16);
 
-  --theme-border: rgba(255, 255, 255, 0.12);
+  --theme-glow: rgba(139, 92, 246, 0.12);
 }
 
 /* =========================================
-   DEFAULT - DARK PURPLE
+   DEFAULT - DARK
 ========================================= */
 
 html[data-theme="default"] {
-  --theme-bg: #050507;
-  --theme-surface: rgba(255, 255, 255, 0.05);
+  --theme-primary: #8b5cf6;
+  --theme-secondary: #3b82f6;
+
+  --theme-bg: #030305;
+  --theme-surface: rgba(255, 255, 255, 0.035);
+  --theme-surface-hover: rgba(255, 255, 255, 0.07);
 
   --theme-text: #ffffff;
   --theme-text-secondary: #d4d4d8;
   --theme-text-muted: #a1a1aa;
+  --theme-text-subtle: #71717a;
 
-  --theme-primary: #8b5cf6;
-  --theme-secondary: #3b82f6;
+  --theme-border: rgba(255, 255, 255, 0.10);
+  --theme-border-strong: rgba(255, 255, 255, 0.18);
 
-  --theme-border: rgba(255, 255, 255, 0.12);
+  --theme-glow: rgba(139, 92, 246, 0.12);
 }
 
 /* =========================================
-   RETRO - WARM LIGHT
+   RETRO - DARK WARM
 ========================================= */
 
 html[data-theme="retro"] {
-  --theme-bg: #fff7ed;
-  --theme-surface: rgba(120, 53, 15, 0.06);
+  --theme-primary: #f59e0b;
+  --theme-secondary: #ef4444;
 
-  --theme-text: #431407;
-  --theme-text-secondary: #7c2d12;
-  --theme-text-muted: #9a3412;
+  --theme-bg: #17120a;
+  --theme-surface: rgba(255, 247, 237, 0.055);
+  --theme-surface-hover: rgba(255, 247, 237, 0.09);
 
-  --theme-primary: #ea580c;
-  --theme-secondary: #dc2626;
+  --theme-text: #fff7ed;
+  --theme-text-secondary: #fed7aa;
+  --theme-text-muted: #fdba74;
+  --theme-text-subtle: #c2410c;
 
-  --theme-border: rgba(120, 53, 15, 0.18);
+  --theme-border: rgba(255, 247, 237, 0.13);
+  --theme-border-strong: rgba(255, 247, 237, 0.22);
+
+  --theme-glow: rgba(245, 158, 11, 0.13);
 }
 
 /* =========================================
@@ -600,35 +615,45 @@ html[data-theme="retro"] {
 ========================================= */
 
 html[data-theme="cyberpunk"] {
+  --theme-primary: #ff00ff;
+  --theme-secondary: #00ffff;
+
   --theme-bg: #05000b;
-  --theme-surface: rgba(255, 0, 255, 0.06);
+  --theme-surface: rgba(255, 255, 255, 0.035);
+  --theme-surface-hover: rgba(255, 255, 255, 0.07);
 
   --theme-text: #ffffff;
   --theme-text-secondary: #e9d5ff;
   --theme-text-muted: #c084fc;
+  --theme-text-subtle: #a855f7;
 
-  --theme-primary: #ff00ff;
-  --theme-secondary: #00ffff;
+  --theme-border: rgba(255, 0, 255, 0.16);
+  --theme-border-strong: rgba(0, 255, 255, 0.22);
 
-  --theme-border: rgba(255, 0, 255, 0.2);
+  --theme-glow: rgba(255, 0, 255, 0.14);
 }
 
 /* =========================================
-   VALENTINE - BABY PINK LIGHT
+   VALENTINE - LIGHT BABY PINK
 ========================================= */
 
 html[data-theme="valentine"] {
-  --theme-bg: #fff1f5;
-  --theme-surface: rgba(190, 24, 93, 0.06);
-
-  --theme-text: #500724;
-  --theme-text-secondary: #831843;
-  --theme-text-muted: #9d174d;
-
   --theme-primary: #ec4899;
   --theme-secondary: #f472b6;
 
-  --theme-border: rgba(190, 24, 93, 0.18);
+  --theme-bg: #fff7fb;
+  --theme-surface: rgba(236, 72, 153, 0.055);
+  --theme-surface-hover: rgba(236, 72, 153, 0.10);
+
+  --theme-text: #3f172d;
+  --theme-text-secondary: #6b2149;
+  --theme-text-muted: #9d4b73;
+  --theme-text-subtle: #b76b8e;
+
+  --theme-border: rgba(157, 23, 77, 0.14);
+  --theme-border-strong: rgba(157, 23, 77, 0.22);
+
+  --theme-glow: rgba(236, 72, 153, 0.12);
 }
 
 /* =========================================
@@ -636,19 +661,23 @@ html[data-theme="valentine"] {
 ========================================= */
 
 html[data-theme="aqua"] {
-  --theme-bg: #ecfeff;
-  --theme-surface: rgba(8, 145, 178, 0.06);
-
-  --theme-text: #083344;
-  --theme-text-secondary: #155e75;
-  --theme-text-muted: #0e7490;
-
   --theme-primary: #0891b2;
   --theme-secondary: #2563eb;
 
-  --theme-border: rgba(8, 51, 68, 0.18);
-}
+  --theme-bg: #f0fdff;
+  --theme-surface: rgba(8, 145, 178, 0.055);
+  --theme-surface-hover: rgba(8, 145, 178, 0.10);
 
+  --theme-text: #082f49;
+  --theme-text-secondary: #164e63;
+  --theme-text-muted: #155e75;
+  --theme-text-subtle: #3f7184;
+
+  --theme-border: rgba(8, 47, 73, 0.14);
+  --theme-border-strong: rgba(8, 47, 73, 0.22);
+
+  --theme-glow: rgba(8, 145, 178, 0.12);
+}
 
 /* =========================================
    GLOBAL THEME
@@ -664,9 +693,8 @@ body {
     color 400ms ease;
 }
 
-
 /* =========================================
-   GLOBAL TEXT CLASSES
+   THEME UTILITY CLASSES
 ========================================= */
 
 .theme-text {
@@ -681,18 +709,29 @@ body {
   color: var(--theme-text-muted);
 }
 
-.theme-primary {
-  color: var(--theme-primary);
+.theme-subtle {
+  color: var(--theme-text-subtle);
 }
 
-.theme-surface {
-  background-color: var(--theme-surface);
+.theme-primary {
+  color: var(--theme-primary);
 }
 
 .theme-border {
   border-color: var(--theme-border);
 }
 
+.theme-border-strong {
+  border-color: var(--theme-border-strong);
+}
+
+.theme-surface {
+  background-color: var(--theme-surface);
+}
+
+.theme-surface-hover:hover {
+  background-color: var(--theme-surface-hover);
+}
 
 /* =========================================
    THEME-AWARE BACKGROUND
@@ -702,16 +741,11 @@ body {
   background:
     radial-gradient(
       ellipse at 50% 35%,
-      color-mix(
-        in srgb,
-        var(--theme-primary) 15%,
-        transparent
-      ),
+      var(--theme-glow),
       transparent 55%
     ),
     var(--theme-bg);
 }
-
 
 /* =========================================
    THEME GLOWS
@@ -740,7 +774,6 @@ body {
     transparent
   );
 }
-
 
 /* =========================================
    THEME WAVES
@@ -790,4 +823,15 @@ body {
     var(--theme-primary) 25%,
     transparent
   );
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      color-mix(
+        in srgb,
+        var(--theme-primary) 12%,
+        transparent
+      ),
+      transparent 67%
+    );
 }
