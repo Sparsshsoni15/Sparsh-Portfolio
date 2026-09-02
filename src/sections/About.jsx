@@ -1,6 +1,6 @@
 import { ArrowUpRight, Code2, Cpu, Layers3, Sparkles } from "lucide-react";
 import { motion } from "motion/react";
-import sparshPhoto from "../assets/sparsh.jpg";
+import sparshPhoto from "../assets/sparsh.png";
 
 const stats = [
   {
