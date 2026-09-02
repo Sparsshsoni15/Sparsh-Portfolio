@@ -30,7 +30,7 @@ function Hero() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.9, delay: 0.15 }}
-                    className="max-w-5xl text-6xl font-black leading-[0.9] tracking-[-0.05em] sm:text-7xl md:text-8xl lg:text-[9rem]"
+                    className="theme-heading max-w-5xl text-6xl font-black ..."
                 >
                     SPARSH
                     <br />
@@ -48,7 +48,7 @@ function Hero() {
                     transition={{ duration: 1, delay: 0.4 }}
                     className="mt-8 max-w-2xl"
                 >
-                    <p className="text-xl font-medium md:text-2xl">
+                    <p className="theme-text text-xl font-medium md:text-2xl">
                         Engineering Student{" "}
                         <span className="theme-primary">×</span>{" "}
                         Developer
