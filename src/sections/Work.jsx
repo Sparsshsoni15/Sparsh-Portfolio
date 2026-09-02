@@ -74,22 +74,22 @@ function Work() {
                     transition={{ duration: 0.7 }}
                     className="mb-16"
                 >
-                    <div className="mb-5 flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-purple-400">
-                        <span className="h-px w-10 bg-purple-500" />
+                    <div className="theme-primary mb-5 flex items-center gap-3 text-sm uppercase tracking-[0.3em]">
+                        <span className="bg-[var(--theme-primary)] h-px w-10" />
                         03 / Work
                     </div>
 
                     <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-                        <h2 className="max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+                        <h2 className="theme-text max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
                             Things I've{" "}
-                            <span className="bg-gradient-to-r from-purple-300 to-blue-500 bg-clip-text text-transparent">
+                            <span className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent">
                                 built.
                             </span>
                         </h2>
 
-                        <p className="max-w-sm text-sm leading-7 text-zinc-500">
-                            A collection of experiments, projects and ideas I've turned
-                            into working digital experiences.
+                        <p className="theme-muted max-w-sm text-sm leading-7">
+                            A collection of experiments, projects and ideas I've
+                            turned into working digital experiences.
                         </p>
                     </div>
                 </motion.div>
@@ -106,37 +106,41 @@ function Work() {
                                 duration: 0.7,
                                 delay: index * 0.08,
                             }}
-                            className={`group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.025] ${index === 0 ? "p-8 md:p-12" : "p-7 md:p-9"
-                                }`}
+                            className={`theme-border theme-surface group relative overflow-hidden rounded-3xl border ${
+                                index === 0
+                                    ? "p-8 md:p-12"
+                                    : "p-7 md:p-9"
+                            }`}
                         >
                             {/* Background glow */}
-                            <div className="pointer-events-none absolute -right-32 -top-32 h-72 w-72 rounded-full bg-purple-600/0 blur-3xl transition-all duration-700 group-hover:bg-purple-600/10" />
+                            <div className="pointer-events-none absolute -right-32 -top-32 h-72 w-72 rounded-full bg-[var(--theme-primary)] opacity-0 blur-3xl transition-all duration-700 group-hover:opacity-10" />
 
                             <div className="relative grid gap-8 md:grid-cols-[90px_1fr_auto] md:items-center">
 
                                 {/* Number */}
-                                <div className="font-mono text-sm text-zinc-700">
+                                <div className="theme-subtle font-mono text-sm">
                                     /{project.number}
                                 </div>
 
                                 {/* Content */}
                                 <div>
                                     <div className="mb-3 flex flex-wrap items-center gap-3">
-                                        <span className="rounded-full border border-purple-500/20 bg-purple-500/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-purple-300">
+                                        <span className="theme-primary rounded-full border border-[color-mix(in_srgb,var(--theme-primary)_20%,transparent)] bg-[color-mix(in_srgb,var(--theme-primary)_10%,transparent)] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em]">
                                             {project.type}
                                         </span>
                                     </div>
 
                                     <h3
-                                        className={`font-bold tracking-tight text-white transition-colors duration-300 group-hover:text-purple-200 ${index === 0
-                                            ? "text-3xl md:text-4xl"
-                                            : "text-2xl md:text-3xl"
-                                            }`}
+                                        className={`theme-text font-bold tracking-tight transition-colors duration-300 group-hover:text-[var(--theme-primary)] ${
+                                            index === 0
+                                                ? "text-3xl md:text-4xl"
+                                                : "text-2xl md:text-3xl"
+                                        }`}
                                     >
                                         {project.title}
                                     </h3>
 
-                                    <p className="mt-4 max-w-2xl text-sm leading-7 text-zinc-500 md:text-base">
+                                    <p className="theme-muted mt-4 max-w-2xl text-sm leading-7 md:text-base">
                                         {project.description}
                                     </p>
 
@@ -145,7 +149,7 @@ function Work() {
                                         {project.tags.map((tag) => (
                                             <span
                                                 key={tag}
-                                                className="rounded-lg border border-white/5 bg-black/20 px-3 py-1.5 font-mono text-[11px] text-zinc-500"
+                                                className="theme-muted rounded-lg border border-[var(--theme-border)] bg-[var(--theme-surface)] px-3 py-1.5 font-mono text-[11px]"
                                             >
                                                 {tag}
                                             </span>
@@ -154,7 +158,7 @@ function Work() {
                                 </div>
 
                                 {/* Actions */}
-                                <div className="flex items-center gap-3">
+                                <div className="flex flex-wrap items-center gap-3">
 
                                     {/* GitHub */}
                                     <a
@@ -162,19 +166,19 @@ function Work() {
                                         target="_blank"
                                         rel="noreferrer"
                                         aria-label={`View ${project.title} on GitHub`}
-                                        className="group/github inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-medium text-zinc-300 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-white/30 hover:bg-white/10 hover:text-white"
+                                        className="theme-text theme-border theme-surface inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-medium backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--theme-primary)] hover:bg-[var(--theme-surface-hover)]"
                                     >
                                         <GitHubIcon size={16} />
-
                                         <span>GitHub</span>
                                     </a>
+
                                     {/* Live Demo */}
                                     <a
                                         href={project.live}
                                         target="_blank"
                                         rel="noreferrer"
                                         aria-label={`View live ${project.title}`}
-                                        className="group/live inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-medium text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-purple-400/50 hover:bg-purple-500/10"
+                                        className="theme-text inline-flex items-center gap-2 rounded-full border border-[var(--theme-primary)] bg-[var(--theme-primary)] px-5 py-2.5 text-sm font-semibold shadow-[0_0_20px_color-mix(in_srgb,var(--theme-primary)_25%,transparent)] transition-all duration-300 hover:-translate-y-1 hover:brightness-110"
                                     >
                                         <span>Live Demo</span>
 
@@ -188,7 +192,7 @@ function Work() {
                             </div>
 
                             {/* Bottom line */}
-                            <div className="absolute bottom-0 left-0 h-px w-0 bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-700 group-hover:w-full" />
+                            <div className="absolute bottom-0 left-0 h-px w-0 bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] transition-all duration-700 group-hover:w-full" />
                         </motion.article>
                     ))}
                 </div>
@@ -199,14 +203,14 @@ function Work() {
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
-                    className="mt-12 flex flex-col items-start justify-between gap-6 rounded-3xl border border-white/10 bg-white/[0.02] p-7 md:flex-row md:items-center md:p-8"
+                    className="theme-border theme-surface mt-12 flex flex-col items-start justify-between gap-6 rounded-3xl border p-7 md:flex-row md:items-center md:p-8"
                 >
                     <div>
-                        <p className="font-mono text-xs uppercase tracking-[0.2em] text-zinc-600">
+                        <p className="theme-subtle font-mono text-xs uppercase tracking-[0.2em]">
                             More on GitHub
                         </p>
 
-                        <p className="mt-2 text-lg font-medium text-zinc-300">
+                        <p className="theme-secondary-text mt-2 text-lg font-medium">
                             More experiments are waiting there.
                         </p>
                     </div>
@@ -215,7 +219,7 @@ function Work() {
                         href="https://github.com/Sparsshsoni15"
                         target="_blank"
                         rel="noreferrer"
-                        className="group inline-flex items-center gap-3 rounded-full border border-white/10 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:border-purple-500/40 hover:bg-purple-500/10"
+                        className="theme-text group inline-flex items-center gap-3 rounded-full border border-[var(--theme-border)] px-6 py-3 text-sm font-semibold transition-all duration-300 hover:border-[var(--theme-primary)] hover:bg-[var(--theme-glow)]"
                     >
                         <GitHubIcon size={17} />
                         View GitHub
