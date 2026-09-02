@@ -548,87 +548,122 @@ a {
 :root {
   --theme-primary: #8b5cf6;
   --theme-secondary: #3b82f6;
+
   --theme-bg: #030305;
   --theme-surface: rgba(255, 255, 255, 0.04);
   --theme-border: rgba(255, 255, 255, 0.10);
+
   --theme-text: #ffffff;
+  --theme-heading: #ffffff;
   --theme-muted: #a1a1aa;
+
+  --theme-button-text: #ffffff;
   --theme-glow: rgba(139, 92, 246, 0.20);
 }
 
-/* =========================
-   DEFAULT
-========================= */
+
+/* =========================================
+   DEFAULT — DARK
+========================================= */
 
 html[data-theme="default"] {
   --theme-primary: #8b5cf6;
   --theme-secondary: #3b82f6;
+
   --theme-bg: #030305;
   --theme-surface: rgba(255, 255, 255, 0.04);
-  --theme-border: rgba(139, 92, 246, 0.25);
+  --theme-border: rgba(255, 255, 255, 0.10);
+
   --theme-text: #ffffff;
+  --theme-heading: #ffffff;
   --theme-muted: #a1a1aa;
+
+  --theme-button-text: #ffffff;
   --theme-glow: rgba(139, 92, 246, 0.20);
 }
 
-/* =========================
-   RETRO
-========================= */
+
+/* =========================================
+   RETRO — LIGHT / WARM
+========================================= */
 
 html[data-theme="retro"] {
-  --theme-primary: #f59e0b;
-  --theme-secondary: #ef4444;
-  --theme-bg: #17100a;
-  --theme-surface: rgba(245, 158, 11, 0.08);
-  --theme-border: rgba(245, 158, 11, 0.30);
-  --theme-text: #fff7ed;
-  --theme-muted: #d6b99a;
-  --theme-glow: rgba(245, 158, 11, 0.20);
+  --theme-primary: #c2410c;
+  --theme-secondary: #ea580c;
+
+  --theme-bg: #fff7ed;
+  --theme-surface: rgba(124, 45, 18, 0.06);
+  --theme-border: rgba(124, 45, 18, 0.20);
+
+  --theme-text: #431407;
+  --theme-heading: #271006;
+  --theme-muted: #7c2d12;
+
+  --theme-button-text: #ffffff;
+  --theme-glow: rgba(234, 88, 12, 0.15);
 }
 
-/* =========================
-   CYBERPUNK
-========================= */
+
+/* =========================================
+   CYBERPUNK — DARK
+========================================= */
 
 html[data-theme="cyberpunk"] {
   --theme-primary: #ff00ff;
   --theme-secondary: #00ffff;
+
   --theme-bg: #05000b;
   --theme-surface: rgba(255, 0, 255, 0.07);
   --theme-border: rgba(0, 255, 255, 0.30);
+
   --theme-text: #ffffff;
-  --theme-muted: #c4b5fd;
+  --theme-heading: #ffffff;
+  --theme-muted: #d8b4fe;
+
+  --theme-button-text: #ffffff;
   --theme-glow: rgba(255, 0, 255, 0.22);
 }
 
-/* =========================
-   VALENTINE
-========================= */
+
+/* =========================================
+   VALENTINE — BABY PINK / LIGHT
+========================================= */
 
 html[data-theme="valentine"] {
-  --theme-primary: #ec4899;
-  --theme-secondary: #f43f5e;
-  --theme-bg: #10050b;
-  --theme-surface: rgba(236, 72, 153, 0.07);
-  --theme-border: rgba(236, 72, 153, 0.30);
-  --theme-text: #fff1f2;
-  --theme-muted: #f9a8d4;
-  --theme-glow: rgba(236, 72, 153, 0.20);
+  --theme-primary: #db2777;
+  --theme-secondary: #ec4899;
+
+  --theme-bg: #fff1f7;
+  --theme-surface: rgba(219, 39, 119, 0.06);
+  --theme-border: rgba(190, 24, 93, 0.18);
+
+  --theme-text: #4a1730;
+  --theme-heading: #3b1025;
+  --theme-muted: #831843;
+
+  --theme-button-text: #ffffff;
+  --theme-glow: rgba(236, 72, 153, 0.18);
 }
 
-/* =========================
-   AQUA
-========================= */
+
+/* =========================================
+   AQUA — LIGHT
+========================================= */
 
 html[data-theme="aqua"] {
-  --theme-primary: #06b6d4;
-  --theme-secondary: #3b82f6;
-  --theme-bg: #021014;
-  --theme-surface: rgba(6, 182, 212, 0.07);
-  --theme-border: rgba(6, 182, 212, 0.30);
-  --theme-text: #ecfeff;
-  --theme-muted: #a5f3fc;
-  --theme-glow: rgba(6, 182, 212, 0.20);
+  --theme-primary: #0891b2;
+  --theme-secondary: #2563eb;
+
+  --theme-bg: #ecfeff;
+  --theme-surface: rgba(8, 145, 178, 0.06);
+  --theme-border: rgba(8, 145, 178, 0.20);
+
+  --theme-text: #083344;
+  --theme-heading: #062a3a;
+  --theme-muted: #155e75;
+
+  --theme-button-text: #ffffff;
+  --theme-glow: rgba(6, 182, 212, 0.18);
 }
 
 
@@ -638,7 +673,7 @@ html[data-theme="aqua"] {
 
 html,
 body {
-  background: var(--theme-bg);
+  background-color: var(--theme-bg);
   color: var(--theme-text);
 
   transition:
@@ -648,8 +683,20 @@ body {
 
 
 /* =========================================
-   COMMON THEME UTILITIES
+   THEME TEXT UTILITIES
 ========================================= */
+
+.theme-text {
+  color: var(--theme-text);
+}
+
+.theme-heading {
+  color: var(--theme-heading);
+}
+
+.theme-muted {
+  color: var(--theme-muted);
+}
 
 .theme-primary {
   color: var(--theme-primary);
@@ -659,9 +706,10 @@ body {
   color: var(--theme-secondary);
 }
 
-.theme-muted {
-  color: var(--theme-muted);
-}
+
+/* =========================================
+   THEME SURFACES
+========================================= */
 
 .theme-surface {
   background: var(--theme-surface);
@@ -670,6 +718,11 @@ body {
 .theme-border {
   border-color: var(--theme-border);
 }
+
+
+/* =========================================
+   THEME GRADIENT
+========================================= */
 
 .theme-gradient {
   background: linear-gradient(
@@ -782,17 +835,6 @@ body {
     var(--theme-primary) 30%,
     transparent
   );
-
-  background:
-    radial-gradient(
-      ellipse at center,
-      color-mix(
-        in srgb,
-        var(--theme-primary) 15%,
-        transparent
-      ),
-      transparent 70%
-    );
 }
 
 
@@ -827,19 +869,4 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--theme-primary);
-}
-
-
-/* =========================================
-   THEME SELECTION
-========================================= */
-
-::selection {
-  background: color-mix(
-    in srgb,
-    var(--theme-primary) 35%,
-    transparent
-  );
-
-  color: var(--theme-text);
 }
