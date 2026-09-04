@@ -24,6 +24,7 @@ const achievements = [
     verified: true,
     link: "#",
   },
+
   {
     type: "Achievement",
     title: "48-Hour Hackathon Participant",
@@ -34,6 +35,7 @@ const achievements = [
     verified: true,
     link: "#",
   },
+
   {
     type: "Certification",
     title: "Frontend Development",
@@ -44,6 +46,7 @@ const achievements = [
     verified: true,
     link: "#",
   },
+
   {
     type: "Achievement",
     title: "Hackathon & Technical Events",
@@ -67,7 +70,6 @@ function Achievements() {
         {/* ----------------------------------------
             SECTION HEADING
         ----------------------------------------- */}
-
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -88,7 +90,8 @@ function Achievements() {
               </span>
             </h2>
 
-            <p className="theme-muted max-w-sm text-sm leading-7">
+            {/* Theme-aware supporting description */}
+            <p className="max-w-sm text-sm leading-7 text-[var(--theme-text-secondary)] opacity-100">
               Certifications, achievements and milestones that reflect my
               journey of learning, building and growing.
             </p>
@@ -98,7 +101,6 @@ function Achievements() {
         {/* ----------------------------------------
             ACHIEVEMENT GRID
         ----------------------------------------- */}
-
         <div className="grid gap-6 md:grid-cols-2">
           {achievements.map((item, index) => {
             const isCertification = item.type === "Certification";
@@ -132,7 +134,6 @@ function Achievements() {
                 "
               >
                 {/* Glow */}
-
                 <div
                   className="
                     pointer-events-none
@@ -154,7 +155,6 @@ function Achievements() {
                 <div className="relative">
 
                   {/* Top row */}
-
                   <div className="mb-8 flex items-start justify-between gap-4">
                     <div
                       className="
@@ -183,7 +183,6 @@ function Achievements() {
                     </div>
 
                     {/* Verified badge */}
-
                     {item.verified && (
                       <div
                         className="
@@ -210,7 +209,6 @@ function Achievements() {
                   </div>
 
                   {/* Type */}
-
                   <div className="mb-3">
                     <span className="theme-primary font-mono text-[10px] uppercase tracking-[0.2em]">
                       {item.type}
@@ -218,7 +216,6 @@ function Achievements() {
                   </div>
 
                   {/* Title */}
-
                   <h3
                     className="
                       theme-text
@@ -234,7 +231,6 @@ function Achievements() {
                   </h3>
 
                   {/* Issuer + date */}
-
                   <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
                     <span className="theme-secondary-text font-medium">
                       {item.issuer}
@@ -248,15 +244,12 @@ function Achievements() {
                   </div>
 
                   {/* Description */}
-
                   <p className="theme-muted mt-5 text-sm leading-7">
                     {item.description}
                   </p>
 
                   {/* Bottom action */}
-
                   <div className="mt-7 flex items-center justify-between gap-4">
-
                     <span className="theme-subtle font-mono text-[10px] uppercase tracking-[0.18em]">
                       {String(index + 1).padStart(2, "0")}
                     </span>
@@ -303,7 +296,6 @@ function Achievements() {
                 </div>
 
                 {/* Bottom accent line */}
-
                 <div
                   className="
                     absolute
@@ -327,7 +319,6 @@ function Achievements() {
         {/* ----------------------------------------
             BOTTOM STATEMENT
         ----------------------------------------- */}
-
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -336,17 +327,20 @@ function Achievements() {
           className="theme-border mt-16 border-t pt-8"
         >
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="theme-subtle font-mono text-xs uppercase tracking-[0.2em]">
+
+            {/* Fixed supporting text */}
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--theme-text-secondary)] opacity-100">
               <span className="theme-primary">✓</span>{" "}
               Continuous growth
             </p>
 
-            <p className="theme-muted text-sm">
+            {/* Fixed supporting text */}
+            <p className="text-sm text-[var(--theme-text-secondary)] opacity-100">
               Every milestone is another step forward.
             </p>
+
           </div>
         </motion.div>
-
       </div>
     </section>
   );

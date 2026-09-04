@@ -1,4 +1,9 @@
-import { ArrowUpRight, Code2, Cpu, Layers3, Sparkles } from "lucide-react";
+import {
+  ArrowUpRight,
+  Code2,
+  Lightbulb,
+  Sparkles,
+} from "lucide-react";
 import { motion } from "motion/react";
 import sparshPhoto from "../assets/sparsh.png";
 
@@ -6,17 +11,14 @@ const stats = [
   {
     value: "10+",
     label: "Projects Built",
-    icon: Code2,
   },
   {
     value: "∞",
     label: "Things to Learn",
-    icon: Sparkles,
   },
   {
     value: "24/7",
     label: "Curiosity",
-    icon: Cpu,
   },
 ];
 
@@ -24,13 +26,11 @@ function About() {
   return (
     <section
       id="about"
-      className="relative px-6 py-32 lg:px-10 lg:py-40"
+      className="relative overflow-hidden px-6 py-32 lg:px-10 lg:py-40"
     >
       <div className="mx-auto max-w-7xl">
 
-        {/* =========================
-            SECTION HEADING
-        ========================== */}
+        {/* SECTION HEADING */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -43,194 +43,267 @@ function About() {
             01 / About
           </div>
 
-          <h2 className="theme-heading max-w-4xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
-            I don't just{" "}
-            <span className="theme-subtle">
-              write code.
-            </span>
-            <br />
-            I build things that{" "}
-            <span className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent">
-              matter.
-            </span>
-          </h2>
-        </motion.div>
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <h2 className="theme-text max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+              A little about{" "}
+              <span className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent">
+                me.
+              </span>
+            </h2>
 
-        {/* =========================
-            ABOUT + PHOTO
-        ========================== */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.8 }}
-          className="theme-border theme-surface group relative overflow-hidden rounded-3xl border p-8 backdrop-blur-sm md:p-12"
-        >
-          {/* Background glow */}
-          <div className="pointer-events-none absolute -right-32 -top-32 h-80 w-80 rounded-full bg-[var(--theme-primary)] opacity-10 blur-3xl transition-all duration-700 group-hover:opacity-20" />
-
-          <div className="relative grid gap-12 lg:grid-cols-[1fr_280px] lg:items-center">
-
-            {/* =========================
-                ABOUT CONTENT
-            ========================== */}
-            <div>
-
-              {/* Card heading */}
-              <div className="mb-8 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--theme-primary)] bg-[var(--theme-glow)]">
-                  <Layers3
-                    size={19}
-                    className="theme-primary"
-                  />
-                </div>
-
-                <span className="theme-subtle font-mono text-xs uppercase tracking-[0.2em]">
-                  Who I am
-                </span>
-              </div>
-
-              {/* Main intro */}
-              <p className="theme-secondary-text max-w-3xl text-xl leading-9 md:text-2xl md:leading-10">
-                I'm an engineering student and developer who enjoys turning
-                ideas into{" "}
-                <span className="theme-text font-semibold">
-                  real digital experiences.
-                </span>
-              </p>
-
-              {/* Description */}
-              <p className="theme-muted mt-6 max-w-2xl text-base leading-8">
-                My journey started with curiosity about how things work and
-                gradually turned into a passion for software development,
-                problem solving and emerging technologies. I'm constantly
-                experimenting, learning and building.
-              </p>
-
-              {/* Current learning */}
-              <p className="theme-muted mt-6 max-w-2xl text-base leading-8">
-                Currently, I'm exploring{" "}
-                <span className="theme-primary font-medium">
-                  web development, AI and computer science
-                </span>{" "}
-                while building projects that push my skills further.
-              </p>
-
-              {/* Explore work */}
-              <a
-                href="#work"
-                className="group/link theme-text mt-10 inline-flex items-center gap-2 text-sm font-semibold transition-colors duration-300 hover:text-[var(--theme-primary)]"
-              >
-                Explore my work
-
-                <ArrowUpRight
-                  size={17}
-                  className="transition-transform duration-300 group-hover/link:translate-x-1 group-hover/link:-translate-y-1"
-                />
-              </a>
-            </div>
-
-            {/* =========================
-                PROFILE PHOTO
-            ========================== */}
-            <motion.div
-              whileHover={{ scale: 1.03 }}
-              transition={{ duration: 0.3 }}
-              className="relative mx-auto w-full max-w-[280px]"
+            {/* Theme-aware supporting text */}
+            <p
+              className="
+                max-w-sm
+                text-sm
+                leading-7
+                text-[var(--theme-text-secondary)]
+                opacity-100
+              "
             >
-              {/* Photo glow */}
-              <div className="absolute -inset-4 rounded-[2rem] bg-[var(--theme-primary)] opacity-20 blur-2xl transition-all duration-500 group-hover:opacity-30" />
-
-              {/* Photo frame */}
-              <div className="theme-border theme-surface relative overflow-hidden rounded-[2rem] border p-2">
-                <div className="relative overflow-hidden rounded-[1.5rem]">
-
-                  <img
-                    src={sparshPhoto}
-                    alt="Sparsh Soni"
-                    className="aspect-[4/5] w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-
-                  {/* Image overlay */}
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                </div>
-              </div>
-
-              {/* Decorative corner */}
-              <div className="absolute -bottom-3 -right-3 h-11 w-11 rounded-full border border-[var(--theme-primary)] bg-[var(--theme-surface)] opacity-80" />
-            </motion.div>
-
+              Learning, experimenting and building one idea at a time.
+            </p>
           </div>
         </motion.div>
 
-        {/* =========================
-            STATS
-        ========================== */}
-        <div className="mt-6 grid gap-6 sm:grid-cols-3">
+        {/* MAIN ABOUT CARD */}
+        <motion.div
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8 }}
+          className="theme-border theme-surface relative overflow-hidden rounded-3xl border"
+        >
+          {/* Background glow */}
+          <div
+            className="pointer-events-none absolute -right-40 -top-40 h-96 w-96 rounded-full blur-[120px]"
+            style={{
+              background: "var(--theme-primary)",
+              opacity: 0.1,
+            }}
+          />
 
-          {stats.map((stat, index) => {
-            const Icon = stat.icon;
+          <div className="relative grid lg:grid-cols-[1fr_360px]">
 
-            return (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 25 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{
-                  duration: 0.6,
-                  delay: index * 0.12,
-                }}
-                className="theme-border theme-surface group relative overflow-hidden rounded-3xl border p-7 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--theme-primary)] hover:bg-[var(--theme-surface-hover)]"
-              >
+            {/* CONTENT */}
+            <div className="flex flex-col justify-between p-7 md:p-10 lg:p-12">
+              <div>
 
-                {/* Glow */}
-                <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[var(--theme-primary)] opacity-0 blur-3xl transition-all duration-500 group-hover:opacity-10" />
+                <div className="mb-7 flex items-center gap-3">
+                  <div
+                    className="flex h-10 w-10 items-center justify-center rounded-xl border"
+                    style={{
+                      borderColor:
+                        "color-mix(in srgb, var(--theme-primary) 25%, transparent)",
+                      background: "var(--theme-glow)",
+                    }}
+                  >
+                    <Code2
+                      size={19}
+                      className="theme-primary"
+                    />
+                  </div>
 
-                {/* Icon + number */}
-                <div className="relative mb-8 flex items-center justify-between">
-                  <Icon
-                    size={20}
-                    className="theme-subtle transition-colors duration-300 group-hover:text-[var(--theme-primary)]"
+                  <div>
+                    <p className="theme-subtle font-mono text-[10px] uppercase tracking-[0.2em]">
+                      Engineering Student
+                    </p>
+
+                    <p className="theme-secondary-text mt-1 text-sm font-medium">
+                      Building with curiosity
+                    </p>
+                  </div>
+                </div>
+
+                <h3 className="theme-text max-w-3xl text-2xl font-bold leading-tight md:text-3xl">
+                  I enjoy turning ideas into{" "}
+                  <span className="theme-primary">
+                    useful digital experiences.
+                  </span>
+                </h3>
+
+                {/* ABOUT DESCRIPTION */}
+                <div
+                  className="
+                    mt-6
+                    max-w-3xl
+                    space-y-4
+                    text-sm
+                    leading-7
+                    md:text-base
+                    text-[var(--theme-text-secondary)]
+                    opacity-100
+                  "
+                >
+                  <p>
+                    I'm Sparsh Soni, a 2nd-year Electrical and Computer
+                    Engineering student with a growing interest in web
+                    development, artificial intelligence and problem solving.
+                  </p>
+
+                  <p>
+                    I like exploring new technologies, building projects and
+                    understanding how things work. For me, every project is an
+                    opportunity to learn something new and improve the way I
+                    build.
+                  </p>
+
+                  <p>
+                    I'm currently focused on strengthening my development
+                    skills while experimenting with ideas that combine
+                    technology and creativity.
+                  </p>
+                </div>
+              </div>
+
+              {/* BOTTOM STATEMENT */}
+              <div className="theme-border mt-10 flex flex-col gap-5 border-t pt-7 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-3">
+                  <Sparkles
+                    size={16}
+                    className="theme-primary"
                   />
 
-                  <span className="theme-subtle font-mono text-xs">
-                    0{index + 1}
+                  <span className="theme-subtle font-mono text-[10px] uppercase tracking-[0.18em]">
+                    Always learning
                   </span>
                 </div>
 
-                {/* Value */}
-                <div className="theme-text relative text-4xl font-bold tracking-tight">
-                  {stat.value}
+                <a
+                  href="#work"
+                  className="theme-primary group inline-flex items-center gap-2 text-sm font-semibold transition-all duration-300 hover:gap-3"
+                >
+                  Explore my work
+
+                  <ArrowUpRight
+                    size={16}
+                    className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  />
+                </a>
+              </div>
+            </div>
+
+            {/* PHOTO + STATS */}
+            <div className="theme-border border-t lg:border-l lg:border-t-0">
+
+              {/* PHOTO */}
+              <div className="p-6 md:p-8">
+                <div className="about-photo-card">
+                  <figure className="relative overflow-hidden rounded-2xl border theme-border">
+                    <img
+                      src={sparshPhoto}
+                      alt="Sparsh Soni"
+                      draggable={false}
+                      className="block aspect-[4/5] w-full select-none object-cover"
+                    />
+
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+                    <div className="absolute bottom-4 left-4">
+                      <p className="text-xs font-medium text-white/70">
+                        SPARSH SONI
+                      </p>
+
+                      <p className="mt-1 text-sm font-semibold text-white">
+                        Engineer • Builder • Learner
+                      </p>
+                    </div>
+                  </figure>
                 </div>
+              </div>
 
-                {/* Label */}
-                <div className="theme-muted relative mt-2 text-sm">
-                  {stat.label}
-                </div>
-              </motion.div>
-            );
-          })}
+              {/* STATS */}
+              <div className="theme-border border-t">
+                {stats.map((stat, index) => (
+                  <div
+                    key={stat.label}
+                    className={`flex items-center justify-between px-7 py-5 md:px-8 ${
+                      index !== stats.length - 1
+                        ? "border-b theme-border"
+                        : ""
+                    }`}
+                  >
+                    <span className="theme-muted text-sm">
+                      {stat.label}
+                    </span>
 
-        </div>
-
-        {/* =========================
-            BOTTOM STATEMENT
-        ========================== */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          className="theme-border mt-20 border-t pt-8"
-        >
-          <p className="theme-subtle max-w-3xl font-mono text-sm leading-7">
-            <span className="theme-primary">&gt;</span>{" "}
-            Always building. Always learning. Always looking for the next
-            problem worth solving.
-          </p>
+                    <span className="theme-text text-xl font-bold">
+                      {stat.value}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </motion.div>
 
+        {/* BOTTOM MINI CARDS */}
+        <div className="mt-6 grid gap-6 md:grid-cols-2">
+
+          {/* WHAT DRIVES ME */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="theme-border theme-surface rounded-2xl border p-6"
+          >
+            <div className="mb-4 flex items-center gap-3">
+              <Lightbulb
+                size={18}
+                className="theme-primary"
+              />
+
+              <span className="theme-text text-sm font-semibold">
+                What drives me
+              </span>
+            </div>
+
+            <p
+              className="
+                text-sm
+                leading-7
+                text-[var(--theme-text-secondary)]
+                opacity-100
+              "
+            >
+              Curiosity, consistency and the excitement of seeing an idea
+              become something real.
+            </p>
+          </motion.div>
+
+          {/* CURRENTLY EXPLORING */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="theme-border theme-surface rounded-2xl border p-6"
+          >
+            <div className="mb-4 flex items-center gap-3">
+              <Code2
+                size={18}
+                className="theme-primary"
+              />
+
+              <span className="theme-text text-sm font-semibold">
+                Currently exploring
+              </span>
+            </div>
+
+            <p
+              className="
+                text-sm
+                leading-7
+                text-[var(--theme-text-secondary)]
+                opacity-100
+              "
+            >
+              React, modern frontend development, APIs, artificial
+              intelligence and problem solving.
+            </p>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

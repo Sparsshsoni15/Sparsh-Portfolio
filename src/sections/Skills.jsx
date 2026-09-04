@@ -1,4 +1,4 @@
-import { BrainCircuit, Code2, GitBranch, Terminal } from "lucide-react";
+import { Code2, GitBranch, Terminal } from "lucide-react";
 import { motion } from "motion/react";
 
 const skillGroups = [
@@ -14,7 +14,7 @@ const skillGroups = [
     ],
   },
   {
-    title: "Programming",
+    title: "Programming & Tools",
     icon: Terminal,
     skills: [
       { name: "C++", level: 75 },
@@ -34,31 +34,48 @@ const exploring = [
 
 function SkillBar({ name, level, delay }) {
   return (
-    <div className="group">
-      <div className="mb-2 flex items-center justify-between">
-        <span className="theme-secondary-text text-sm">
+    <motion.div
+      initial={{ opacity: 0, x: -15 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, amount: 0.4 }}
+      transition={{ duration: 0.5, delay }}
+      className="space-y-2"
+    >
+      <div className="flex items-center justify-between">
+        <span className="theme-secondary-text text-sm font-medium">
           {name}
         </span>
 
-        <span className="theme-subtle font-mono text-xs">
+        <span className="theme-muted font-mono text-xs">
           {level}%
         </span>
       </div>
 
-      <div className="h-[3px] overflow-hidden rounded-full bg-[var(--theme-border)]">
+      <div
+        className="h-1.5 overflow-hidden rounded-full"
+        style={{
+          background:
+            "color-mix(in srgb, var(--theme-primary) 10%, transparent)",
+        }}
+      >
         <motion.div
           initial={{ width: 0 }}
           whileInView={{ width: `${level}%` }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.4 }}
           transition={{
             duration: 1,
-            delay,
+            delay: delay + 0.1,
             ease: "easeOut",
           }}
-          className="h-full rounded-full bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)]"
+          className="h-full rounded-full"
+          style={{
+            background:
+              "linear-gradient(90deg, var(--theme-primary), var(--theme-secondary))",
+            boxShadow: "0 0 12px var(--theme-glow)",
+          }}
         />
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -66,189 +83,173 @@ function Skills() {
   return (
     <section
       id="skills"
-      className="relative px-6 py-32 lg:px-10 lg:py-40"
+      className="relative overflow-hidden px-6 py-32 lg:px-10 lg:py-40"
     >
       <div className="mx-auto max-w-7xl">
 
-        {/* Heading */}
+        {/* Section Heading */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7 }}
-          className="mb-16"
+          className="mb-14"
         >
-          <div className="theme-primary mb-5 flex items-center gap-3 text-sm uppercase tracking-[0.3em]">
-            <span className="h-px w-10 bg-[var(--theme-primary)]" />
+          <div className="theme-primary mb-5 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em]">
+            <span
+              className="h-px w-10"
+              style={{ background: "var(--theme-primary)" }}
+            />
             02 / Skills
           </div>
 
-          <h2 className="theme-text max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-            Tools I use to{" "}
-            <span className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent">
-              bring ideas to life.
-            </span>
-          </h2>
+          <div className="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-end">
+            <div>
+              <h2 className="theme-text text-4xl font-black tracking-tight md:text-5xl lg:text-6xl">
+                Things I{" "}
+                <span className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent">
+                  work with.
+                </span>
+              </h2>
+            </div>
+
+            {/* Theme-aware section description */}
+            <p className="max-w-xl text-sm leading-7 text-[var(--theme-text-secondary)] opacity-100 md:text-base lg:justify-self-end">
+              A growing toolkit built through projects, experimentation and
+              consistent learning.
+            </p>
+          </div>
         </motion.div>
 
-        {/* Main grid */}
-        <div className="grid gap-6 lg:grid-cols-[1.4fr_0.6fr]">
+        {/* Main Skills */}
+        <div className="grid gap-6 lg:grid-cols-2">
+          {skillGroups.map((group, groupIndex) => {
+            const Icon = group.icon;
 
-          {/* Skill groups */}
-          <div className="grid gap-6 md:grid-cols-2">
-            {skillGroups.map((group, groupIndex) => {
-              const Icon = group.icon;
-
-              return (
-                <motion.div
-                  key={group.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{
-                    duration: 0.7,
-                    delay: groupIndex * 0.1,
+            return (
+              <motion.div
+                key={group.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{
+                  duration: 0.6,
+                  delay: groupIndex * 0.12,
+                }}
+                className="glass-card group relative overflow-hidden rounded-3xl p-7 md:p-9"
+              >
+                {/* Glow */}
+                <div
+                  className="pointer-events-none absolute -right-24 -top-24 h-48 w-48 rounded-full blur-3xl opacity-10 transition-opacity duration-500 group-hover:opacity-20"
+                  style={{
+                    background: "var(--theme-primary)",
                   }}
-                  className="theme-border theme-surface relative overflow-hidden rounded-3xl border p-7 backdrop-blur-sm md:p-8"
-                >
-                  {/* Header */}
-                  <div className="mb-10 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
+                />
 
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[color-mix(in_srgb,var(--theme-primary)_20%,transparent)] bg-[color-mix(in_srgb,var(--theme-primary)_10%,transparent)]">
-                        <Icon
-                          size={19}
-                          className="theme-primary"
-                        />
-                      </div>
+                <div className="relative">
 
-                      <div>
-                        <p className="theme-text font-semibold">
-                          {group.title}
-                        </p>
-
-                        <p className="theme-subtle font-mono text-[10px] uppercase tracking-[0.2em]">
-                          Skill set
-                        </p>
-                      </div>
+                  {/* Card Header */}
+                  <div className="mb-8 flex items-center gap-4">
+                    <div
+                      className="flex h-12 w-12 items-center justify-center rounded-2xl"
+                      style={{
+                        color: "var(--theme-primary)",
+                        background:
+                          "color-mix(in srgb, var(--theme-primary) 12%, transparent)",
+                        border:
+                          "1px solid color-mix(in srgb, var(--theme-primary) 30%, transparent)",
+                      }}
+                    >
+                      <Icon size={22} strokeWidth={1.8} />
                     </div>
 
-                    <span className="theme-subtle font-mono text-xs">
-                      0{groupIndex + 1}
-                    </span>
+                    <div>
+                      <p className="theme-subtle font-mono text-[10px] uppercase tracking-[0.2em]">
+                        Toolkit
+                      </p>
+
+                      <h3 className="theme-text mt-1 text-xl font-bold">
+                        {group.title}
+                      </h3>
+                    </div>
                   </div>
 
-                  {/* Skill bars */}
-                  <div className="space-y-7">
+                  {/* Skill Bars */}
+                  <div className="space-y-6">
                     {group.skills.map((skill, index) => (
                       <SkillBar
                         key={skill.name}
                         name={skill.name}
                         level={skill.level}
-                        delay={index * 0.08}
+                        delay={groupIndex * 0.12 + index * 0.08}
                       />
                     ))}
                   </div>
-                </motion.div>
-              );
-            })}
-          </div>
-
-          {/* Exploring panel */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.8 }}
-            className="theme-border theme-surface relative overflow-hidden rounded-3xl border p-8"
-          >
-            {/* Decorative glow */}
-            <div
-              className="absolute -right-20 -top-20 h-56 w-56 rounded-full blur-3xl"
-              style={{
-                background:
-                  "color-mix(in srgb, var(--theme-primary) 12%, transparent)",
-              }}
-            />
-
-            <div className="relative">
-
-              <div className="mb-8 flex items-center justify-between">
-
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[color-mix(in_srgb,var(--theme-primary)_20%,transparent)] bg-[color-mix(in_srgb,var(--theme-primary)_10%,transparent)]">
-                  <BrainCircuit
-                    size={19}
-                    className="theme-primary"
-                  />
                 </div>
+              </motion.div>
+            );
+          })}
+        </div>
 
-                <span className="theme-subtle flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em]">
-                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-400" />
-                  Learning
-                </span>
+        {/* Currently Exploring */}
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="glass-card mt-6 rounded-3xl p-7 md:p-9"
+        >
+          <div className="grid gap-8 md:grid-cols-[0.8fr_1.2fr] md:items-center">
+
+            <div>
+              <div className="theme-primary mb-3 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em]">
+                <GitBranch size={14} />
+                Currently Exploring
               </div>
 
               <h3 className="theme-text text-2xl font-bold">
-                Currently exploring
+                Always learning.
               </h3>
 
-              <p className="theme-muted mt-3 text-sm leading-7">
-                Technologies and concepts I'm actively learning and
-                experimenting with.
+              {/* Theme-aware paragraph */}
+              <p className="mt-3 max-w-md text-sm leading-6 text-[var(--theme-text-secondary)] opacity-100">
+                Technology keeps changing, so I'm continuously exploring new
+                tools and concepts to improve what I can build.
               </p>
-
-              <div className="mt-8 space-y-3">
-                {exploring.map((item, index) => (
-                  <motion.div
-                    key={item}
-                    initial={{ opacity: 0, x: 15 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 0.5,
-                      delay: index * 0.1,
-                    }}
-                    className="theme-border theme-surface flex items-center gap-3 rounded-xl border px-4 py-3"
-                  >
-                    <span
-                      className="h-1.5 w-1.5 rounded-full"
-                      style={{
-                        backgroundColor: "var(--theme-primary)",
-                      }}
-                    />
-
-                    <span className="theme-secondary-text text-sm">
-                      {item}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
             </div>
-          </motion.div>
-        </div>
 
-        {/* Tech strip */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="theme-border theme-surface mt-6 flex flex-wrap items-center gap-x-8 gap-y-3 rounded-2xl border px-6 py-5"
-        >
-          <span className="theme-subtle flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em]">
-            <GitBranch size={14} />
-            Stack
-          </span>
+            <div className="flex flex-wrap gap-3 md:justify-end">
+              {exploring.map((item, index) => (
+                <motion.div
+                  key={item}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{
+                    duration: 0.35,
+                    delay: index * 0.08,
+                  }}
+                  whileHover={{ y: -3 }}
+                  className="theme-text theme-border rounded-full border px-4 py-2.5 text-sm transition-all duration-300"
+                  style={{
+                    background:
+                      "color-mix(in srgb, var(--theme-primary) 7%, transparent)",
+                  }}
+                >
+                  <span
+                    className="mr-2 inline-block h-1.5 w-1.5 rounded-full"
+                    style={{
+                      background: "var(--theme-primary)",
+                      boxShadow: "0 0 8px var(--theme-primary)",
+                    }}
+                  />
+                  {item}
+                </motion.div>
+              ))}
+            </div>
 
-          <span className="theme-muted text-sm">React</span>
-          <span className="theme-muted text-sm">JavaScript</span>
-          <span className="theme-muted text-sm">Tailwind</span>
-          <span className="theme-muted text-sm">C++</span>
-          <span className="theme-muted text-sm">Git</span>
-          <span className="theme-muted text-sm">GitHub</span>
-          <span className="theme-muted text-sm">Vite</span>
+          </div>
         </motion.div>
-
       </div>
     </section>
   );

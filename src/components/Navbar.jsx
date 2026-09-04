@@ -6,6 +6,8 @@ const links = [
   { label: "About", href: "#about" },
   { label: "Skills", href: "#skills" },
   { label: "Work", href: "#work" },
+  { label: "Achievements", href: "#achievements" },
+  { label: "Contact", href: "#contact" },
 ];
 
 function GitHubIcon({ size = 16 }) {
@@ -26,33 +28,69 @@ function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 lg:px-10">
-
-        {/* LOGO */}
+    <header className="fixed left-0 right-0 top-0 z-50 px-4 pt-4 md:px-6">
+      <nav
+        className="
+          mx-auto
+          flex
+          max-w-7xl
+          items-center
+          justify-between
+          rounded-2xl
+          border
+          border-[color-mix(in_srgb,var(--theme-primary)_12%,transparent)]
+          bg-[color-mix(in_srgb,var(--theme-surface)_72%,transparent)]
+          px-5
+          py-3
+          shadow-[0_8px_30px_rgba(0,0,0,0.08)]
+          backdrop-blur-xl
+          transition-all
+          duration-300
+          lg:px-7
+        "
+      >
+        {/* Logo */}
         <a
-          href="#"
-          className="theme-text text-lg font-bold tracking-[0.25em] transition-colors duration-300"
+          href="#home"
+          className="
+            theme-text
+            text-lg
+            font-bold
+            tracking-[0.25em]
+            transition-colors
+            duration-300
+          "
         >
-          SPARSH
-          <span className="theme-primary">.</span>
+          SPARSH<span className="theme-primary">.</span>
         </a>
 
-        {/* DESKTOP NAVIGATION */}
-        <div className="hidden items-center gap-8 md:flex">
+        {/* Desktop Navigation */}
+        <div className="hidden items-center gap-1 md:flex">
 
-          {/* NAV LINKS */}
           {links.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="theme-muted text-sm transition-colors duration-300 hover:text-[var(--theme-primary)]"
+              className="
+                theme-muted
+                rounded-full
+                border
+                border-transparent
+                px-3.5
+                py-2
+                text-sm
+                transition-all
+                duration-300
+                hover:border-[color-mix(in_srgb,var(--theme-primary)_15%,transparent)]
+                hover:bg-[var(--theme-glow)]
+                hover:text-[var(--theme-primary)]
+              "
             >
               {link.label}
             </a>
           ))}
 
-          {/* GITHUB BUTTON */}
+          {/* GitHub */}
           <a
             href="https://github.com/Sparsshsoni15"
             target="_blank"
@@ -60,12 +98,13 @@ function Navbar() {
             className="
               theme-text
               theme-border
-              theme-surface
+              ml-2
               flex
               items-center
               gap-2
               rounded-full
               border
+              bg-[var(--theme-glow)]
               px-4
               py-2
               text-sm
@@ -80,19 +119,22 @@ function Navbar() {
             GitHub
           </a>
 
-          {/* THEME SWITCHER */}
-          <ThemeSwitcher />
+          {/* Theme Switcher */}
+          <div className="ml-2">
+            <ThemeSwitcher />
+          </div>
         </div>
 
-        {/* MOBILE MENU BUTTON */}
+        {/* Mobile Menu Button */}
         <button
-          onClick={() => setOpen(!open)}
+          type="button"
+          onClick={() => setOpen((prev) => !prev)}
           className="
             theme-text
             theme-border
-            theme-surface
-            rounded-lg
+            rounded-xl
             border
+            bg-[var(--theme-glow)]
             p-2
             transition-all
             duration-300
@@ -100,31 +142,33 @@ function Navbar() {
             hover:bg-[var(--theme-surface-hover)]
             md:hidden
           "
-          aria-label="Toggle menu"
+          aria-label="Toggle navigation menu"
           aria-expanded={open}
         >
           {open ? <X size={20} /> : <Menu size={20} />}
         </button>
       </nav>
 
-      {/* MOBILE MENU */}
+      {/* Mobile Navigation */}
       {open && (
         <div
           className="
             theme-border
             theme-surface
-            mx-4
+            mx-auto
+            mt-3
+            max-w-7xl
             rounded-2xl
             border
+            bg-[color-mix(in_srgb,var(--theme-surface)_80%,transparent)]
             p-5
-            shadow-lg
+            shadow-[0_12px_40px_rgba(0,0,0,0.12)]
             backdrop-blur-xl
             md:hidden
           "
         >
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-2">
 
-            {/* MOBILE NAV LINKS */}
             {links.map((link) => (
               <a
                 key={link.label}
@@ -132,9 +176,16 @@ function Navbar() {
                 onClick={() => setOpen(false)}
                 className="
                   theme-text
+                  rounded-xl
+                  border
+                  border-transparent
+                  px-4
+                  py-3
                   text-sm
-                  transition-colors
+                  transition-all
                   duration-300
+                  hover:border-[color-mix(in_srgb,var(--theme-primary)_15%,transparent)]
+                  hover:bg-[var(--theme-glow)]
                   hover:text-[var(--theme-primary)]
                 "
               >
@@ -142,7 +193,37 @@ function Navbar() {
               </a>
             ))}
 
-            {/* MOBILE THEME SWITCHER */}
+            {/* GitHub */}
+            <a
+              href="https://github.com/Sparsshsoni15"
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => setOpen(false)}
+              className="
+                theme-text
+                theme-border
+                mt-2
+                flex
+                w-fit
+                items-center
+                gap-2
+                rounded-full
+                border
+                bg-[var(--theme-glow)]
+                px-4
+                py-2.5
+                text-sm
+                transition-all
+                duration-300
+                hover:border-[var(--theme-primary)]
+                hover:bg-[var(--theme-surface-hover)]
+              "
+            >
+              <GitHubIcon size={16} />
+              GitHub
+            </a>
+
+            {/* Theme Switcher */}
             <div className="pt-2">
               <ThemeSwitcher />
             </div>

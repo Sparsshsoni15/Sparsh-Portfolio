@@ -1,14 +1,15 @@
 import { ArrowUpRight } from "lucide-react";
 import { motion } from "motion/react";
 
-const links = [
+const footerLinks = [
   { label: "About", href: "#about" },
   { label: "Skills", href: "#skills" },
   { label: "Work", href: "#work" },
+  { label: "Achievements", href: "#achievements" },
   { label: "Contact", href: "#contact" },
 ];
 
-function GitHubIcon({ size = 18 }) {
+function GitHubIcon({ size = 17 }) {
   return (
     <svg
       width={size}
@@ -23,63 +24,212 @@ function GitHubIcon({ size = 18 }) {
 }
 
 function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="theme-border border-t px-6 py-10 lg:px-10">
+    <footer className="relative px-4 pb-8 pt-16 lg:px-6">
       <div className="mx-auto max-w-7xl">
-        <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-          {/* Logo */}
-          <motion.a
-            href="#home"
-            whileHover={{ y: -2 }}
-            className="theme-text text-lg font-bold tracking-[0.25em]"
-          >
-            SPARSH
-            <span className="theme-primary">.</span>
-          </motion.a>
 
-          {/* Navigation */}
-          <nav className="flex flex-wrap gap-x-6 gap-y-3">
-            {links.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="theme-muted text-sm transition-colors duration-300 hover:text-[var(--theme-primary)]"
+        {/* Glass Footer Container */}
+        <div
+          className="
+            theme-border
+            relative
+            overflow-hidden
+            rounded-3xl
+            border
+            bg-[color-mix(in_srgb,var(--theme-surface)_72%,transparent)]
+            px-6
+            py-10
+            shadow-[0_8px_40px_rgba(0,0,0,0.08)]
+            backdrop-blur-xl
+            transition-all
+            duration-300
+            lg:px-10
+          "
+        >
+          {/* Subtle Glow */}
+          <div
+            className="
+              pointer-events-none
+              absolute
+              -right-32
+              -top-32
+              h-72
+              w-72
+              rounded-full
+              bg-[var(--theme-primary)]
+              opacity-[0.04]
+              blur-3xl
+            "
+          />
+
+          <div className="relative">
+
+            {/* Main Footer */}
+            <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+
+              {/* Logo / Intro */}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
               >
-                {link.label}
-              </a>
-            ))}
-          </nav>
+                <a
+                  href="#home"
+                  className="
+                    theme-text
+                    text-lg
+                    font-bold
+                    tracking-[0.25em]
+                    transition-colors
+                    duration-300
+                    hover:text-[var(--theme-primary)]
+                  "
+                >
+                  SPARSH<span className="theme-primary">.</span>
+                </a>
 
-          {/* GitHub */}
-          <a
-            href="https://github.com/Sparsshsoni15"
-            target="_blank"
-            rel="noreferrer"
-            className="theme-text theme-border theme-surface inline-flex h-10 w-10 items-center justify-center rounded-full border transition-all duration-300 hover:-translate-y-1 hover:border-[var(--theme-primary)]"
-            aria-label="GitHub"
-          >
-            <GitHubIcon size={17} />
-          </a>
-        </div>
+                {/* Fixed supporting text */}
+                <p className="mt-3 max-w-sm text-sm leading-6 text-[var(--theme-text-secondary)] opacity-100">
+                  Engineering student building with code, AI and creativity.
+                </p>
+              </motion.div>
 
-        {/* Bottom */}
-        <div className="theme-border mt-8 flex flex-col gap-3 border-t pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="theme-subtle text-xs">
-            © {new Date().getFullYear()} Sparsh Soni. All rights reserved.
-          </p>
+              {/* Navigation */}
+              <motion.nav
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="flex flex-wrap items-center gap-2"
+              >
+                {footerLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className="
+                      rounded-full
+                      border
+                      border-transparent
+                      px-3
+                      py-2
+                      text-sm
+                      text-[var(--theme-text-secondary)]
+                      opacity-100
+                      transition-all
+                      duration-300
+                      hover:border-[color-mix(in_srgb,var(--theme-primary)_15%,transparent)]
+                      hover:bg-[var(--theme-glow)]
+                      hover:text-[var(--theme-primary)]
+                    "
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </motion.nav>
 
-          <div className="flex items-center gap-2">
-            <span className="theme-subtle font-mono text-[10px] uppercase tracking-[0.2em]">
-              Built with React
-            </span>
+              {/* GitHub */}
+              <motion.a
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                href="https://github.com/Sparsshsoni15"
+                target="_blank"
+                rel="noreferrer"
+                className="
+                  theme-text
+                  theme-border
+                  group
+                  inline-flex
+                  w-fit
+                  items-center
+                  gap-2
+                  rounded-full
+                  border
+                  bg-[var(--theme-glow)]
+                  px-4
+                  py-2.5
+                  text-sm
+                  font-medium
+                  transition-all
+                  duration-300
+                  hover:-translate-y-0.5
+                  hover:border-[var(--theme-primary)]
+                  hover:bg-[var(--theme-surface-hover)]
+                "
+              >
+                <GitHubIcon size={17} />
 
-            <a
-              href="#home"
-              className="theme-primary transition-transform duration-300 hover:-translate-y-1"
-              aria-label="Back to top"
+                GitHub
+
+                <ArrowUpRight
+                  size={14}
+                  className="
+                    transition-transform
+                    duration-300
+                    group-hover:-translate-y-0.5
+                    group-hover:translate-x-0.5
+                  "
+                />
+              </motion.a>
+            </div>
+
+            {/* Bottom Divider */}
+            <div
+              className="
+                theme-border
+                mt-10
+                flex
+                flex-col
+                gap-3
+                border-t
+                pt-6
+                text-xs
+                md:flex-row
+                md:items-center
+                md:justify-between
+              "
             >
-              <ArrowUpRight size={15} className="-rotate-45" />
-            </a>
+              {/* Fixed */}
+              <p className="text-[var(--theme-text-secondary)] opacity-100">
+                © {currentYear} Sparsh Soni. All rights reserved.
+              </p>
+
+              {/* Fixed */}
+              <p className="text-[var(--theme-text-secondary)] opacity-100">
+                Built with{" "}
+                <span className="theme-primary font-medium">React</span> &
+                creativity.
+              </p>
+
+              <a
+                href="#home"
+                className="
+                  inline-flex
+                  items-center
+                  gap-2
+                  rounded-full
+                  border
+                  border-transparent
+                  px-3
+                  py-2
+                  text-sm
+                  text-[var(--theme-text-secondary)]
+                  opacity-100
+                  transition-all
+                  duration-300
+                  hover:border-[color-mix(in_srgb,var(--theme-primary)_15%,transparent)]
+                  hover:bg-[var(--theme-glow)]
+                  hover:text-[var(--theme-primary)]
+                "
+              >
+                Back to top
+                <ArrowUpRight size={14} />
+              </a>
+            </div>
           </div>
         </div>
       </div>

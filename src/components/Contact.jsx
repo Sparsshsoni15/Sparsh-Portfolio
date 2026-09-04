@@ -1,7 +1,7 @@
 import { Mail, Send } from "lucide-react";
 import { motion } from "motion/react";
 
-function GitHubIcon({ size = 22 }) {
+function GitHubIcon({ size = 20 }) {
   return (
     <svg
       width={size}
@@ -15,7 +15,7 @@ function GitHubIcon({ size = 22 }) {
   );
 }
 
-function LinkedInIcon({ size = 22 }) {
+function LinkedInIcon({ size = 20 }) {
   return (
     <svg
       width={size}
@@ -24,39 +24,39 @@ function LinkedInIcon({ size = 22 }) {
       fill="currentColor"
       aria-hidden="true"
     >
-      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.35-1.85 3.59 0 4.25 2.36 4.25 5.43v6.31ZM5.32 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.1 20.45H3.54V9H7.1v11.45ZM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.73V1.73C24 .77 23.21 0 22.23 0Z" />
+      <path d="M20.45 20.45h-3.56v-5.58c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.95v5.67H9.35V8.98h3.42v1.57h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.26 2.37 4.26 5.45v6.3ZM5.34 7.41a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM3.56 20.45h3.57V8.98H3.56v11.47ZM22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0Z" />
     </svg>
   );
 }
 
-function ContactCard({ icon, label, value, href, accent = "primary" }) {
+function ContactCard({ icon, title, value, href }) {
   return (
     <motion.a
       href={href}
-      target={href.startsWith("http") ? "_blank" : undefined}
-      rel={href.startsWith("http") ? "noreferrer" : undefined}
-      whileHover={{ y: -3 }}
-      transition={{ duration: 0.25 }}
-      className="theme-border theme-surface group flex items-center gap-5 rounded-2xl border p-5 transition-all duration-300 hover:border-[var(--theme-primary)]"
+      target={href.startsWith("mailto:") ? undefined : "_blank"}
+      rel={href.startsWith("mailto:") ? undefined : "noreferrer"}
+      whileHover={{ y: -4 }}
+      className="glass-card group flex items-center gap-4 rounded-2xl p-5 transition-all duration-300"
     >
       <div
-        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border ${
-          accent === "purple"
-            ? "border-purple-500/20 bg-purple-500/10 text-purple-400"
-            : accent === "blue"
-              ? "border-cyan-500/20 bg-cyan-500/10 text-cyan-400"
-              : "border-[var(--theme-primary)] bg-[var(--theme-glow)] theme-primary"
-        }`}
+        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
+        style={{
+          color: "var(--theme-primary)",
+          background:
+            "color-mix(in srgb, var(--theme-primary) 12%, transparent)",
+          border:
+            "1px solid color-mix(in srgb, var(--theme-primary) 28%, transparent)",
+        }}
       >
         {icon}
       </div>
 
       <div className="min-w-0">
-        <p className="theme-subtle text-xs font-medium">
-          {label}
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--theme-text-secondary)] opacity-100">
+          {title}
         </p>
 
-        <p className="theme-text mt-1 truncate text-sm font-semibold transition-colors duration-300 group-hover:text-[var(--theme-primary)]">
+        <p className="theme-text mt-1 truncate text-sm font-medium">
           {value}
         </p>
       </div>
@@ -65,158 +65,214 @@ function ContactCard({ icon, label, value, href, accent = "primary" }) {
 }
 
 function Contact() {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <section
       id="contact"
       className="relative overflow-hidden px-6 py-32 lg:px-10 lg:py-40"
     >
-      {/* Background glow */}
-      <div className="pointer-events-none absolute left-1/2 top-1/3 -z-10 h-96 w-96 -translate-x-1/2 rounded-full bg-[var(--theme-primary)] opacity-10 blur-[130px]" />
-
       <div className="mx-auto max-w-7xl">
+
         {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7 }}
-          className="mb-16 text-center"
+          className="mb-14"
         >
-          <h2 className="theme-text text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-            Let's build something{" "}
-            <span className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent">
-              together.
-            </span>
-          </h2>
+          <div className="theme-primary mb-5 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em]">
+            <span
+              className="h-px w-10"
+              style={{ background: "var(--theme-primary)" }}
+            />
+            05 / Contact
+          </div>
 
-          <p className="theme-muted mx-auto mt-5 max-w-2xl text-sm leading-7 md:text-base">
-            I'm always open to learning, collaborating, and connecting with
-            people who are passionate about technology.
-          </p>
+          <div className="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-end">
+            <h2 className="theme-text text-4xl font-black tracking-tight md:text-5xl lg:text-6xl">
+              Let's build something{" "}
+              <span className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent">
+                together.
+              </span>
+            </h2>
+
+            {/* Fixed: theme-aware supporting text */}
+            <p className="max-w-xl text-sm leading-7 text-[var(--theme-text-secondary)] opacity-100 md:text-base lg:justify-self-end">
+              Have an idea, opportunity or just want to connect? Feel free to
+              reach out.
+            </p>
+          </div>
         </motion.div>
 
-        {/* Main Contact Grid */}
-        <div className="grid gap-6 lg:grid-cols-2">
-          {/* LEFT — Contact Information */}
+        {/* Contact Layout */}
+        <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+
+          {/* Left */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -25 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.7 }}
             className="space-y-4"
           >
             <ContactCard
-              icon={<Mail size={21} />}
-              label="Email"
+              icon={<Mail size={20} />}
+              title="Email"
               value="sparsshsoni15@gmail.com"
               href="mailto:sparsshsoni15@gmail.com"
             />
 
             <ContactCard
-              icon={<GitHubIcon size={21} />}
-              label="GitHub"
-              value="Sparsshsoni15"
+              icon={<GitHubIcon size={20} />}
+              title="GitHub"
+              value="github.com/Sparsshsoni15"
               href="https://github.com/Sparsshsoni15"
-              accent="purple"
             />
 
             <ContactCard
-              icon={<LinkedInIcon size={21} />}
-              label="LinkedIn"
-              value="sparsshsoni15"
+              icon={<LinkedInIcon size={20} />}
+              title="LinkedIn"
+              value="Connect with me"
               href="https://www.linkedin.com/"
-              accent="blue"
             />
+
+            <div className="glass-card rounded-2xl p-6">
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--theme-text-secondary)] opacity-100">
+                Availability
+              </p>
+
+              <div className="mt-3 flex items-center gap-2">
+                <span
+                  className="h-2 w-2 rounded-full"
+                  style={{
+                    background: "var(--theme-primary)",
+                    boxShadow: "0 0 10px var(--theme-primary)",
+                  }}
+                />
+
+                <span className="theme-text text-sm font-semibold">
+                  Open to opportunities
+                </span>
+              </div>
+
+              {/* Fixed: theme-aware supporting text */}
+              <p className="mt-3 text-sm leading-6 text-[var(--theme-text-secondary)] opacity-100">
+                Interested in internships, collaborations, projects and
+                learning opportunities.
+              </p>
+            </div>
           </motion.div>
 
-          {/* RIGHT — Contact Form */}
+          {/* Form */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: 25 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.7 }}
-            className="theme-border theme-surface rounded-3xl border p-6 md:p-8"
+            className="glass-card rounded-3xl p-7 md:p-9"
           >
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="space-y-5"
-            >
-              {/* Name */}
+            <form onSubmit={handleSubmit} className="space-y-5">
+
+              <div className="grid gap-5 md:grid-cols-2">
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="mb-2 block text-xs font-semibold text-[var(--theme-text-secondary)] opacity-100"
+                  >
+                    Name
+                  </label>
+
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder="Your name"
+                    className="theme-input w-full rounded-xl border theme-border px-4 py-3.5 text-sm transition-all duration-300 focus:border-[var(--theme-primary)]"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="mb-2 block text-xs font-semibold text-[var(--theme-text-secondary)] opacity-100"
+                  >
+                    Email
+                  </label>
+
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="you@example.com"
+                    className="theme-input w-full rounded-xl border theme-border px-4 py-3.5 text-sm transition-all duration-300 focus:border-[var(--theme-primary)]"
+                  />
+                </div>
+              </div>
+
               <div>
-                <label className="theme-text mb-2 block text-xs font-semibold">
-                  Name
+                <label
+                  htmlFor="subject"
+                  className="mb-2 block text-xs font-semibold text-[var(--theme-text-secondary)] opacity-100"
+                >
+                  Subject
                 </label>
 
                 <input
+                  id="subject"
+                  name="subject"
                   type="text"
-                  placeholder="Your name"
-                  className="theme-border theme-input w-full rounded-xl border px-4 py-3 text-sm outline-none transition-all duration-300 placeholder:text-zinc-500 focus:border-[var(--theme-primary)] focus:ring-1 focus:ring-[var(--theme-primary)]"
+                  placeholder="What would you like to discuss?"
+                  className="theme-input w-full rounded-xl border theme-border px-4 py-3.5 text-sm transition-all duration-300 focus:border-[var(--theme-primary)]"
                 />
               </div>
 
-              {/* Email */}
               <div>
-                <label className="theme-text mb-2 block text-xs font-semibold">
-                  Email
-                </label>
-
-                <input
-                  type="email"
-                  placeholder="you@example.com"
-                  className="theme-border theme-input w-full rounded-xl border px-4 py-3 text-sm outline-none transition-all duration-300 placeholder:text-zinc-500 focus:border-[var(--theme-primary)] focus:ring-1 focus:ring-[var(--theme-primary)]"
-                />
-              </div>
-
-              {/* Message */}
-              <div>
-                <label className="theme-text mb-2 block text-xs font-semibold">
+                <label
+                  htmlFor="message"
+                  className="mb-2 block text-xs font-semibold text-[var(--theme-text-secondary)] opacity-100"
+                >
                   Message
                 </label>
 
                 <textarea
-                  rows="4"
-                  placeholder="Tell me about your idea or just say hi..."
-                  className="theme-border theme-input w-full resize-none rounded-xl border px-4 py-3 text-sm outline-none transition-all duration-300 placeholder:text-zinc-500 focus:border-[var(--theme-primary)] focus:ring-1 focus:ring-[var(--theme-primary)]"
+                  id="message"
+                  name="message"
+                  rows="6"
+                  placeholder="Tell me a little about your idea..."
+                  className="theme-input w-full resize-none rounded-xl border theme-border px-4 py-3.5 text-sm leading-6 transition-all duration-300 focus:border-[var(--theme-primary)]"
                 />
               </div>
 
-              {/* Submit */}
               <button
                 type="submit"
-                className="group flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-1"
+                className="group inline-flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110"
                 style={{
                   background:
-                    "linear-gradient(90deg, var(--theme-primary), var(--theme-secondary))",
+                    "linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))",
                   boxShadow: "0 0 30px var(--theme-glow)",
                 }}
               >
-                <Send
-                  size={17}
-                  className="transition-transform duration-300 group-hover:-rotate-12"
-                />
-
                 Send Message
+
+                <Send
+                  size={16}
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                />
               </button>
+
+              {/* Fixed: theme-aware supporting text */}
+              <p className="text-center text-[11px] text-[var(--theme-text-secondary)] opacity-100">
+                This form is currently UI-only. A backend/email service can be
+                connected later.
+              </p>
+
             </form>
           </motion.div>
         </div>
-
-        {/* Bottom statement */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mt-20 text-center"
-        >
-          <p className="theme-subtle font-mono text-[10px] uppercase tracking-[0.25em]">
-            Open to opportunities
-          </p>
-
-          <p className="theme-muted mt-3 text-sm">
-            Let's turn ideas into something real.
-          </p>
-        </motion.div>
       </div>
     </section>
   );

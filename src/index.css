@@ -1,27 +1,18 @@
 @import "tailwindcss";
 
-/* =========================================
-   BASE
-========================================= */
+/* =========================================================
+   DEFAULT / DARK THEME
+   ========================================================= */
 
 :root {
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  /* Default theme */
   --theme-primary: #8b5cf6;
   --theme-secondary: #3b82f6;
 
   --theme-bg: #030305;
   --theme-bg-secondary: #08080d;
 
-  --theme-surface: rgba(255, 255, 255, 0.035);
-  --theme-surface-hover: rgba(255, 255, 255, 0.07);
+  --theme-surface: #0d0d13;
+  --theme-surface-hover: #15151e;
 
   --theme-text: #ffffff;
   --theme-text-secondary: #d4d4d8;
@@ -31,17 +22,174 @@
   --theme-border: rgba(255, 255, 255, 0.1);
   --theme-border-strong: rgba(255, 255, 255, 0.18);
 
-  --theme-glow: rgba(139, 92, 246, 0.12);
-
+  --theme-glow: rgba(139, 92, 246, 0.16);
   --theme-selection: rgba(139, 92, 246, 0.3);
 
-  --theme-scrollbar: #302050;
-  --theme-scrollbar-hover: #7c3aed;
+  --theme-scrollbar-track: #0a0a0f;
+  --theme-scrollbar-thumb: #4c1d95;
+
+  --theme-card-bg: #0b0b11;
+  --theme-input-bg: #0d0d13;
+
+  --theme-switcher-bg: #0d0d13;
+  --theme-dropdown-bg: #0b0b11;
+  --theme-active-text: #ffffff;
 }
 
-* {
-  box-sizing: border-box;
+
+/* =========================================================
+   RETRO THEME
+   ========================================================= */
+
+[data-theme="retro"] {
+  --theme-primary: #f59e0b;
+  --theme-secondary: #ef4444;
+
+  --theme-bg: #100a05;
+  --theme-bg-secondary: #1a0f07;
+
+  --theme-surface: #21150c;
+  --theme-surface-hover: #2b1b0f;
+
+  --theme-text: #fff7ed;
+  --theme-text-secondary: #fed7aa;
+  --theme-text-muted: #fdba74;
+  --theme-text-subtle: #c08457;
+
+  --theme-border: rgba(245, 158, 11, 0.16);
+  --theme-border-strong: rgba(245, 158, 11, 0.3);
+
+  --theme-glow: rgba(245, 158, 11, 0.16);
+  --theme-selection: rgba(245, 158, 11, 0.25);
+
+  --theme-scrollbar-track: #120b06;
+  --theme-scrollbar-thumb: #92400e;
+
+  --theme-card-bg: #1b1109;
+  --theme-input-bg: #21150c;
+
+  --theme-switcher-bg: #1b1109;
+  --theme-dropdown-bg: #1b1109;
+  --theme-active-text: #ffffff;
 }
+
+
+/* =========================================================
+   CYBERPUNK THEME
+   ========================================================= */
+
+[data-theme="cyberpunk"] {
+  --theme-primary: #22d3ee;
+  --theme-secondary: #f0abfc;
+
+  --theme-bg: #020711;
+  --theme-bg-secondary: #061321;
+
+  --theme-surface: #081a29;
+  --theme-surface-hover: #0d2638;
+
+  --theme-text: #ecfeff;
+  --theme-text-secondary: #cffafe;
+  --theme-text-muted: #67e8f9;
+  --theme-text-subtle: #38bdf8;
+
+  --theme-border: rgba(34, 211, 238, 0.16);
+  --theme-border-strong: rgba(34, 211, 238, 0.35);
+
+  --theme-glow: rgba(34, 211, 238, 0.18);
+  --theme-selection: rgba(34, 211, 238, 0.25);
+
+  --theme-scrollbar-track: #03101b;
+  --theme-scrollbar-thumb: #155e75;
+
+  --theme-card-bg: #071724;
+  --theme-input-bg: #081a29;
+
+  --theme-switcher-bg: #071724;
+  --theme-dropdown-bg: #071724;
+  --theme-active-text: #ffffff;
+}
+
+
+/* =========================================================
+   VALENTINE THEME
+   ========================================================= */
+
+[data-theme="valentine"] {
+  --theme-primary: #e11d48;
+  --theme-secondary: #db2777;
+
+  --theme-bg: #fff1f6;
+  --theme-bg-secondary: #fce7f3;
+
+  --theme-surface: #fff7fa;
+  --theme-surface-hover: #ffe4ec;
+
+  /* Dark readable text for light background */
+  --theme-text: #4c0519;
+  --theme-text-secondary: #881337;
+  --theme-text-muted: #9f1239;
+  --theme-text-subtle: #be123c;
+
+  --theme-border: rgba(190, 24, 93, 0.18);
+  --theme-border-strong: rgba(190, 24, 93, 0.32);
+
+  --theme-glow: rgba(225, 29, 72, 0.12);
+  --theme-selection: rgba(225, 29, 72, 0.18);
+
+  --theme-scrollbar-track: #fff1f6;
+  --theme-scrollbar-thumb: #fb7185;
+
+  --theme-card-bg: rgba(255, 247, 250, 0.82);
+  --theme-input-bg: #fff7fa;
+
+  --theme-switcher-bg: #fff7fa;
+  --theme-dropdown-bg: #fff7fa;
+  --theme-active-text: #ffffff;
+}
+
+
+/* =========================================================
+   AQUA THEME
+   ========================================================= */
+
+[data-theme="aqua"] {
+  --theme-primary: #0891b2;
+  --theme-secondary: #0d9488;
+
+  --theme-bg: #effcff;
+  --theme-bg-secondary: #e0f7fa;
+
+  --theme-surface: #f5feff;
+  --theme-surface-hover: #dff6f9;
+
+  /* Dark readable text for light background */
+  --theme-text: #083344;
+  --theme-text-secondary: #155e75;
+  --theme-text-muted: #0e7490;
+  --theme-text-subtle: #0f766e;
+
+  --theme-border: rgba(8, 145, 178, 0.18);
+  --theme-border-strong: rgba(8, 145, 178, 0.32);
+
+  --theme-glow: rgba(8, 145, 178, 0.12);
+  --theme-selection: rgba(8, 145, 178, 0.18);
+
+  --theme-scrollbar-track: #effcff;
+  --theme-scrollbar-thumb: #0891b2;
+
+  --theme-card-bg: rgba(245, 254, 255, 0.84);
+  --theme-input-bg: #f5feff;
+
+  --theme-switcher-bg: #f5feff;
+  --theme-dropdown-bg: #f5feff;
+  --theme-active-text: #ffffff;
+}
+
+
+/* =========================================================
+   BASE
+   ========================================================= */
 
 html {
   scroll-behavior: smooth;
@@ -52,16 +200,40 @@ html {
 body {
   margin: 0;
   min-width: 320px;
+  min-height: 100vh;
+
   background: var(--theme-bg);
   color: var(--theme-text);
 
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  overflow-x: hidden;
+
   transition:
     background-color 400ms ease,
-    color 400ms ease;
+    color 300ms ease;
 }
 
+
+/* =========================================================
+   GLOBAL ELEMENTS
+   ========================================================= */
+
 button,
-a {
+a,
+input,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
   font: inherit;
 }
 
@@ -70,189 +242,42 @@ a {
   text-decoration: none;
 }
 
-/* =========================================
-   SELECTION
-========================================= */
+
+/* =========================================================
+   TEXT SELECTION
+   ========================================================= */
 
 ::selection {
   background: var(--theme-selection);
   color: var(--theme-text);
 }
 
-/* =========================================
+
+/* =========================================================
    SCROLLBAR
-========================================= */
+   ========================================================= */
 
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--theme-bg);
+  background: var(--theme-scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--theme-scrollbar);
+  background: var(--theme-scrollbar-thumb);
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--theme-scrollbar-hover);
+  background: var(--theme-primary);
 }
 
-/* =========================================
-   DEFAULT THEME
-========================================= */
 
-html[data-theme="default"] {
-  --theme-primary: #8b5cf6;
-  --theme-secondary: #3b82f6;
-
-  --theme-bg: #030305;
-  --theme-bg-secondary: #08080d;
-
-  --theme-surface: rgba(255, 255, 255, 0.035);
-  --theme-surface-hover: rgba(255, 255, 255, 0.07);
-
-  --theme-text: #ffffff;
-  --theme-text-secondary: #d4d4d8;
-  --theme-text-muted: #a1a1aa;
-  --theme-text-subtle: #71717a;
-
-  --theme-border: rgba(255, 255, 255, 0.1);
-  --theme-border-strong: rgba(255, 255, 255, 0.18);
-
-  --theme-glow: rgba(139, 92, 246, 0.12);
-
-  --theme-selection: rgba(139, 92, 246, 0.3);
-
-  --theme-scrollbar: #302050;
-  --theme-scrollbar-hover: #7c3aed;
-}
-
-/* =========================================
-   RETRO THEME
-========================================= */
-
-html[data-theme="retro"] {
-  --theme-primary: #f59e0b;
-  --theme-secondary: #ef4444;
-
-  --theme-bg: #17120a;
-  --theme-bg-secondary: #21180d;
-
-  --theme-surface: rgba(255, 247, 237, 0.055);
-  --theme-surface-hover: rgba(255, 247, 237, 0.1);
-
-  --theme-text: #fff7ed;
-  --theme-text-secondary: #fed7aa;
-  --theme-text-muted: #fdba74;
-  --theme-text-subtle: #d97706;
-
-  --theme-border: rgba(255, 247, 237, 0.13);
-  --theme-border-strong: rgba(255, 247, 237, 0.22);
-
-  --theme-glow: rgba(245, 158, 11, 0.13);
-
-  --theme-selection: rgba(245, 158, 11, 0.3);
-
-  --theme-scrollbar: #78350f;
-  --theme-scrollbar-hover: #f59e0b;
-}
-
-/* =========================================
-   CYBERPUNK THEME
-========================================= */
-
-html[data-theme="cyberpunk"] {
-  --theme-primary: #ff00ff;
-  --theme-secondary: #00ffff;
-
-  --theme-bg: #05000b;
-  --theme-bg-secondary: #0b0014;
-
-  --theme-surface: rgba(255, 255, 255, 0.04);
-  --theme-surface-hover: rgba(255, 0, 255, 0.08);
-
-  --theme-text: #ffffff;
-  --theme-text-secondary: #f0d9ff;
-  --theme-text-muted: #d8a8ff;
-  --theme-text-subtle: #b96cff;
-
-  --theme-border: rgba(255, 0, 255, 0.16);
-  --theme-border-strong: rgba(0, 255, 255, 0.25);
-
-  --theme-glow: rgba(255, 0, 255, 0.14);
-
-  --theme-selection: rgba(255, 0, 255, 0.3);
-
-  --theme-scrollbar: #5b136e;
-  --theme-scrollbar-hover: #ff00ff;
-}
-
-/* =========================================
-   VALENTINE - BABY PINK LIGHT THEME
-========================================= */
-
-html[data-theme="valentine"] {
-  --theme-primary: #ec4899;
-  --theme-secondary: #f472b6;
-
-  --theme-bg: #fff5fa;
-  --theme-bg-secondary: #ffeaf4;
-
-  --theme-surface: rgba(255, 255, 255, 0.78);
-  --theme-surface-hover: rgba(236, 72, 153, 0.1);
-
-  --theme-text: #3b1028;
-  --theme-text-secondary: #5f2142;
-  --theme-text-muted: #8f4568;
-  --theme-text-subtle: #b76b8e;
-
-  --theme-border: rgba(157, 23, 77, 0.14);
-  --theme-border-strong: rgba(157, 23, 77, 0.24);
-
-  --theme-glow: rgba(244, 114, 182, 0.18);
-
-  --theme-selection: rgba(236, 72, 153, 0.2);
-
-  --theme-scrollbar: #f9a8d4;
-  --theme-scrollbar-hover: #ec4899;
-}
-
-/* =========================================
-   AQUA - LIGHT THEME
-========================================= */
-
-html[data-theme="aqua"] {
-  --theme-primary: #0891b2;
-  --theme-secondary: #2563eb;
-
-  --theme-bg: #f0fdff;
-  --theme-bg-secondary: #e0f7fa;
-
-  --theme-surface: rgba(255, 255, 255, 0.78);
-  --theme-surface-hover: rgba(8, 145, 178, 0.1);
-
-  --theme-text: #082f49;
-  --theme-text-secondary: #164e63;
-  --theme-text-muted: #155e75;
-  --theme-text-subtle: #3f7184;
-
-  --theme-border: rgba(8, 47, 73, 0.14);
-  --theme-border-strong: rgba(8, 47, 73, 0.24);
-
-  --theme-glow: rgba(8, 145, 178, 0.14);
-
-  --theme-selection: rgba(8, 145, 178, 0.2);
-
-  --theme-scrollbar: #67e8f9;
-  --theme-scrollbar-hover: #0891b2;
-}
-
-/* =========================================
+/* =========================================================
    THEME UTILITY CLASSES
-========================================= */
+   ========================================================= */
 
 .theme-text {
   color: var(--theme-text);
@@ -283,590 +308,263 @@ html[data-theme="aqua"] {
 }
 
 .theme-surface {
-  background-color: var(--theme-surface);
+  background: var(--theme-surface);
 }
 
 .theme-surface-hover:hover {
-  background-color: var(--theme-surface-hover);
+  background: var(--theme-surface-hover);
 }
 
 .theme-bg {
-  background-color: var(--theme-bg);
+  background: var(--theme-bg);
 }
 
-/* =========================================
-   THEME-AWARE PORTFOLIO BACKGROUND
-========================================= */
 
-.portfolio-background {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
+/* =========================================================
+   GLASS CARD
+   ========================================================= */
+
+.glass-card {
+  background: var(--theme-card-bg);
+
+  border: 1px solid var(--theme-border);
+
+  box-shadow:
+    0 10px 35px rgba(0, 0, 0, 0.18),
+    0 0 25px var(--theme-glow);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  transition:
+    background 300ms ease,
+    border-color 300ms ease,
+    box-shadow 300ms ease;
+}
+
+.glass-card:hover {
+  background: var(--theme-surface-hover);
+
+  border-color: var(--theme-border-strong);
+
+  box-shadow:
+    0 15px 45px rgba(0, 0, 0, 0.25),
+    0 0 35px var(--theme-glow);
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.theme-input {
+  width: 100%;
+
+  background: var(--theme-input-bg);
+  color: var(--theme-text);
+
+  border: 1px solid var(--theme-border);
+  outline: none;
+
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    background 200ms ease;
+}
+
+.theme-input::placeholder {
+  color: var(--theme-text-subtle);
+}
+
+.theme-input:focus {
+  border-color: var(--theme-primary);
+
+  box-shadow:
+    0 0 0 3px var(--theme-glow);
+}
+
+
+/* =========================================================
+   THEME SWITCHER
+   ========================================================= */
+
+[data-theme] .theme-switcher {
+  color: var(--theme-text);
+}
+
+
+/* =========================================================
+   ABOUT PHOTO CARD
+   ========================================================= */
+
+.about-photo-card {
+  position: relative;
+
+  border-radius: 1rem;
+
+  transform: scale(1) !important;
+
+  transition:
+    transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-photo-card figure {
   overflow: hidden;
-  pointer-events: none;
-
-  background:
-    radial-gradient(
-      ellipse at 50% 35%,
-      var(--theme-glow),
-      transparent 55%
-    ),
-    var(--theme-bg);
-
-  --mouse-x: 0;
-  --mouse-y: 0;
-
-  transition: background 400ms ease;
-}
-
-/* =========================================
-   FUTURISTIC ANIMATED BACKGROUND
-========================================= */
-
-@keyframes purpleGlow {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-
-  50% {
-    transform: translate(120px, 60px) scale(1.2);
-  }
-
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-}
-
-@keyframes blueGlow {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-
-  50% {
-    transform: translate(-100px, -70px) scale(1.15);
-  }
-
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-}
-
-@keyframes centerGlow {
-  0% {
-    transform: scale(1);
-    opacity: 0.5;
-  }
-
-  50% {
-    transform: scale(1.35);
-    opacity: 1;
-  }
-
-  100% {
-    transform: scale(1);
-    opacity: 0.5;
-  }
-}
-
-@keyframes particles {
-  0% {
-    transform: translate(0, 0);
-  }
-
-  50% {
-    transform: translate(-50px, -70px);
-  }
-
-  100% {
-    transform: translate(0, 0);
-  }
-}
-
-.glow-purple {
-  animation: purpleGlow 14s ease-in-out infinite;
-}
-
-.glow-blue {
-  animation: blueGlow 17s ease-in-out infinite;
-}
-
-.glow-center {
-  animation: centerGlow 9s ease-in-out infinite;
-}
-
-.background-particles {
-  background-image:
-    radial-gradient(
-      circle,
-      color-mix(in srgb, var(--theme-primary) 70%, transparent) 1px,
-      transparent 1px
-    ),
-    radial-gradient(
-      circle,
-      color-mix(in srgb, var(--theme-secondary) 60%, transparent) 1px,
-      transparent 1px
-    );
-
-  background-size:
-    120px 120px,
-    180px 180px;
-
-  background-position:
-    20px 30px,
-    80px 100px;
-
-  animation: particles 25s linear infinite;
-}
-
-/* =========================================
-   AMBIENT GLOWS
-========================================= */
-
-.ambient-glow {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
-  pointer-events: none;
-  will-change: transform;
-}
-
-.glow-one {
-  width: 550px;
-  height: 550px;
-  left: -180px;
-  top: 5%;
-
-  background: color-mix(
-    in srgb,
-    var(--theme-primary) 15%,
-    transparent
-  );
-
-  transform: translate(
-    calc(var(--mouse-x) * 20px),
-    calc(var(--mouse-y) * 15px)
-  );
-
-  animation: glowFloatOne 12s ease-in-out infinite alternate;
-}
-
-.glow-two {
-  width: 650px;
-  height: 650px;
-  right: -250px;
-  top: 15%;
-
-  background: color-mix(
-    in srgb,
-    var(--theme-secondary) 12%,
-    transparent
-  );
-
-  transform: translate(
-    calc(var(--mouse-x) * -25px),
-    calc(var(--mouse-y) * -15px)
-  );
-
-  animation: glowFloatTwo 15s ease-in-out infinite alternate;
-}
-
-.glow-three {
-  width: 700px;
-  height: 500px;
-  left: 35%;
-  bottom: -300px;
-
-  background: color-mix(
-    in srgb,
-    var(--theme-primary) 10%,
-    transparent
-  );
-
-  filter: blur(120px);
-
-  animation: glowFloatThree 14s ease-in-out infinite alternate;
-}
-
-/* =========================================
-   WAVES
-========================================= */
-
-.wave {
-  position: absolute;
-  width: 150%;
-  height: 260px;
-  left: -25%;
-
-  border-radius: 50%;
-  opacity: 0.65;
-  filter: blur(1px);
-
-  will-change: transform;
-
-  transform:
-    translate3d(
-      calc(var(--mouse-x) * 8px),
-      calc(var(--mouse-y) * 5px),
-      0
-    );
-}
-
-.wave-one {
-  top: 20%;
-
-  border-top: 1px solid
-    color-mix(
-      in srgb,
-      var(--theme-primary) 25%,
-      transparent
-    );
-
-  background:
-    radial-gradient(
-      ellipse at center,
-      color-mix(
-        in srgb,
-        var(--theme-primary) 12%,
-        transparent
-      ),
-      transparent 65%
-    );
 
   box-shadow:
-    0 -30px 80px
-      color-mix(
-        in srgb,
-        var(--theme-primary) 8%,
-        transparent
-      ),
-    0 30px 100px
-      color-mix(
-        in srgb,
-        var(--theme-secondary) 6%,
-        transparent
-      );
+    0 15px 35px rgba(0, 0, 0, 0.2);
 
-  animation: waveOne 18s ease-in-out infinite alternate;
+  transition:
+    box-shadow 450ms ease,
+    border-color 450ms ease;
 }
 
-.wave-two {
-  top: 52%;
-  height: 300px;
+.about-photo-card img {
+  transform: none !important;
 
-  border-top: 1px solid
-    color-mix(
-      in srgb,
-      var(--theme-secondary) 22%,
-      transparent
-    );
+  transition: none !important;
+}
 
-  background:
-    radial-gradient(
-      ellipse at center,
-      color-mix(
-        in srgb,
-        var(--theme-secondary) 10%,
-        transparent
-      ),
-      transparent 68%
-    );
+.about-photo-card:hover {
+  transform: scale(0.94) !important;
+}
 
+.about-photo-card:hover figure {
   box-shadow:
-    0 -35px 100px
-      color-mix(
-        in srgb,
-        var(--theme-secondary) 7%,
-        transparent
-      ),
-    0 35px 100px
-      color-mix(
-        in srgb,
-        var(--theme-primary) 7%,
-        transparent
-      );
+    0 30px 60px rgba(0, 0, 0, 0.4);
 
-  animation: waveTwo 22s ease-in-out infinite alternate;
+  border-color: var(--theme-border-strong);
 }
 
-.wave-three {
-  bottom: -2%;
-  height: 270px;
 
-  border-top: 1px solid
-    color-mix(
-      in srgb,
-      var(--theme-primary) 25%,
-      transparent
-    );
-
-  background:
-    radial-gradient(
-      ellipse at center,
-      color-mix(
-        in srgb,
-        var(--theme-primary) 12%,
-        transparent
-      ),
-      transparent 67%
-    );
-
-  box-shadow:
-    0 -40px 120px
-      color-mix(
-        in srgb,
-        var(--theme-primary) 10%,
-        transparent
-      );
-
-  animation: waveThree 20s ease-in-out infinite alternate;
-}
-
-/* =========================================
-   STARS / PARTICLES
-========================================= */
-
-.stars {
-  position: absolute;
-  inset: 0;
-}
-
-.star {
-  position: absolute;
-  border-radius: 50%;
-
-  background: color-mix(
-    in srgb,
-    var(--theme-primary) 80%,
-    var(--theme-secondary)
-  );
-
-  box-shadow:
-    0 0 5px
-      color-mix(
-        in srgb,
-        var(--theme-primary) 80%,
-        transparent
-      ),
-    0 0 12px
-      color-mix(
-        in srgb,
-        var(--theme-secondary) 35%,
-        transparent
-      );
-
-  animation: starPulse ease-in-out infinite;
-}
-
-/* =========================================
-   VIGNETTE
-========================================= */
-
-.background-vignette {
-  position: absolute;
-  inset: 0;
-
-  background:
-    radial-gradient(
-      ellipse at center,
-      transparent 35%,
-      color-mix(
-        in srgb,
-        var(--theme-bg) 25%,
-        transparent
-      ) 75%,
-      color-mix(
-        in srgb,
-        var(--theme-bg) 65%,
-        transparent
-      ) 100%
-    );
-}
-
-/* =========================================
-   ANIMATIONS
-========================================= */
-
-@keyframes waveOne {
-  0% {
-    transform:
-      translate3d(
-        calc(var(--mouse-x) * 8px - 3%),
-        calc(var(--mouse-y) * 5px),
-        0
-      )
-      rotate(-2deg)
-      scaleY(0.9);
-  }
-
-  50% {
-    transform:
-      translate3d(
-        calc(var(--mouse-x) * 8px + 4%),
-        calc(var(--mouse-y) * 5px + 15px),
-        0
-      )
-      rotate(2deg)
-      scaleY(1.15);
-  }
-
-  100% {
-    transform:
-      translate3d(
-        calc(var(--mouse-x) * 8px - 2%),
-        calc(var(--mouse-y) * 5px - 10px),
-        0
-      )
-      rotate(-1deg)
-      scaleY(0.95);
-  }
-}
-
-@keyframes waveTwo {
-  0% {
-    transform:
-      translate3d(
-        calc(var(--mouse-x) * -8px + 3%),
-        calc(var(--mouse-y) * -5px),
-        0
-      )
-      rotate(2deg)
-      scaleY(0.95);
-  }
-
-  50% {
-    transform:
-      translate3d(
-        calc(var(--mouse-x) * -8px - 4%),
-        calc(var(--mouse-y) * -5px - 20px),
-        0
-      )
-      rotate(-2deg)
-      scaleY(1.12);
-  }
-
-  100% {
-    transform:
-      translate3d(
-        calc(var(--mouse-x) * -8px + 2%),
-        calc(var(--mouse-y) * -5px + 10px),
-        0
-      )
-      rotate(1deg)
-      scaleY(0.9);
-  }
-}
-
-@keyframes waveThree {
-  0% {
-    transform:
-      translate3d(-3%, 0, 0)
-      rotate(-2deg)
-      scaleY(0.9);
-  }
-
-  50% {
-    transform:
-      translate3d(4%, -15px, 0)
-      rotate(2deg)
-      scaleY(1.15);
-  }
-
-  100% {
-    transform:
-      translate3d(-2%, 10px, 0)
-      rotate(-1deg)
-      scaleY(0.95);
-  }
-}
-
-@keyframes glowFloatOne {
-  from {
-    transform:
-      translate(
-        calc(var(--mouse-x) * 20px - 20px),
-        calc(var(--mouse-y) * 15px)
-      );
-  }
-
-  to {
-    transform:
-      translate(
-        calc(var(--mouse-x) * 20px + 70px),
-        calc(var(--mouse-y) * 15px + 40px)
-      );
-  }
-}
-
-@keyframes glowFloatTwo {
-  from {
-    transform:
-      translate(
-        calc(var(--mouse-x) * -25px),
-        calc(var(--mouse-y) * -15px)
-      );
-  }
-
-  to {
-    transform:
-      translate(
-        calc(var(--mouse-x) * -25px - 60px),
-        calc(var(--mouse-y) * -15px + 50px)
-      );
-  }
-}
-
-@keyframes glowFloatThree {
-  from {
-    transform: translateX(-30px);
-  }
-
-  to {
-    transform: translateX(80px);
-  }
-}
-
-@keyframes starPulse {
-  0%,
-  100% {
-    opacity: 0.2;
-    transform: scale(0.7);
-  }
-
-  50% {
-    opacity: 0.9;
-    transform: scale(1.4);
-  }
-}
-
-/* =========================================
-   PERFORMANCE
-========================================= */
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-  .wave,
-  .ambient-glow,
-  .star {
-    animation: none;
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .about-photo-card {
+    transform: none !important;
+  }
+
+  .about-photo-card:hover {
+    transform: none !important;
+  }
+
+  .about-photo-card img {
+    transform: none !important;
   }
 }
 
-@media (max-width: 768px) {
-  .wave {
-    width: 220%;
-    left: -60%;
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 767px) {
+  .glass-card {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
-  .ambient-glow {
-    filter: blur(80px);
+  .about-photo-card:hover {
+    transform: scale(0.97) !important;
   }
+}
+/* =========================================================
+   LIGHT THEME TEXT OVERRIDE
+   Valentine + Aqua ONLY
+   ========================================================= */
 
-  .star {
-    box-shadow:
-      0 0 6px
-        color-mix(
-          in srgb,
-          var(--theme-primary) 40%,
-          transparent
-        );
-  }
+/* -------------------------
+   VALENTINE
+------------------------- */
+
+[data-theme="valentine"] {
+  --light-heading: #4c0519;
+  --light-body: #881337;
+  --light-muted: #9f1239;
+}
+
+
+/* Main readable text */
+[data-theme="valentine"] main p {
+  color: var(--light-body) !important;
+  opacity: 1 !important;
+}
+
+
+/* Small supporting text */
+[data-theme="valentine"] main small {
+  color: var(--light-body) !important;
+  opacity: 1 !important;
+}
+
+
+/* Lists */
+[data-theme="valentine"] main li {
+  color: var(--light-body) !important;
+  opacity: 1 !important;
+}
+
+
+/* Headings remain darker */
+[data-theme="valentine"] main h1,
+[data-theme="valentine"] main h2,
+[data-theme="valentine"] main h3,
+[data-theme="valentine"] main h4 {
+  color: var(--light-heading);
+  opacity: 1 !important;
+}
+
+
+/* -------------------------
+   AQUA
+------------------------- */
+
+[data-theme="aqua"] {
+  --light-heading: #083344;
+  --light-body: #155e75;
+  --light-muted: #0e7490;
+}
+
+
+/* Main readable text */
+[data-theme="aqua"] main p {
+  color: var(--light-body) !important;
+  opacity: 1 !important;
+}
+
+
+/* Small supporting text */
+[data-theme="aqua"] main small {
+  color: var(--light-body) !important;
+  opacity: 1 !important;
+}
+
+
+/* Lists */
+[data-theme="aqua"] main li {
+  color: var(--light-body) !important;
+  opacity: 1 !important;
+}
+
+
+/* Headings remain darker */
+[data-theme="aqua"] main h1,
+[data-theme="aqua"] main h2,
+[data-theme="aqua"] main h3,
+[data-theme="aqua"] main h4 {
+  color: var(--light-heading);
+  opacity: 1 !important;
 }
