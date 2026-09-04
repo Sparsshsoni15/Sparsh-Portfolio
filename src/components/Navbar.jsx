@@ -7,6 +7,10 @@ const links = [
   { label: "Skills", href: "#skills" },
   { label: "Work", href: "#work" },
   { label: "Achievements", href: "#achievements" },
+  { label: "Experience", href: "#experience" },
+  { label: "Hackathons", href: "#hackathons" },
+  { label: "Contributions", href: "#contributions" },
+  { label: "Exploring", href: "#exploring" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -66,29 +70,32 @@ function Navbar() {
 
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-1 md:flex">
-
-          {links.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="
-                theme-muted
-                rounded-full
-                border
-                border-transparent
-                px-3.5
-                py-2
-                text-sm
-                transition-all
-                duration-300
-                hover:border-[color-mix(in_srgb,var(--theme-primary)_15%,transparent)]
-                hover:bg-[var(--theme-glow)]
-                hover:text-[var(--theme-primary)]
-              "
-            >
-              {link.label}
-            </a>
-          ))}
+          <div className="flex items-center gap-0.5">
+            {links.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="
+                  theme-muted
+                  rounded-full
+                  border
+                  border-transparent
+                  px-2.5
+                  py-2
+                  text-xs
+                  transition-all
+                  duration-300
+                  hover:border-[color-mix(in_srgb,var(--theme-primary)_15%,transparent)]
+                  hover:bg-[var(--theme-glow)]
+                  hover:text-[var(--theme-primary)]
+                  lg:px-3
+                  lg:text-sm
+                "
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
 
           {/* GitHub */}
           <a
@@ -100,6 +107,7 @@ function Navbar() {
               theme-border
               ml-2
               flex
+              shrink-0
               items-center
               gap-2
               rounded-full
@@ -168,7 +176,6 @@ function Navbar() {
           "
         >
           <div className="flex flex-col gap-2">
-
             {links.map((link) => (
               <a
                 key={link.label}
@@ -227,7 +234,6 @@ function Navbar() {
             <div className="pt-2">
               <ThemeSwitcher />
             </div>
-
           </div>
         </div>
       )}

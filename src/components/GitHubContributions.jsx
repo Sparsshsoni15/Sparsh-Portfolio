@@ -683,10 +683,11 @@ function GitHubContributions() {
                                   amount: 0.5,
                                 }}
                                 transition={{
-                                  duration: 0.15,
+                                  duration: 0.42,
                                   delay:
                                     weekIndex *
-                                    0.008,
+                                    0.025,
+                                    ease: "easeOut",
                                 }}
                                 title={`${formatDate(
                                   day.date
