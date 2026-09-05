@@ -9,9 +9,10 @@ const projects = [
     description:
       "A redesigned coding challenge platform with a modern student dashboard, challenge interface and engaging learning experience.",
     tech: ["React", "Tailwind CSS", "Vite"],
-    demo: "#",
-    github: "#",
+    demo: "https://ab-talks-2-0-chi.vercel.app/",
+    github: "https://github.com/Sparsshsoni15/ABTalks-2.0.git",
   },
+
   {
     number: "02",
     title: "Amazon Clone",
@@ -20,27 +21,18 @@ const projects = [
       "A responsive e-commerce interface inspired by Amazon, built to practice modern frontend development, layouts and reusable components.",
     tech: ["HTML", "CSS", "JavaScript"],
     demo: "#",
-    github: "#",
+    github: "https://github.com/Sparsshsoni15/Amazon.git",
   },
+
   {
     number: "03",
-    title: "Spotify Clone",
-    category: "Web Development",
-    description:
-      "A music streaming interface inspired by Spotify, focused on responsive design, interactive UI and modern frontend techniques.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    demo: "#",
-    github: "#",
-  },
-  {
-    number: "04",
     title: "Tourist Guide Website",
     category: "Web Project",
     description:
       "A tourism-focused website designed to help users explore destinations through a clean and visually engaging interface.",
     tech: ["HTML", "CSS", "JavaScript"],
     demo: "#",
-    github: "#",
+    github: "https://github.com/Sparsshsoni15/Tourist-Guide.git",
   },
 ];
 
