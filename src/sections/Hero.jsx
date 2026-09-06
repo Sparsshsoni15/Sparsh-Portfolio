@@ -148,9 +148,10 @@ function Hero() {
             }}
             className="
               max-w-[680px]
+              pb-1
               text-[3.5rem]
               font-black
-              leading-[0.93]
+              leading-[1.02]
               tracking-[-0.055em]
               sm:text-6xl
               md:text-7xl
@@ -177,6 +178,7 @@ function Hero() {
                 to-[var(--theme-secondary)]
                 bg-[length:200%_auto]
                 bg-clip-text
+                pb-1
                 text-transparent
               "
               style={{
