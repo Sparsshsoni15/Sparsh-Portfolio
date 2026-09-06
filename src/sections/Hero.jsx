@@ -151,7 +151,7 @@ function Hero() {
               pb-1
               text-[3.5rem]
               font-black
-              leading-[1.02]
+              leading-[1.08]
               tracking-[-0.055em]
               sm:text-6xl
               md:text-7xl
@@ -178,7 +178,7 @@ function Hero() {
                 to-[var(--theme-secondary)]
                 bg-[length:200%_auto]
                 bg-clip-text
-                pb-1
+                pb-2
                 text-transparent
               "
               style={{
