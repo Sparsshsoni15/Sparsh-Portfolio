@@ -1,16 +1,25 @@
-import { Code2, GitBranch, Terminal } from "lucide-react";
+import {
+  BrainCircuit,
+  Code2,
+  GitBranch,
+  Globe2,
+  Server,
+  Terminal,
+} from "lucide-react";
+
 import { motion } from "motion/react";
 
 const skillGroups = [
   {
-    title: "Frontend",
-    icon: Code2,
+    title: "Frontend Development",
+    icon: Globe2,
     skills: [
       { name: "HTML", level: 90 },
       { name: "CSS", level: 85 },
       { name: "JavaScript", level: 78 },
       { name: "React", level: 72 },
       { name: "Tailwind CSS", level: 80 },
+      { name: "Bootstrap", level: 75 },
     ],
   },
   {
@@ -18,18 +27,39 @@ const skillGroups = [
     icon: Terminal,
     skills: [
       { name: "C++", level: 75 },
-      { name: "JavaScript", level: 78 },
       { name: "Git", level: 82 },
       { name: "GitHub", level: 85 },
+      { name: "Data Structures & Algorithms", level: 65 },
+    ],
+  },
+  {
+    title: "Backend & APIs",
+    icon: Server,
+    skills: [
+      { name: "Node.js", level: 55 },
+      { name: "REST APIs", level: 55 },
+      { name: "API Integration", level: 60 },
+    ],
+  },
+  {
+    title: "AI & Emerging Tech",
+    icon: BrainCircuit,
+    skills: [
+      { name: "Artificial Intelligence", level: 60 },
+      { name: "Generative AI", level: 65 },
+      { name: "Machine Learning", level: 45 },
+      { name: "Applied AI", level: 50 },
     ],
   },
 ];
 
 const exploring = [
-  "Artificial Intelligence",
+  "Advanced React",
   "Node.js",
   "Data Structures & Algorithms",
-  "APIs",
+  "Machine Learning",
+  "Applied AI",
+  "AI Tools",
 ];
 
 function SkillBar({ name, level, delay }) {
@@ -41,12 +71,12 @@ function SkillBar({ name, level, delay }) {
       transition={{ duration: 0.5, delay }}
       className="space-y-2"
     >
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-4">
         <span className="theme-secondary-text text-sm font-medium">
           {name}
         </span>
 
-        <span className="theme-muted font-mono text-xs">
+        <span className="theme-muted shrink-0 font-mono text-xs">
           {level}%
         </span>
       </div>
@@ -86,7 +116,6 @@ function Skills() {
       className="relative overflow-hidden px-6 py-32 lg:px-10 lg:py-40"
     >
       <div className="mx-auto max-w-7xl">
-
         {/* Section Heading */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
@@ -113,7 +142,6 @@ function Skills() {
               </h2>
             </div>
 
-            {/* Theme-aware section description */}
             <p className="max-w-xl text-sm leading-7 text-[var(--theme-text-secondary)] opacity-100 md:text-base lg:justify-self-end">
               A growing toolkit built through projects, experimentation and
               consistent learning.
@@ -122,7 +150,7 @@ function Skills() {
         </motion.div>
 
         {/* Main Skills */}
-        <div className="grid gap-6 lg:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2">
           {skillGroups.map((group, groupIndex) => {
             const Icon = group.icon;
 
@@ -134,11 +162,12 @@ function Skills() {
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{
                   duration: 0.6,
-                  delay: groupIndex * 0.12,
+                  delay: groupIndex * 0.1,
                 }}
-                className="glass-card group relative overflow-hidden rounded-3xl p-7 md:p-9"
+                whileHover={{ y: -4 }}
+                className="glass-card group relative overflow-hidden rounded-3xl p-7 transition-transform duration-300 md:p-9"
               >
-                {/* Glow */}
+                {/* Card Glow */}
                 <div
                   className="pointer-events-none absolute -right-24 -top-24 h-48 w-48 rounded-full blur-3xl opacity-10 transition-opacity duration-500 group-hover:opacity-20"
                   style={{
@@ -147,11 +176,12 @@ function Skills() {
                 />
 
                 <div className="relative">
-
                   {/* Card Header */}
                   <div className="mb-8 flex items-center gap-4">
-                    <div
-                      className="flex h-12 w-12 items-center justify-center rounded-2xl"
+                    <motion.div
+                      whileHover={{ rotate: 5, scale: 1.05 }}
+                      transition={{ duration: 0.2 }}
+                      className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl"
                       style={{
                         color: "var(--theme-primary)",
                         background:
@@ -161,7 +191,7 @@ function Skills() {
                       }}
                     >
                       <Icon size={22} strokeWidth={1.8} />
-                    </div>
+                    </motion.div>
 
                     <div>
                       <p className="theme-subtle font-mono text-[10px] uppercase tracking-[0.2em]">
@@ -181,7 +211,7 @@ function Skills() {
                         key={skill.name}
                         name={skill.name}
                         level={skill.level}
-                        delay={groupIndex * 0.12 + index * 0.08}
+                        delay={groupIndex * 0.1 + index * 0.07}
                       />
                     ))}
                   </div>
@@ -200,7 +230,7 @@ function Skills() {
           className="glass-card mt-6 rounded-3xl p-7 md:p-9"
         >
           <div className="grid gap-8 md:grid-cols-[0.8fr_1.2fr] md:items-center">
-
+            {/* Exploring Content */}
             <div>
               <div className="theme-primary mb-3 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em]">
                 <GitBranch size={14} />
@@ -211,13 +241,13 @@ function Skills() {
                 Always learning.
               </h3>
 
-              {/* Theme-aware paragraph */}
               <p className="mt-3 max-w-md text-sm leading-6 text-[var(--theme-text-secondary)] opacity-100">
                 Technology keeps changing, so I'm continuously exploring new
                 tools and concepts to improve what I can build.
               </p>
             </div>
 
+            {/* Exploring Tags */}
             <div className="flex flex-wrap gap-3 md:justify-end">
               {exploring.map((item, index) => (
                 <motion.div
@@ -229,7 +259,10 @@ function Skills() {
                     duration: 0.35,
                     delay: index * 0.08,
                   }}
-                  whileHover={{ y: -3 }}
+                  whileHover={{
+                    y: -4,
+                    scale: 1.03,
+                  }}
                   className="theme-text theme-border rounded-full border px-4 py-2.5 text-sm transition-all duration-300"
                   style={{
                     background:
@@ -243,12 +276,30 @@ function Skills() {
                       boxShadow: "0 0 8px var(--theme-primary)",
                     }}
                   />
+
                   {item}
                 </motion.div>
               ))}
             </div>
-
           </div>
+        </motion.div>
+
+        {/* Bottom Skill Statement */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="mt-10 flex items-center justify-center gap-3"
+        >
+          <Code2
+            size={16}
+            style={{ color: "var(--theme-primary)" }}
+          />
+
+          <span className="theme-muted font-mono text-xs uppercase tracking-[0.18em]">
+            Build • Learn • Experiment • Repeat
+          </span>
         </motion.div>
       </div>
     </section>
