@@ -1,5 +1,6 @@
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { motion } from "motion/react";
+import InteractiveFolderGallery from "../components/InteractiveFolderGallery";
 
 const projects = [
   {
@@ -9,10 +10,33 @@ const projects = [
     description:
       "A redesigned coding challenge platform with a modern student dashboard, challenge interface and engaging learning experience.",
     tech: ["React", "Tailwind CSS", "Vite"],
+
+    images: [
+      {
+        id: 1,
+        image: "/projects/abtalks/landing.png",
+        alt: "ABTalks landing page",
+      },
+      {
+        id: 2,
+        image: "/projects/abtalks/dashboard.png",
+        alt: "ABTalks student dashboard",
+      },
+      {
+        id: 3,
+        image: "/projects/abtalks/challenge.png",
+        alt: "ABTalks challenge page",
+      },
+      {
+        id: 4,
+        image: "/projects/abtalks/submission.png",
+        alt: "ABTalks submission page",
+      },
+    ],
+
     demo: "https://ab-talks-2-0-chi.vercel.app/",
     github: "https://github.com/Sparsshsoni15/ABTalks-2.0.git",
   },
-
   {
     number: "02",
     title: "Amazon Clone",
@@ -20,6 +44,24 @@ const projects = [
     description:
       "A responsive e-commerce interface inspired by Amazon, built to practice modern frontend development, layouts and reusable components.",
     tech: ["HTML", "CSS", "JavaScript"],
+    images: [
+      {
+        id: 1,
+        image: "/projects/amazon/home.png",
+        alt: "Amazon home page",
+      },
+      {
+        id: 2,
+        image: "/projects/amazon/products.png",
+        alt: "Amazon product page",
+      },
+      {
+        id: 3,
+        image: "/projects/amazon/last_page.png",
+        alt: "Amazon last page",
+      },
+    ],
+
     demo: "#",
     github: "https://github.com/Sparsshsoni15/Amazon.git",
   },
@@ -31,6 +73,28 @@ const projects = [
     description:
       "A tourism-focused website designed to help users explore destinations through a clean and visually engaging interface.",
     tech: ["HTML", "CSS", "JavaScript"],
+    images: [
+      {
+        id: 1,
+        image: "/projects/tourist-guide/home.png",
+        alt: "Tourist Guide home page",
+      },
+      {
+        id: 2,
+        image: "/projects/tourist-guide/destinations.png",
+        alt: "Tourist Guide destinations page",
+      },
+      {
+        id: 3,
+        image: "/projects/tourist-guide/image_gallery.png",
+        alt: "Tourist Guide image gallery page",
+      },
+      {
+        id: 4,
+        image: "/projects/tourist-guide/calculator_and_booking.png",
+        alt: "Tourist Guide calculator and booking page",
+      },
+    ],
     demo: "#",
     github: "https://github.com/Sparsshsoni15/Tourist-Guide.git",
   },
@@ -133,44 +197,27 @@ function Work() {
                 }}
               />
 
-              {/* PROJECT NUMBER */}
-              <div className="relative mb-8 flex items-center justify-between">
-                <span
-                  className="
-                    font-mono
-                    text-xs
-                    font-semibold
-                    tracking-[0.2em]
-                  "
-                  style={{
-                    color: "var(--theme-primary)",
-                  }}
-                >
-                  / {project.number}
-                </span>
-
-                <span className="theme-subtle font-mono text-[10px] uppercase tracking-[0.18em]">
-                  {project.category}
-                </span>
-              </div>
-
               {/* PROJECT CONTENT */}
               <div className="relative">
+                <InteractiveFolderGallery
+                  photos={project.images}
+                  folderName={`${project.title}.gallery`}
+                />
+
                 <h3
                   className="
-                    theme-text
-                    text-3xl
-                    font-black
-                    tracking-tight
-                    transition-colors
-                    duration-300
-                    group-hover:text-[var(--theme-primary)]
-                    md:text-4xl
-                  "
+      theme-text
+      text-3xl
+      font-black
+      tracking-tight
+      transition-colors
+      duration-300
+      group-hover:text-[var(--theme-primary)]
+      md:text-4xl
+    "
                 >
                   {project.title}
                 </h3>
-
                 <p className="theme-muted mt-5 max-w-2xl text-sm leading-7 md:text-base">
                   {project.description}
                 </p>
