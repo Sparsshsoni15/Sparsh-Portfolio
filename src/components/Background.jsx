@@ -20,7 +20,6 @@ const THEME_CONFIG = {
     glow2: "#8b5cf6",
   },
 
-
   /* =========================================================
      RETRO / DARK THEME
   ========================================================= */
@@ -39,7 +38,6 @@ const THEME_CONFIG = {
     glow1: "#f97316",
     glow2: "#fb923c",
   },
-
 
   /* =========================================================
      CYBERPUNK / DARK THEME
@@ -60,7 +58,6 @@ const THEME_CONFIG = {
     glow2: "#e879f9",
   },
 
-
   /* =========================================================
      VALENTINE / LIGHT THEME
   ========================================================= */
@@ -69,18 +66,17 @@ const THEME_CONFIG = {
     background:
       "linear-gradient(135deg, #fff1f6 0%, #f9d4e2 48%, #efb2ca 100%)",
 
-    /* Darker particles for light background */
+    /* Stronger particles for light background */
     particle: "#9f1239",
     line: "#be185d",
     accent: "#e11d48",
 
-    particleOpacity: 0.58,
-    lineOpacity: 0.20,
+    particleOpacity: 0.82,
+    lineOpacity: 0.36,
 
     glow1: "#f472b6",
     glow2: "#fb7185",
   },
-
 
   /* =========================================================
      AQUA / LIGHT THEME
@@ -90,13 +86,13 @@ const THEME_CONFIG = {
     background:
       "linear-gradient(135deg, #effcff 0%, #d2f2f5 48%, #a9e1e8 100%)",
 
-    /* Darker particles for light background */
+    /* Stronger particles for light background */
     particle: "#155e75",
     line: "#0e7490",
     accent: "#0891b2",
 
-    particleOpacity: 0.58,
-    lineOpacity: 0.20,
+    particleOpacity: 0.82,
+    lineOpacity: 0.36,
 
     glow1: "#67e8f9",
     glow2: "#2dd4bf",
@@ -189,6 +185,10 @@ function Background() {
 
     const isMobile = window.innerWidth < 768;
 
+    const isLightTheme =
+      config === THEME_CONFIG.valentine ||
+      config === THEME_CONFIG.aqua;
+
     window.particlesJS("particles-js", {
       particles: {
         number: {
@@ -208,7 +208,7 @@ function Background() {
           type: "circle",
 
           stroke: {
-            width: 0.7,
+            width: isLightTheme ? 0.9 : 0.7,
             color: config.accent,
           },
         },
@@ -229,13 +229,20 @@ function Background() {
         },
 
         size: {
-          value: isMobile ? 1.8 : 2.5,
+          value: isMobile
+            ? isLightTheme
+              ? 2
+              : 1.8
+            : isLightTheme
+              ? 2.8
+              : 2.5,
+
           random: true,
 
           anim: {
             enable: true,
             speed: 1.1,
-            size_min: 0.7,
+            size_min: isLightTheme ? 0.9 : 0.7,
             sync: false,
           },
         },
@@ -249,7 +256,7 @@ function Background() {
 
           opacity: config.lineOpacity,
 
-          width: 1.2,
+          width: isLightTheme ? 1.35 : 1.2,
         },
 
         move: {
@@ -302,7 +309,7 @@ function Background() {
             line_linked: {
               opacity: Math.min(
                 config.lineOpacity + 0.32,
-                0.75
+                0.85
               ),
             },
           },
