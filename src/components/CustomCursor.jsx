@@ -7,7 +7,7 @@ const CustomCursor = () => {
   const [enabled, setEnabled] = useState(false);
   const [hovering, setHovering] = useState(false);
 
-  // Enable only on devices having a real mouse
+  // Enable only for mouse devices
   useEffect(() => {
     const mediaQuery = window.matchMedia(
       "(hover: hover) and (pointer: fine)"
@@ -47,15 +47,15 @@ const CustomCursor = () => {
       mouseX = e.clientX;
       mouseY = e.clientY;
 
-      // Inner dot follows instantly
+      // Center dot
       if (dot) {
         dot.style.transform = `
           translate3d(${mouseX}px, ${mouseY}px, 0)
           translate(-50%, -50%)
         `;
-      };
+      }
 
-      // Detect interactive elements
+      // Detect buttons / links
       const interactiveElement = e.target.closest(
         "a, button, input, textarea, select, [role='button']"
       );
@@ -97,21 +97,22 @@ const CustomCursor = () => {
 
   return (
     <>
-      {/* Outer Ring */}
+      {/* Outer Cursor Ring */}
       <div
         ref={ringRef}
         className="pointer-events-none fixed left-0 top-0 z-[99999]"
       >
         <div
           className={`
-            h-9 w-9 rounded-full
-            border border-purple-400
+            rounded-full
+            border
+            border-[var(--theme-primary)]
             transition-all duration-200 ease-out
-            shadow-[0_0_15px_rgba(168,85,247,0.35)]
+            shadow-[0_0_12px_var(--theme-primary)]
             ${
               hovering
-                ? "h-14 w-14 border-purple-300 bg-purple-500/10 shadow-[0_0_30px_rgba(168,85,247,0.55)]"
-                : ""
+                ? "h-11 w-11 bg-[var(--theme-primary)]/10 shadow-[0_0_20px_var(--theme-primary)]"
+                : "h-7 w-7"
             }
           `}
         />
@@ -124,9 +125,10 @@ const CustomCursor = () => {
       >
         <div
           className={`
-            h-1.5 w-1.5 rounded-full
-            bg-purple-400
-            shadow-[0_0_10px_rgba(168,85,247,0.9)]
+            h-1.5 w-1.5
+            rounded-full
+            bg-[var(--theme-primary)]
+            shadow-[0_0_8px_var(--theme-primary)]
             transition-transform duration-200
             ${hovering ? "scale-75" : "scale-100"}
           `}
