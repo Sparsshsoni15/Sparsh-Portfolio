@@ -568,3 +568,9 @@ a {
   color: var(--light-heading);
   opacity: 1 !important;
 }
+@media (hover: hover) and (pointer: fine) {
+  html.custom-cursor-active,
+  html.custom-cursor-active * {
+    cursor: none !important;
+  }
+}
