@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 
 const CustomCursor = () => {
-  const dotRef = useRef(null);
-  const ringRef = useRef(null);
+  const cursorRef = useRef(null);
+  const glowRef = useRef(null);
 
   const [enabled, setEnabled] = useState(false);
   const [hovering, setHovering] = useState(false);
+  const [clicking, setClicking] = useState(false);
 
-  // Enable only for mouse devices
+  // Enable only on mouse/trackpad devices
   useEffect(() => {
     const mediaQuery = window.matchMedia(
       "(hover: hover) and (pointer: fine)"
@@ -18,7 +19,6 @@ const CustomCursor = () => {
     };
 
     checkDevice();
-
     mediaQuery.addEventListener("change", checkDevice);
 
     return () => {
@@ -26,20 +26,19 @@ const CustomCursor = () => {
     };
   }, []);
 
-  // Cursor movement
   useEffect(() => {
     if (!enabled) return;
 
     document.documentElement.classList.add("custom-cursor-active");
 
-    const dot = dotRef.current;
-    const ring = ringRef.current;
+    const cursor = cursorRef.current;
+    const glow = glowRef.current;
 
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
 
-    let ringX = mouseX;
-    let ringY = mouseY;
+    let glowX = mouseX;
+    let glowY = mouseY;
 
     let animationFrame;
 
@@ -47,44 +46,58 @@ const CustomCursor = () => {
       mouseX = e.clientX;
       mouseY = e.clientY;
 
-      // Center dot
-      if (dot) {
-        dot.style.transform = `
+      // Main arrow follows instantly
+      if (cursor) {
+        cursor.style.transform = `
           translate3d(${mouseX}px, ${mouseY}px, 0)
-          translate(-50%, -50%)
         `;
-      }
+      };
 
-      // Detect buttons / links
-      const interactiveElement = e.target.closest(
+      // Detect interactive elements
+      const interactive = e.target.closest(
         "a, button, input, textarea, select, [role='button']"
       );
 
-      setHovering(!!interactiveElement);
+      setHovering(!!interactive);
     };
 
-    const animateRing = () => {
-      ringX += (mouseX - ringX) * 0.14;
-      ringY += (mouseY - ringY) * 0.14;
+    const handleMouseDown = () => {
+      setClicking(true);
+    };
 
-      if (ring) {
-        ring.style.transform = `
-          translate3d(${ringX}px, ${ringY}px, 0)
+    const handleMouseUp = () => {
+      setClicking(false);
+    };
+
+    // Soft glow follows slightly behind
+    const animateGlow = () => {
+      glowX += (mouseX - glowX) * 0.12;
+      glowY += (mouseY - glowY) * 0.12;
+
+      if (glow) {
+        glow.style.transform = `
+          translate3d(${glowX}px, ${glowY}px, 0)
           translate(-50%, -50%)
         `;
       }
 
-      animationFrame = requestAnimationFrame(animateRing);
+      animationFrame = requestAnimationFrame(animateGlow);
     };
 
     window.addEventListener("mousemove", handleMouseMove, {
       passive: true,
     });
 
-    animationFrame = requestAnimationFrame(animateRing);
+    window.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    animationFrame = requestAnimationFrame(animateGlow);
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mouseup", handleMouseUp);
+
       cancelAnimationFrame(animationFrame);
 
       document.documentElement.classList.remove(
@@ -97,42 +110,56 @@ const CustomCursor = () => {
 
   return (
     <>
-      {/* Outer Cursor Ring */}
+      {/* Soft Animated Glow */}
       <div
-        ref={ringRef}
-        className="pointer-events-none fixed left-0 top-0 z-[99999]"
-      >
-        <div
-          className={`
-            rounded-full
-            border
-            border-[var(--theme-primary)]
-            transition-all duration-200 ease-out
-            shadow-[0_0_12px_var(--theme-primary)]
-            ${
-              hovering
-                ? "h-11 w-11 bg-[var(--theme-primary)]/10 shadow-[0_0_20px_var(--theme-primary)]"
-                : "h-7 w-7"
-            }
-          `}
-        />
-      </div>
+        ref={glowRef}
+        className={`
+          pointer-events-none fixed left-0 top-0 z-[99998]
+          rounded-full
+          bg-[var(--theme-primary)]
+          blur-xl
+          transition-all duration-200
+          ${
+            hovering
+              ? "h-8 w-8 opacity-30"
+              : "h-5 w-5 opacity-20"
+          }
+        `}
+      />
 
-      {/* Center Dot */}
+      {/* Main Arrow Cursor */}
       <div
-        ref={dotRef}
-        className="pointer-events-none fixed left-0 top-0 z-[100000]"
+        ref={cursorRef}
+        className={`
+          pointer-events-none fixed left-0 top-0 z-[100000]
+          origin-top-left
+          transition-transform duration-100 ease-out
+          ${
+            clicking
+              ? "scale-75"
+              : hovering
+              ? "scale-110"
+              : "scale-100"
+          }
+        `}
       >
-        <div
-          className={`
-            h-1.5 w-1.5
-            rounded-full
-            bg-[var(--theme-primary)]
-            shadow-[0_0_8px_var(--theme-primary)]
-            transition-transform duration-200
-            ${hovering ? "scale-75" : "scale-100"}
-          `}
-        />
+        <svg
+          width="22"
+          height="26"
+          viewBox="0 0 22 26"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="drop-shadow-[0_0_5px_var(--theme-primary)]"
+        >
+          {/* Arrow */}
+          <path
+            d="M2 1L19.5 17.5L11.5 18.5L8 24.5L5.5 23L9 17L2 1Z"
+            fill="var(--theme-primary)"
+            stroke="currentColor"
+            strokeWidth="1.2"
+            className="text-white dark:text-black"
+          />
+        </svg>
       </div>
     </>
   );
