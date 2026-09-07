@@ -10,8 +10,13 @@ import {
   Milestone,
 } from "lucide-react";
 
-import { motion, useScroll, useSpring } from "motion/react";
-import { useRef } from "react";
+import {
+  motion,
+  useScroll,
+  useSpring,
+} from "motion/react";
+
+import { useState, useRef } from "react";
 
 const journey = [
   {
@@ -24,7 +29,6 @@ const journey = [
     icon: GraduationCap,
     current: true,
   },
-
   {
     year: "2025 — 2026",
     type: "Learning",
@@ -35,7 +39,6 @@ const journey = [
     icon: Code2,
     current: false,
   },
-
   {
     year: "2026",
     type: "Development",
@@ -46,7 +49,6 @@ const journey = [
     icon: BrainCircuit,
     current: true,
   },
-
   {
     year: "2026",
     type: "Hackathons",
@@ -57,7 +59,6 @@ const journey = [
     icon: Trophy,
     current: false,
   },
-
   {
     year: "April 2026 — Present",
     type: "Community",
@@ -68,7 +69,6 @@ const journey = [
     icon: Users,
     current: true,
   },
-
   {
     year: "June 2026 — Present",
     type: "Campus Leadership",
@@ -79,7 +79,6 @@ const journey = [
     icon: BriefcaseBusiness,
     current: true,
   },
-
   {
     year: "August 2026 — Present",
     type: "Leadership",
@@ -90,7 +89,6 @@ const journey = [
     icon: Users,
     current: true,
   },
-
   {
     year: "August 2026 — Present",
     type: "Internship",
@@ -106,6 +104,21 @@ const journey = [
 function Experience() {
   const timelineRef = useRef(null);
 
+  // Cursor-follow glow
+  const [cursorPosition, setCursorPosition] = useState({
+    x: 0,
+    y: 0,
+  });
+
+  const handleCursorMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+
+    setCursorPosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
   const { scrollYProgress } = useScroll({
     target: timelineRef,
     offset: ["start 72%", "end 28%"],
@@ -120,12 +133,33 @@ function Experience() {
   return (
     <section
       id="experience"
+      onMouseMove={handleCursorMove}
       className="relative overflow-hidden px-6 py-32 lg:px-10 lg:py-40"
     >
+      {/* =========================================================
+          CURSOR FOLLOW GLOW
+      ========================================================= */}
+
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none absolute z-0 hidden h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--theme-primary)] opacity-10 blur-3xl md:block"
+        animate={{
+          left: cursorPosition.x,
+          top: cursorPosition.y,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 80,
+          damping: 25,
+          mass: 0.5,
+        }}
+      />
+
       <div className="mx-auto max-w-7xl">
         {/* =========================================================
             HEADING
         ========================================================= */}
+
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -156,6 +190,7 @@ function Experience() {
         {/* =========================================================
             TIMELINE
         ========================================================= */}
+
         <div
           ref={timelineRef}
           className="relative mx-auto max-w-6xl"
@@ -163,6 +198,7 @@ function Experience() {
           {/* ---------------------------------------------------------
               DESKTOP BASE LINE
           --------------------------------------------------------- */}
+
           <div
             className="
               pointer-events-none
@@ -181,6 +217,7 @@ function Experience() {
           {/* ---------------------------------------------------------
               DESKTOP ANIMATED PROGRESS LINE
           --------------------------------------------------------- */}
+
           <motion.div
             style={{ scaleY: smoothProgress }}
             className="
@@ -205,6 +242,7 @@ function Experience() {
           {/* ---------------------------------------------------------
               MOBILE BASE LINE
           --------------------------------------------------------- */}
+
           <div
             className="
               pointer-events-none
@@ -222,6 +260,7 @@ function Experience() {
           {/* ---------------------------------------------------------
               MOBILE ANIMATED LINE
           --------------------------------------------------------- */}
+
           <motion.div
             style={{ scaleY: smoothProgress }}
             className="
@@ -245,10 +284,10 @@ function Experience() {
           {/* =========================================================
               JOURNEY ITEMS
           ========================================================= */}
+
           <div className="space-y-16 md:space-y-24">
             {journey.map((item, index) => {
               const Icon = item.icon;
-
               const isRight = index % 2 === 0;
 
               return (
@@ -280,6 +319,7 @@ function Experience() {
                   {/* =================================================
                       DESKTOP CENTER NODE
                   ================================================= */}
+
                   <div
                     className="
                       absolute
@@ -328,6 +368,68 @@ function Experience() {
                         group-hover:shadow-[0_0_20px_var(--theme-glow)]
                       "
                     >
+                      {/* =================================================
+                          MILESTONE PARTICLE BURST
+                      ================================================= */}
+
+                      <motion.div
+                        aria-hidden="true"
+                        className="pointer-events-none absolute left-1/2 top-1/2 z-50 h-0 w-0"
+                        initial="hidden"
+                        whileInView="show"
+                        viewport={{
+                          once: true,
+                          amount: 0.5,
+                        }}
+                      >
+                        {[...Array(10)].map((_, particleIndex) => {
+                          const angle =
+                            (particleIndex / 10) * Math.PI * 2;
+
+                          const distance = 42;
+
+                          return (
+                            <motion.span
+                              key={particleIndex}
+                              className="
+                                absolute
+                                left-1/2
+                                top-1/2
+                                h-1
+                                w-1
+                                -translate-x-1/2
+                                -translate-y-1/2
+                                rounded-full
+                                bg-[var(--theme-primary)]
+                                shadow-[0_0_8px_var(--theme-primary)]
+                              "
+                              variants={{
+                                hidden: {
+                                  x: 0,
+                                  y: 0,
+                                  opacity: 0,
+                                  scale: 0,
+                                },
+
+                                show: {
+                                  x: Math.cos(angle) * distance,
+                                  y: Math.sin(angle) * distance,
+                                  opacity: [0, 1, 0],
+                                  scale: [0, 1.5, 0],
+                                  transition: {
+                                    duration: 0.8,
+                                    delay:
+                                      0.25 +
+                                      particleIndex * 0.035,
+                                    ease: "easeOut",
+                                  },
+                                },
+                              }}
+                            />
+                          );
+                        })}
+                      </motion.div>
+
                       <Icon size={16} />
 
                       {item.current && (
@@ -358,6 +460,7 @@ function Experience() {
                   {/* =================================================
                       CONNECTING HORIZONTAL LINE
                   ================================================= */}
+
                   <motion.div
                     initial={{
                       scaleX: 0,
@@ -382,7 +485,7 @@ function Experience() {
                       top-[47px]
                       hidden
                       h-px
-                      w-[calc(50%-20px)]
+                      w-[calc(50%_-_20px)]
                       origin-${isRight ? "left" : "right"}
                       bg-gradient-to-${isRight ? "r" : "l"}
                       from-[var(--theme-primary)]
@@ -399,6 +502,7 @@ function Experience() {
                   {/* =================================================
                       LEFT CARD
                   ================================================= */}
+
                   {!isRight && (
                     <>
                       <div className="hidden pr-14 md:block">
@@ -423,6 +527,7 @@ function Experience() {
                           "
                         >
                           {/* Hover Glow */}
+
                           <div
                             className="
                               pointer-events-none
@@ -442,6 +547,7 @@ function Experience() {
                           />
 
                           {/* Inner Border */}
+
                           <div
                             className="
                               pointer-events-none
@@ -493,6 +599,7 @@ function Experience() {
                       </div>
 
                       {/* Empty right side */}
+
                       <div className="hidden md:block" />
                     </>
                   )}
@@ -500,9 +607,11 @@ function Experience() {
                   {/* =================================================
                       RIGHT CARD
                   ================================================= */}
+
                   {isRight && (
                     <>
                       {/* Empty left side */}
+
                       <div className="hidden md:block" />
 
                       <div className="hidden pl-14 md:block">
@@ -527,6 +636,7 @@ function Experience() {
                           "
                         >
                           {/* Hover Glow */}
+
                           <div
                             className="
                               pointer-events-none
@@ -546,6 +656,7 @@ function Experience() {
                           />
 
                           {/* Inner Border */}
+
                           <div
                             className="
                               pointer-events-none
@@ -601,6 +712,7 @@ function Experience() {
                   {/* =================================================
                       MOBILE CARD
                   ================================================= */}
+
                   <div className="relative pl-12 md:hidden">
                     <motion.div
                       whileTap={{
@@ -616,6 +728,7 @@ function Experience() {
                       "
                     >
                       {/* Mobile Hover Glow */}
+
                       <div
                         className="
                           pointer-events-none
@@ -677,6 +790,7 @@ function Experience() {
           {/* =========================================================
               JOURNEY ENDING
           ========================================================= */}
+
           <motion.div
             initial={{
               opacity: 0,
@@ -705,6 +819,7 @@ function Experience() {
             "
           >
             {/* Desktop endpoint */}
+
             <div
               className="
                 absolute
@@ -720,6 +835,7 @@ function Experience() {
             />
 
             {/* Animated endpoint */}
+
             <motion.div
               animate={{
                 scale: [1, 1.08, 1],
@@ -746,7 +862,10 @@ function Experience() {
                 shadow-[0_0_22px_var(--theme-glow)]
               "
             >
-              <Milestone size={19} className="-rotate-45" />
+              <Milestone
+                size={19}
+                className="-rotate-45"
+              />
 
               <motion.span
                 aria-hidden="true"
