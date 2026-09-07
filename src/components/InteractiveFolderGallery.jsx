@@ -636,11 +636,11 @@ function InteractiveFolderGallery({
                                     transition-all
                                     duration-300
 
-                                    [html[data-theme='valentine']_&]:border-pink-300
-                                    [html[data-theme='valentine']_&]:bg-pink-400
+                                    [html[data-theme='valentine']_&]:border-pink-200
+                                    [html[data-theme='valentine']_&]:bg-pink-300
 
-                                    [html[data-theme='aqua']_&]:border-cyan-300
-                                    [html[data-theme='aqua']_&]:bg-cyan-400
+                                    [html[data-theme='aqua']_&]:border-cyan-200
+                                    [html[data-theme='aqua']_&]:bg-cyan-300
                                 "
                             >
                                 {/* Folder Gradient */}

@@ -1,349 +1,695 @@
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+
 import {
   ArrowUpRight,
   Award,
+  CheckCircle2,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   ExternalLink,
-  ShieldCheck,
-  Trophy,
+  X,
 } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 
-import { motion } from "motion/react";
-
-// --------------------------------------------------
-// TEMPORARY DATA
-// Replace these with your real certificates later.
-// --------------------------------------------------
-
-const achievements = [
+const certificates = [
   {
-    type: "Certification",
-    title: "JavaScript Algorithms & Data Structures",
-    issuer: "Certification Platform",
-    date: "August 2026",
-    description:
-      "Successfully completed a certification focused on JavaScript programming, algorithms and data structures.",
-    verified: true,
+    title: "Machine Learning and Applied AI Internship 2026",
+    issuer: "IBM SkillsBuild",
+    date: "30 August 2026",
+    image: "/certificates/ibm-ml-applied-ai-internship-2026.png",
     link: "#",
+    verified: false,
   },
 
   {
-    type: "Achievement",
-    title: "48-Hour Hackathon Participant",
-    issuer: "ABTalks",
-    date: "2026",
-    description:
-      "Participated in a live 48-hour hackathon focused on redesigning and building a coding challenge platform.",
+    title: "Artificial Intelligence Fundamentals",
+    issuer: "IBM SkillsBuild",
+    date: "29 August 2026",
+    image: "/certificates/ibm-ai-fundamentals.png",
+    link:
+      "https://www.credly.com/badges/58c83d82-569c-4beb-8394-25ae0c13bc87",
     verified: true,
-    link: "#",
   },
 
   {
-    type: "Certification",
-    title: "Frontend Development",
-    issuer: "Certification Platform",
-    date: "2026",
-    description:
-      "Completed a frontend development learning program covering modern web technologies and development practices.",
+    title: "Generative AI in Action",
+    issuer: "IBM SkillsBuild",
+    date: "29 August 2026",
+    image: "/certificates/ibm-generative-ai.png",
+    link:
+      "https://www.credly.com/badges/dcff0034-79ec-4af5-9418-a9db5c493ab8",
     verified: true,
-    link: "#",
   },
 
   {
-    type: "Achievement",
-    title: "Hackathon & Technical Events",
-    issuer: "Various Events",
-    date: "2026",
-    description:
-      "Actively participated in technical competitions, hackathons and developer-focused events.",
+    title: "Make Agentic AI Work for You",
+    issuer: "IBM SkillsBuild",
+    date: "29 August 2026",
+    image: "/certificates/ibm-agentic-ai.png",
+    link: "https://www.credly.com/go/c3urvNsH",
     verified: true,
+  },
+
+  {
+    title: "JavaScript Algorithms & Data Structures V7",
+    issuer: "freeCodeCamp",
+    date: "13 June 2026",
+    image: "/certificates/freecodecamp-javascript.png",
+    link:
+      "https://www.freecodecamp.org/certification/sparsshsoni15/javascript-algorithms-and-data-structures",
+    verified: true,
+  },
+
+  {
+    title: "Responsive Web Design V8",
+    issuer: "freeCodeCamp",
+    date: "13 June 2026",
+    image: "/certificates/freecodecamp-responsive-web-design.png",
+    link:
+      "https://www.freecodecamp.org/certification/sparsshsoni15/responsive-web-design",
+    verified: true,
+  },
+
+  {
+    title: "TCS iON Career Edge - IT Primer",
+    issuer: "TCS iON",
+    date: "21 June 2026",
+    image: "/certificates/tcs-ion-career-edge.png",
     link: "#",
+    verified: false,
+  },
+
+  {
+    title: "Problem Solving (Basic)",
+    issuer: "HackerRank",
+    date: "18 March 2026",
+    image: "/certificates/hackerrank-problem-solving-basic.png",
+    link: "#",
+    verified: false,
+  },
+
+  {
+    title: "MATLAB Onramp",
+    issuer: "MathWorks",
+    date: "7 August 2026",
+    image: "/certificates/matlab-onramp.png",
+    link: "#",
+    verified: false,
   },
 ];
 
-function Achievements() {
+const INITIAL_VISIBLE = 4;
+
+export default function Achievements() {
+  const [showAll, setShowAll] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(null);
+
+  const showMoreButtonRef = useRef(null);
+  const previousButtonTopRef = useRef(null);
+
+  const visibleCertificates = showAll
+    ? certificates
+    : certificates.slice(0, INITIAL_VISIBLE);
+
+  const selectedCertificate =
+    selectedIndex !== null ? certificates[selectedIndex] : null;
+
+  const toggleShowAll = () => {
+    if (showMoreButtonRef.current) {
+      previousButtonTopRef.current =
+        showMoreButtonRef.current.getBoundingClientRect().top;
+    }
+
+    setShowAll((current) => !current);
+  };
+
+  useLayoutEffect(() => {
+    if (
+      previousButtonTopRef.current === null ||
+      !showMoreButtonRef.current
+    ) {
+      return;
+    }
+
+    const newButtonTop =
+      showMoreButtonRef.current.getBoundingClientRect().top;
+
+    const difference =
+      newButtonTop - previousButtonTopRef.current;
+
+    if (Math.abs(difference) > 0.5) {
+      window.scrollBy(0, difference);
+    }
+
+    previousButtonTopRef.current = null;
+  }, [showAll]);
+
+  const showPrevious = () => {
+    setSelectedIndex((current) => {
+      if (current === null) return null;
+
+      return current === 0
+        ? certificates.length - 1
+        : current - 1;
+    });
+  };
+
+  const showNext = () => {
+    setSelectedIndex((current) => {
+      if (current === null) return null;
+
+      return current === certificates.length - 1
+        ? 0
+        : current + 1;
+    });
+  };
+
+  useEffect(() => {
+    if (selectedIndex === null) return;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setSelectedIndex(null);
+      }
+
+      if (event.key === "ArrowLeft") {
+        showPrevious();
+      }
+
+      if (event.key === "ArrowRight") {
+        showNext();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedIndex]);
+
+  useEffect(() => {
+    if (selectedIndex !== null) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedIndex]);
+
+  const CertificateCard = ({
+    certificate,
+    actualIndex,
+    delay = 0,
+  }) => {
+    return (
+      <motion.article
+        initial={{
+          opacity: 0,
+          y: 25,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        exit={{
+          opacity: 0,
+          y: 15,
+        }}
+        transition={{
+          duration: 0.4,
+          ease: [0.22, 1, 0.36, 1],
+          delay,
+        }}
+        className="group relative overflow-hidden rounded-3xl border transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
+        style={{
+          backgroundColor: "var(--theme-surface)",
+          borderColor: "var(--theme-border)",
+        }}
+      >
+        {/* Certificate Image */}
+        <button
+          type="button"
+          onClick={() => setSelectedIndex(actualIndex)}
+          className="relative block w-full cursor-zoom-in text-left"
+          aria-label={`View ${certificate.title}`}
+        >
+          <div
+            className="relative aspect-[4/3] overflow-hidden p-3 sm:p-4"
+            style={{
+              backgroundColor: "var(--theme-surface-hover)",
+            }}
+          >
+            <img
+              src={certificate.image}
+              alt={certificate.title}
+              draggable={false}
+              className="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.015]"
+            />
+
+            {/* Hover Overlay */}
+            <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-all duration-300 group-hover:bg-black/30">
+              <div className="flex h-12 w-12 scale-90 items-center justify-center rounded-full bg-white/90 text-black opacity-0 shadow-xl transition-all duration-300 group-hover:scale-100 group-hover:opacity-100">
+                <ArrowUpRight size={21} />
+              </div>
+            </div>
+
+            {/* Number */}
+            <div className="absolute left-5 top-5 flex h-9 w-9 items-center justify-center rounded-full bg-black/70 text-xs font-bold text-white backdrop-blur-md">
+              {String(actualIndex + 1).padStart(2, "0")}
+            </div>
+          </div>
+        </button>
+
+        {/* Certificate Details */}
+        <div className="p-6 sm:p-7">
+          <div className="mb-4 flex items-start justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <Award
+                size={17}
+                className="shrink-0 text-[var(--theme-primary)]"
+              />
+
+              <span
+                className="text-xs font-semibold uppercase tracking-[0.16em]"
+                style={{
+                  color: "var(--theme-text-muted)",
+                }}
+              >
+                {certificate.issuer}
+              </span>
+            </div>
+
+            {certificate.verified && (
+              <div
+                className="flex shrink-0 items-center gap-1.5 text-xs font-medium text-emerald-500"
+                title="Verified credential"
+              >
+                <CheckCircle2 size={15} />
+
+                <span className="hidden sm:inline">
+                  Verified
+                </span>
+              </div>
+            )}
+          </div>
+
+          <h3
+            className="text-lg font-semibold leading-snug sm:text-xl"
+            style={{
+              color: "var(--theme-text)",
+            }}
+          >
+            {certificate.title}
+          </h3>
+
+          <div className="mt-4 flex flex-col gap-3 text-sm sm:flex-row sm:items-center sm:justify-between">
+            <span
+              style={{
+                color: "var(--theme-text-muted)",
+              }}
+            >
+              {certificate.date}
+            </span>
+
+            {certificate.link !== "#" && (
+              <a
+                href={certificate.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(event) => event.stopPropagation()}
+                className="inline-flex items-center gap-1.5 font-medium text-[var(--theme-primary)] transition-colors hover:text-[var(--theme-secondary)]"
+              >
+                Verify
+                <ExternalLink size={14} />
+              </a>
+            )}
+          </div>
+        </div>
+      </motion.article>
+    );
+  };
+
   return (
     <section
       id="achievements"
-      className="relative overflow-hidden px-6 py-32 lg:px-10 lg:py-40"
+      className="relative overflow-hidden py-24 sm:py-28"
     >
-      <div className="mx-auto max-w-7xl">
+      {/* Background */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div
+          className="absolute left-1/2 top-0 h-[500px] w-[700px] -translate-x-1/2 rounded-full blur-[120px]"
+          style={{
+            backgroundColor: "var(--theme-primary)",
+            opacity: 0.1,
+          }}
+        />
 
-        {/* ----------------------------------------
-            SECTION HEADING
-        ----------------------------------------- */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.7 }}
-          className="mb-16"
-        >
-          <div className="theme-primary mb-5 flex items-center gap-3 text-sm uppercase tracking-[0.3em]">
-            <span className="h-px w-10 bg-[var(--theme-primary)]" />
-            04 / Achievements
-          </div>
+        <div
+          className="absolute bottom-0 left-0 h-[350px] w-[350px] rounded-full blur-[100px]"
+          style={{
+            backgroundColor: "var(--theme-primary)",
+            opacity: 0.05,
+          }}
+        />
 
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <h2 className="theme-text max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-              Milestones I've{" "}
-              <span className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent">
-                earned.
+        <div
+          className="absolute right-0 top-1/3 h-[350px] w-[350px] rounded-full blur-[100px]"
+          style={{
+            backgroundColor: "var(--theme-secondary)",
+            opacity: 0.05,
+          }}
+        />
+      </div>
+
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        {/* Section Header */}
+        <div className="mb-14 flex flex-col gap-6 sm:mb-16 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <div className="mb-4 flex items-center gap-3">
+              <span
+                className="h-px w-10"
+                style={{
+                  backgroundColor: "var(--theme-primary)",
+                }}
+              />
+
+              <span
+                className="text-sm font-semibold uppercase tracking-[0.25em]"
+                style={{
+                  color: "var(--theme-primary)",
+                }}
+              >
+                {String(certificates.length).padStart(2, "0")} Credentials
+              </span>
+            </div>
+
+            <h2
+              className="max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl"
+              style={{
+                color: "var(--theme-text)",
+              }}
+            >
+              Achievements &amp;
+
+              <span
+                className="block"
+                style={{
+                  color: "var(--theme-primary)",
+                }}
+              >
+                Certifications
               </span>
             </h2>
-
-            {/* Theme-aware supporting description */}
-            <p className="max-w-sm text-sm leading-7 text-[var(--theme-text-secondary)] opacity-100">
-              Certifications, achievements and milestones that reflect my
-              journey of learning, building and growing.
-            </p>
           </div>
-        </motion.div>
 
-        {/* ----------------------------------------
-            ACHIEVEMENT GRID
-        ----------------------------------------- */}
-        <div className="grid gap-6 md:grid-cols-2">
-          {achievements.map((item, index) => {
-            const isCertification = item.type === "Certification";
-
-            return (
-              <motion.article
-                key={`${item.title}-${index}`}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{
-                  duration: 0.7,
-                  delay: index * 0.08,
-                }}
-                className="
-                  theme-border
-                  theme-surface
-                  group
-                  relative
-                  overflow-hidden
-                  rounded-3xl
-                  border
-                  p-7
-                  backdrop-blur-sm
-                  transition-all
-                  duration-500
-                  hover:-translate-y-1
-                  hover:border-[color-mix(in_srgb,var(--theme-primary)_35%,transparent)]
-                  hover:bg-[var(--theme-surface-hover)]
-                  md:p-8
-                "
-              >
-                {/* Glow */}
-                <div
-                  className="
-                    pointer-events-none
-                    absolute
-                    -right-24
-                    -top-24
-                    h-64
-                    w-64
-                    rounded-full
-                    bg-[var(--theme-primary)]
-                    opacity-0
-                    blur-3xl
-                    transition-opacity
-                    duration-700
-                    group-hover:opacity-10
-                  "
-                />
-
-                <div className="relative">
-
-                  {/* Top row */}
-                  <div className="mb-8 flex items-start justify-between gap-4">
-                    <div
-                      className="
-                        flex
-                        h-12
-                        w-12
-                        items-center
-                        justify-center
-                        rounded-2xl
-                        border
-                        border-[color-mix(in_srgb,var(--theme-primary)_25%,transparent)]
-                        bg-[var(--theme-glow)]
-                      "
-                    >
-                      {isCertification ? (
-                        <Award
-                          size={21}
-                          className="theme-primary"
-                        />
-                      ) : (
-                        <Trophy
-                          size={21}
-                          className="theme-primary"
-                        />
-                      )}
-                    </div>
-
-                    {/* Verified badge */}
-                    {item.verified && (
-                      <div
-                        className="
-                          flex
-                          items-center
-                          gap-1.5
-                          rounded-full
-                          border
-                          border-emerald-400/20
-                          bg-emerald-400/10
-                          px-3
-                          py-1.5
-                          text-[10px]
-                          font-semibold
-                          uppercase
-                          tracking-[0.15em]
-                          text-emerald-400
-                        "
-                      >
-                        <ShieldCheck size={13} />
-                        Verified
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Type */}
-                  <div className="mb-3">
-                    <span className="theme-primary font-mono text-[10px] uppercase tracking-[0.2em]">
-                      {item.type}
-                    </span>
-                  </div>
-
-                  {/* Title */}
-                  <h3
-                    className="
-                      theme-text
-                      text-2xl
-                      font-bold
-                      tracking-tight
-                      transition-colors
-                      duration-300
-                      group-hover:text-[var(--theme-primary)]
-                    "
-                  >
-                    {item.title}
-                  </h3>
-
-                  {/* Issuer + date */}
-                  <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
-                    <span className="theme-secondary-text font-medium">
-                      {item.issuer}
-                    </span>
-
-                    <span className="theme-subtle">•</span>
-
-                    <span className="theme-muted">
-                      {item.date}
-                    </span>
-                  </div>
-
-                  {/* Description */}
-                  <p className="theme-muted mt-5 text-sm leading-7">
-                    {item.description}
-                  </p>
-
-                  {/* Bottom action */}
-                  <div className="mt-7 flex items-center justify-between gap-4">
-                    <span className="theme-subtle font-mono text-[10px] uppercase tracking-[0.18em]">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-
-                    <a
-                      href={item.link}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="
-                        theme-text
-                        inline-flex
-                        items-center
-                        gap-2
-                        rounded-full
-                        border
-                        border-[color-mix(in_srgb,var(--theme-primary)_20%,transparent)]
-                        bg-[var(--theme-glow)]
-                        px-5
-                        py-2.5
-                        text-sm
-                        font-semibold
-                        transition-all
-                        duration-300
-                        hover:-translate-y-1
-                        hover:border-[var(--theme-primary)]
-                        hover:bg-[var(--theme-surface-hover)]
-                      "
-                    >
-                      <ExternalLink size={15} />
-
-                      View Certificate
-
-                      <ArrowUpRight
-                        size={15}
-                        className="
-                          transition-transform
-                          duration-300
-                          group-hover:translate-x-0.5
-                          group-hover:-translate-y-0.5
-                        "
-                      />
-                    </a>
-                  </div>
-                </div>
-
-                {/* Bottom accent line */}
-                <div
-                  className="
-                    absolute
-                    bottom-0
-                    left-0
-                    h-px
-                    w-0
-                    bg-gradient-to-r
-                    from-[var(--theme-primary)]
-                    to-[var(--theme-secondary)]
-                    transition-all
-                    duration-700
-                    group-hover:w-full
-                  "
-                />
-              </motion.article>
-            );
-          })}
+          <p
+            className="max-w-md text-sm leading-7 sm:text-base"
+            style={{
+              color: "var(--theme-text-muted)",
+            }}
+          >
+            A collection of certifications and credentials earned
+            through continuous learning, technical development and
+            hands-on experience.
+          </p>
         </div>
 
-        {/* ----------------------------------------
-            BOTTOM STATEMENT
-        ----------------------------------------- */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="theme-border mt-16 border-t pt-8"
-        >
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        {/* First 4 Certificates */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-2">
+          {certificates
+            .slice(0, INITIAL_VISIBLE)
+            .map((certificate, index) => (
+              <CertificateCard
+                key={certificate.title}
+                certificate={certificate}
+                actualIndex={index}
+              />
+            ))}
+        </div>
 
-            {/* Fixed supporting text */}
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--theme-text-secondary)] opacity-100">
-              <span className="theme-primary">✓</span>{" "}
-              Continuous growth
-            </p>
+        {/* Stable scroll anchor */}
+        <div
+          ref={showMoreButtonRef}
+          className="h-0"
+          aria-hidden="true"
+        />
 
-            {/* Fixed supporting text */}
-            <p className="text-sm text-[var(--theme-text-secondary)] opacity-100">
-              Every milestone is another step forward.
-            </p>
+        {/* Show More Button */}
+        {!showAll && certificates.length > INITIAL_VISIBLE && (
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: 10,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{
+              duration: 0.4,
+            }}
+            className="mt-12 flex justify-center"
+          >
+            <motion.button
+              type="button"
+              onClick={toggleShowAll}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              aria-expanded={false}
+              aria-controls="additional-certificates"
+              className="group inline-flex items-center gap-3 rounded-full border px-7 py-3.5 text-sm font-semibold transition-all duration-300 hover:shadow-lg"
+              style={{
+                color: "var(--theme-text)",
+                backgroundColor: "var(--theme-surface)",
+                borderColor: "var(--theme-border)",
+              }}
+            >
+              <span>
+                Show More ({certificates.length - INITIAL_VISIBLE})
+              </span>
 
-          </div>
-        </motion.div>
+              <ChevronDown
+                size={18}
+                className="transition-transform duration-300 group-hover:translate-y-0.5"
+              />
+            </motion.button>
+          </motion.div>
+        )}
+
+        {/* Additional Certificates */}
+        <AnimatePresence initial={false}>
+          {showAll && (
+            <motion.div
+              id="additional-certificates"
+              initial={{
+                opacity: 0,
+                y: 20,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              exit={{
+                opacity: 0,
+                y: -10,
+              }}
+              transition={{
+                duration: 0.45,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-2"
+            >
+              {certificates
+                .slice(INITIAL_VISIBLE)
+                .map((certificate, index) => (
+                  <CertificateCard
+                    key={certificate.title}
+                    certificate={certificate}
+                    actualIndex={index + INITIAL_VISIBLE}
+                    delay={index * 0.06}
+                  />
+                ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Show Less */}
+        {showAll && certificates.length > INITIAL_VISIBLE && (
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: 10,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            exit={{
+              opacity: 0,
+              y: -10,
+            }}
+            transition={{
+              duration: 0.4,
+            }}
+            className="mt-12 flex justify-center"
+          >
+            <motion.button
+              type="button"
+              onClick={toggleShowAll}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              aria-expanded={true}
+              aria-controls="additional-certificates"
+              className="group inline-flex items-center gap-3 rounded-full border px-7 py-3.5 text-sm font-semibold transition-all duration-300 hover:shadow-lg"
+              style={{
+                color: "var(--theme-text)",
+                backgroundColor: "var(--theme-surface)",
+                borderColor: "var(--theme-border)",
+              }}
+            >
+              <span>Show Less</span>
+
+              <ChevronDown
+                size={18}
+                className="rotate-180 transition-transform duration-300 group-hover:-translate-y-0.5"
+              />
+            </motion.button>
+          </motion.div>
+        )}
+
+        {/* Counter */}
+        <div className="mt-5 text-center">
+          <span
+            className="text-xs"
+            style={{
+              color: "var(--theme-text-muted)",
+            }}
+          >
+            Showing {visibleCertificates.length} of{" "}
+            {certificates.length} certifications
+          </span>
+        </div>
       </div>
+
+      {/* =====================================================
+          FULLSCREEN CERTIFICATE VIEWER
+          ===================================================== */}
+      <AnimatePresence>
+        {selectedCertificate && selectedIndex !== null && (
+          <motion.div
+            initial={{
+              opacity: 0,
+            }}
+            animate={{
+              opacity: 1,
+            }}
+            exit={{
+              opacity: 0,
+            }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm sm:p-8"
+            onClick={() => setSelectedIndex(null)}
+          >
+            {/* Close Button */}
+            <button
+              type="button"
+              onClick={() => setSelectedIndex(null)}
+              className="absolute right-4 top-4 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 sm:right-6 sm:top-6"
+              aria-label="Close certificate viewer"
+            >
+              <X size={22} />
+            </button>
+
+            {/* Previous */}
+            {certificates.length > 1 && (
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  showPrevious();
+                }}
+                className="absolute left-3 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 sm:left-6"
+                aria-label="Previous certificate"
+              >
+                <ChevronLeft size={24} />
+              </button>
+            )}
+
+            {/* Next */}
+            {certificates.length > 1 && (
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  showNext();
+                }}
+                className="absolute right-3 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 sm:right-6"
+                aria-label="Next certificate"
+              >
+                <ChevronRight size={24} />
+              </button>
+            )}
+
+            {/* Viewer */}
+            <motion.div
+              initial={{
+                opacity: 0,
+                scale: 0.96,
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+              }}
+              exit={{
+                opacity: 0,
+                scale: 0.96,
+              }}
+              transition={{
+                duration: 0.25,
+              }}
+              className="relative flex max-h-[92vh] max-w-[92vw] flex-col items-center"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="relative flex max-h-[80vh] max-w-[90vw] items-center justify-center overflow-hidden rounded-xl bg-white/5 shadow-2xl">
+                <img
+                  src={selectedCertificate.image}
+                  alt={selectedCertificate.title}
+                  draggable={false}
+                  className="max-h-[80vh] max-w-[90vw] object-contain"
+                />
+              </div>
+
+              {/* Viewer Info */}
+              <div className="mt-5 max-w-2xl text-center">
+                <h3 className="text-lg font-semibold text-white sm:text-xl">
+                  {selectedCertificate.title}
+                </h3>
+
+                <p className="mt-1 text-sm text-white/60">
+                  {selectedCertificate.issuer} •{" "}
+                  {selectedCertificate.date}
+                </p>
+
+                <div className="mt-4 flex items-center justify-center gap-2 text-xs text-white/40">
+                  <span>
+                    {selectedIndex + 1} / {certificates.length}
+                  </span>
+
+                  <span>•</span>
+
+                  <span className="hidden sm:inline">
+                    Use ← → to navigate · Esc to close
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
-
-export default Achievements;
