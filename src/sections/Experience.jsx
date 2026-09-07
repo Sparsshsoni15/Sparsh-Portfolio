@@ -16,7 +16,7 @@ import {
   useSpring,
 } from "motion/react";
 
-import { useState, useRef } from "react";
+import { useRef } from "react";
 
 const journey = [
   {
@@ -104,21 +104,6 @@ const journey = [
 function Experience() {
   const timelineRef = useRef(null);
 
-  // Cursor-follow glow
-  const [cursorPosition, setCursorPosition] = useState({
-    x: 0,
-    y: 0,
-  });
-
-  const handleCursorMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-
-    setCursorPosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
-
   const { scrollYProgress } = useScroll({
     target: timelineRef,
     offset: ["start 72%", "end 28%"],
@@ -133,28 +118,8 @@ function Experience() {
   return (
     <section
       id="experience"
-      onMouseMove={handleCursorMove}
       className="relative overflow-hidden px-6 py-32 lg:px-10 lg:py-40"
     >
-      {/* =========================================================
-          CURSOR FOLLOW GLOW
-      ========================================================= */}
-
-      <motion.div
-        aria-hidden="true"
-        className="pointer-events-none absolute z-0 hidden h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--theme-primary)] opacity-10 blur-3xl md:block"
-        animate={{
-          left: cursorPosition.x,
-          top: cursorPosition.y,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 80,
-          damping: 25,
-          mass: 0.5,
-        }}
-      />
-
       <div className="mx-auto max-w-7xl">
         {/* =========================================================
             HEADING
@@ -472,31 +437,44 @@ function Experience() {
                     }}
                     viewport={{
                       once: true,
-                      amount: 0.4,
+                      amount: 0.15,
                     }}
                     transition={{
                       duration: 0.5,
                       delay: 0.25,
                       ease: "easeOut",
                     }}
-                    className={`
-                      pointer-events-none
-                      absolute
-                      top-[47px]
-                      hidden
-                      h-px
-                      w-[calc(50%_-_20px)]
-                      origin-${isRight ? "left" : "right"}
-                      bg-gradient-to-${isRight ? "r" : "l"}
-                      from-[var(--theme-primary)]
-                      to-[var(--theme-border-strong)]
-                      md:block
-                      ${
-                        isRight
-                          ? "left-1/2"
-                          : "right-1/2"
-                      }
-                    `}
+                    className={
+                      isRight
+                        ? `
+                          pointer-events-none
+                          absolute
+                          left-1/2
+                          top-[47px]
+                          hidden
+                          h-px
+                          w-[calc(50%_-_20px)]
+                          origin-left
+                          bg-gradient-to-r
+                          from-[var(--theme-primary)]
+                          to-[var(--theme-border-strong)]
+                          md:block
+                        `
+                        : `
+                          pointer-events-none
+                          absolute
+                          right-1/2
+                          top-[47px]
+                          hidden
+                          h-px
+                          w-[calc(50%_-_20px)]
+                          origin-right
+                          bg-gradient-to-l
+                          from-[var(--theme-primary)]
+                          to-[var(--theme-border-strong)]
+                          md:block
+                        `
+                    }
                   />
 
                   {/* =================================================
