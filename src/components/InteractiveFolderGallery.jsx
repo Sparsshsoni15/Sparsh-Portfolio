@@ -450,14 +450,20 @@ function InteractiveFolderGallery({
                                                       zIndex: 50 + index,
                                                   }
                                                 : {
+                                                      /*
+                                                       * CHANGED ONLY HERE:
+                                                       * Cards are now slightly
+                                                       * visible from the folder
+                                                       * from the beginning.
+                                                       */
                                                       x: stackX,
-                                                      y: stackY,
+                                                      y: stackY - 45,
                                                       rotate: stackRotate,
                                                       scale:
                                                           1 -
                                                           Math.abs(offset) *
                                                               0.025,
-                                                      opacity: 0,
+                                                      opacity: 1,
                                                       zIndex: 1,
                                                   }
                                         }
