@@ -198,12 +198,6 @@ html {
 }
 
 body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-
-  background: var(--theme-bg);
-  color: var(--theme-text);
 
   font-family:
     Inter,
@@ -569,8 +563,16 @@ a {
   opacity: 1 !important;
 }
 @media (hover: hover) and (pointer: fine) {
-  html.custom-cursor-active,
-  html.custom-cursor-active * {
+  html.custom-cursor-active {
     cursor: none !important;
+  }
+
+  html.custom-cursor-active a,
+  html.custom-cursor-active button,
+  html.custom-cursor-active input,
+  html.custom-cursor-active textarea,
+  html.custom-cursor-active select,
+  html.custom-cursor-active [role="button"] {
+    cursor: pointer !important;
   }
 }

@@ -1,251 +1,231 @@
 import { useEffect, useRef, useState } from "react";
 
 const CustomCursor = () => {
-  const coreRef = useRef(null);
-  const orbitRef = useRef(null);
-  const glowRef = useRef(null);
+    const cursorRef = useRef(null);
+    const trailRefs = useRef([]);
 
-  const [enabled, setEnabled] = useState(false);
-  const [hovering, setHovering] = useState(false);
-  const [clicking, setClicking] = useState(false);
-
-  // Desktop / mouse only
-  useEffect(() => {
-    const media = window.matchMedia(
-      "(hover: hover) and (pointer: fine)"
-    );
-
-    const check = () => setEnabled(media.matches);
-
-    check();
-    media.addEventListener("change", check);
-
-    return () => media.removeEventListener("change", check);
-  }, []);
-
-  useEffect(() => {
-    if (!enabled) return;
-
-    document.documentElement.classList.add("custom-cursor-active");
-
-    const core = coreRef.current;
-    const orbit = orbitRef.current;
-    const glow = glowRef.current;
-
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-
-    let orbitX = mouseX;
-    let orbitY = mouseY;
-
-    let glowX = mouseX;
-    let glowY = mouseY;
-
-    let animationFrame;
-
-    const handleMove = (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-
-      // Detect interactive elements
-      const interactive = e.target.closest(
-        "a, button, input, textarea, select, [role='button']"
-      );
-
-      setHovering(Boolean(interactive));
-
-      // Sharp center
-      if (core) {
-        core.style.transform = `
-          translate3d(${mouseX}px, ${mouseY}px, 0)
-          translate(-50%, -50%)
-        `;
-      }
-    };
-
-    const handleDown = () => {
-      setClicking(true);
-    };
-
-    const handleUp = () => {
-      setClicking(false);
-    };
-
-    const animate = () => {
-      // Orbit follows smoothly
-      orbitX += (mouseX - orbitX) * 0.16;
-      orbitY += (mouseY - orbitY) * 0.16;
-
-      // Glow follows even more smoothly
-      glowX += (mouseX - glowX) * 0.09;
-      glowY += (mouseY - glowY) * 0.09;
-
-      if (orbit) {
-        orbit.style.transform = `
-          translate3d(${orbitX}px, ${orbitY}px, 0)
-          translate(-50%, -50%)
-        `;
-      }
-
-      if (glow) {
-        glow.style.transform = `
-          translate3d(${glowX}px, ${glowY}px, 0)
-          translate(-50%, -50%)
-        `;
-      }
-
-      animationFrame = requestAnimationFrame(animate);
-    };
-
-    window.addEventListener("mousemove", handleMove, {
-      passive: true,
+    const mouseRef = useRef({
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
     });
 
-    window.addEventListener("mousedown", handleDown);
-    window.addEventListener("mouseup", handleUp);
+    const positionRef = useRef({
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+    });
 
-    animationFrame = requestAnimationFrame(animate);
+    const [enabled, setEnabled] = useState(false);
+    const [isInteractive, setIsInteractive] = useState(false);
 
-    return () => {
-      window.removeEventListener("mousemove", handleMove);
-      window.removeEventListener("mousedown", handleDown);
-      window.removeEventListener("mouseup", handleUp);
+    useEffect(() => {
+        const mediaQuery = window.matchMedia(
+            "(hover: hover) and (pointer: fine)"
+        );
 
-      cancelAnimationFrame(animationFrame);
+        const update = () => {
+            setEnabled(mediaQuery.matches);
+        };
 
-      document.documentElement.classList.remove(
-        "custom-cursor-active"
-      );
-    };
-  }, [enabled]);
+        update();
 
-  if (!enabled) return null;
+        mediaQuery.addEventListener("change", update);
 
-  return (
-    <>
-      {/* Ambient Glow */}
-      <div
-        ref={glowRef}
-        className={`
-          pointer-events-none fixed left-0 top-0 z-[99996]
-          rounded-full
-          bg-[var(--theme-primary)]
-          blur-2xl
-          transition-all duration-300
-          ${
-            hovering
-              ? "h-20 w-20 opacity-[0.12]"
-              : "h-12 w-12 opacity-[0.07]"
-          }
+        return () => {
+            mediaQuery.removeEventListener("change", update);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!enabled) return;
+
+        document.documentElement.classList.add("custom-cursor-active");
+
+        const cursor = cursorRef.current;
+        const particles = trailRefs.current;
+
+        const mouse = mouseRef.current;
+        const position = positionRef.current;
+
+        // Trail starts behind the cursor
+        const trail = Array.from({ length: 10 }, () => ({
+            x: mouse.x,
+            y: mouse.y,
+        }));
+
+        let animationFrame;
+
+        const handleMouseMove = (event) => {
+            mouse.x = event.clientX;
+            mouse.y = event.clientY;
+
+            const interactive = event.target.closest(
+                "a, button, input, textarea, select, [role='button']"
+            );
+
+            setIsInteractive(Boolean(interactive));
+        };
+
+        const animate = () => {
+            // Smooth cursor movement
+            position.x += (mouse.x - position.x) * 0.28;
+            position.y += (mouse.y - position.y) * 0.28;
+
+            if (cursor) {
+                cursor.style.transform = `
+          translate3d(
+            ${position.x}px,
+            ${position.y}px,
+            0
+          )
+        `;
+            }
+
+            /*
+              TRAIL:
+              First particle follows the cursor,
+              remaining particles follow the previous particle.
+              This makes the tail extend BELOW/BEHIND the cursor.
+            */
+
+            trail[0].x +=
+                (position.x - trail[0].x) * 0.22;
+
+            trail[0].y +=
+                (position.y - trail[0].y) * 0.22;
+
+            for (let i = 1; i < trail.length; i++) {
+                trail[i].x +=
+                    (trail[i - 1].x - trail[i].x) * 0.20;
+
+                trail[i].y +=
+                    (trail[i - 1].y - trail[i].y) * 0.20;
+            }
+
+            particles.forEach((particle, index) => {
+                if (!particle) return;
+
+                const size = Math.max(
+                    1.2,
+                    4.8 - index * 0.42
+                );
+
+                const opacity = Math.max(
+                    0.04,
+                    0.7 - index * 0.07
+                );
+
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.opacity = opacity;
+
+                particle.style.transform = `
+          translate3d(
+            ${trail[index].x}px,
+            ${trail[index].y}px,
+            0
+          )
+          translate(-50%, -50%)
+        `;
+            });
+
+            animationFrame = requestAnimationFrame(animate);
+        };
+
+        window.addEventListener(
+            "mousemove",
+            handleMouseMove,
+            { passive: true }
+        );
+
+        animationFrame = requestAnimationFrame(animate);
+
+        return () => {
+            window.removeEventListener(
+                "mousemove",
+                handleMouseMove
+            );
+
+            cancelAnimationFrame(animationFrame);
+
+            document.documentElement.classList.remove(
+                "custom-cursor-active"
+            );
+        };
+    }, [enabled]);
+
+    if (!enabled) return null;
+
+    return (
+        <>
+            {/* =========================
+          SPARKLING TRAIL
+      ========================== */}
+            <div className="pointer-events-none fixed inset-0 z-[99997]">
+                {Array.from({ length: 10 }).map((_, index) => (
+                    <span
+                        key={index}
+                        ref={(element) => {
+                            trailRefs.current[index] = element;
+                        }}
+                        className="pointer-events-none fixed left-0 top-0 rounded-full"
+                        style={{
+                            opacity: 0,
+                            background: "var(--theme-primary)",
+                            boxShadow:
+                                "0 0 8px var(--theme-primary), 0 0 16px var(--theme-primary)",
+                            willChange: "transform, opacity",
+                        }}
+                    />
+                ))}
+            </div>
+
+            {/* =========================
+          CUSTOM SHARP CURSOR
+      ========================== */}
+            <div
+                ref={cursorRef}
+                className={`
+          pointer-events-none fixed left-0 top-0
+          z-[100000]
+          transition-opacity duration-150
+          ${isInteractive ? "opacity-0" : "opacity-100"}
         `}
-      />
-
-      {/* Rotating Orbit */}
-      <div
-        ref={orbitRef}
-        className={`
-          pointer-events-none fixed left-0 top-0 z-[99998]
-          h-9 w-9
-          transition-all duration-300 ease-out
-          ${
-            hovering
-              ? "scale-125"
-              : "scale-100"
-          }
-          ${clicking ? "scale-75" : ""}
-        `}
-      >
-        {/* Orbit ring */}
-        <div
-          className="
-            absolute inset-0
-            rounded-full
-            border border-[var(--theme-primary)]
-            opacity-60
-            animate-[spin_3s_linear_infinite]
-          "
-        />
-
-        {/* Orbit accent */}
-        <div
-          className="
-            absolute
-            -right-0.5
-            top-1/2
-            h-1.5
-            w-1.5
-            -translate-y-1/2
-            rounded-full
-            bg-[var(--theme-primary)]
-            shadow-[0_0_8px_var(--theme-primary)]
-          "
-        />
-
-        {/* Second accent */}
-        <div
-          className="
-            absolute
-            -left-0.5
-            top-1/2
-            h-1
-            w-1
-            -translate-y-1/2
-            rounded-full
-            bg-[var(--theme-primary)]
-            opacity-70
-          "
-        />
-      </div>
-
-      {/* Sharp Center Spark */}
-      <div
-        ref={coreRef}
-        className={`
-          pointer-events-none fixed left-0 top-0 z-[100000]
-          transition-transform duration-150 ease-out
-          ${clicking ? "scale-75" : ""}
-        `}
-      >
-        <div className="relative h-3 w-3">
-
-          {/* Vertical */}
-          <div
-            className="
-              absolute left-1/2 top-0
-              h-3 w-[1px]
-              -translate-x-1/2
-              bg-[var(--theme-primary)]
-              shadow-[0_0_6px_var(--theme-primary)]
-            "
-          />
-
-          {/* Horizontal */}
-          <div
-            className="
-              absolute left-0 top-1/2
-              h-[1px] w-3
-              -translate-y-1/2
-              bg-[var(--theme-primary)]
-              shadow-[0_0_6px_var(--theme-primary)]
-            "
-          />
-
-          {/* Center */}
-          <div
-            className="
-              absolute left-1/2 top-1/2
-              h-1.5 w-1.5
-              -translate-x-1/2
-              -translate-y-1/2
-              rounded-full
-              bg-[var(--theme-primary)]
-              shadow-[0_0_10px_var(--theme-primary)]
-            "
-          />
-        </div>
-      </div>
-    </>
-  );
+                style={{
+                    transformOrigin: "0 0",
+                    willChange: "transform",
+                }}
+            >
+                <svg
+                    width="16"
+                    height="20"
+                    viewBox="0 0 20 27"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    style={{
+                        overflow: "visible",
+                    }}
+                >
+                    <path
+                        d="
+      M1.2 0.8
+      L1.2 19.8
+      L6.4 15.2
+      L10.4 24.8
+      L13.1 23.6
+      L9.1 14
+      L16.2 14
+      L1.2 0.8
+      Z
+    "
+                        fill="var(--theme-primary)"
+                        stroke="#0A0A0A"
+                        strokeWidth="1.1"
+                        strokeLinejoin="round"
+                    />
+                </svg>
+            </div>
+        </>
+    );
 };
 
 export default CustomCursor;

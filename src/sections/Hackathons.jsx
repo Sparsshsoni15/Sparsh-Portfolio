@@ -46,6 +46,16 @@ const hackathons = [
     icon: Users,
     image: "/hackathons/hackdevengers.jpeg",
   },
+  {
+    number: "04",
+    title: "DECODE SIH 2026",
+    type: "Hackathon",
+    description:
+        "Participated in DECODE SIH 2026, collaborating with a team to analyze a real-world problem statement and develop an innovative solution under strict time constraints.",
+    tags: ["Hackathon", "Problem Solving", "Teamwork"],
+    icon: Users,
+    image: "/hackathons/decode-sih.jpeg",
+},
 ];
 
 const INITIAL_VISIBLE = 3;
