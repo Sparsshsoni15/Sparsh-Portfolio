@@ -457,7 +457,7 @@ function InteractiveFolderGallery({
                                                        * from the beginning.
                                                        */
                                                       x: stackX,
-                                                      y: stackY - 45,
+                                                      y: stackY - 15,
                                                       rotate: stackRotate,
                                                       scale:
                                                           1 -
