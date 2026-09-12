@@ -10,7 +10,7 @@ import {
   useSpring,
 } from "motion/react";
 
-import TextType from "./TextType";
+import TextType from "../components/TextType";
 
 function Hero() {
   // ============================================

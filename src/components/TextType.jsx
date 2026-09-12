@@ -57,14 +57,14 @@ function TextType({
   ]);
 
   return (
-    <span className="inline-flex items-center">
+    <>
       <span>{displayText}</span>
 
       {showCursor && (
         <span
-          className="ml-1 inline-block"
+          className="ml-1"
           style={{
-            animation: `textTypeCursor ${cursorBlinkDuration}s ease-in-out infinite`,
+            animation: `textTypeCursor ${cursorBlinkDuration}s infinite`,
           }}
         >
           {cursorCharacter}
@@ -84,7 +84,7 @@ function TextType({
           }
         }
       `}</style>
-    </span>
+    </>
   );
 }
 
