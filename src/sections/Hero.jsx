@@ -347,13 +347,16 @@ function Hero() {
               gap-3
             "
           >
-            {/* GitHub */}
+            {/* =====================================
+                GITHUB
+            ====================================== */}
 
             <motion.a
               href="https://github.com/Sparsshsoni15"
               target="_blank"
-              rel="noreferrer"
-              aria-label="GitHub"
+              rel="noopener noreferrer"
+              aria-label="Visit Sparsh Soni's GitHub profile"
+              title="GitHub"
               whileHover={{
                 y: -3,
                 scale: 1.05,
@@ -385,18 +388,22 @@ function Hero() {
                 viewBox="0 0 24 24"
                 fill="currentColor"
                 aria-hidden="true"
+                focusable="false"
               >
                 <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2.17c-3.2.7-3.87-1.35-3.87-1.35-.53-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.33.96.1-.74.4-1.25.73-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.17a10.9 10.9 0 0 1 5.74 0c2.19-1.48 3.15-1.17 3.15-1.17.62 1.58.23 2.75.11 3.04.73.8 1.18 1.82 1.18 3.07 0 4.41-2.69 5.38-5.25 5.67.41.35.78 1.04.78 2.1v3.11c0 .31.21.67.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" />
               </svg>
             </motion.a>
 
-            {/* LinkedIn */}
+            {/* =====================================
+                LINKEDIN
+            ====================================== */}
 
             <motion.a
-              href="https://www.linkedin.com/"
+              href="https://www.linkedin.com/in/sparsshsoni15/"
               target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn"
+              rel="noopener noreferrer"
+              aria-label="Visit Sparsh Soni's LinkedIn profile"
+              title="LinkedIn"
               whileHover={{
                 y: -3,
                 scale: 1.05,
@@ -428,16 +435,20 @@ function Hero() {
                 viewBox="0 0 24 24"
                 fill="currentColor"
                 aria-hidden="true"
+                focusable="false"
               >
                 <path d="M20.45 20.45h-3.56v-5.58c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.68H9.34V8.98h3.42v1.57h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.48v6.27ZM5.32 7.41a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM3.54 20.45H7.1V8.98H3.54v11.47ZM22.23 0H1.77C.79 0 0 .78 0 1.74v20.52C0 23.22.79 24 1.77 24h20.46C23.21 24 24 23.22 24 22.26V1.74C24 .78 23.21 0 22.23 0Z" />
               </svg>
             </motion.a>
 
-            {/* Email */}
+            {/* =====================================
+                EMAIL
+            ====================================== */}
 
             <motion.a
               href="mailto:sparsshsoni15@gmail.com"
-              aria-label="Email"
+              aria-label="Send an email to Sparsh Soni"
+              title="Email Sparsh"
               whileHover={{
                 y: -3,
                 scale: 1.05,
@@ -463,7 +474,10 @@ function Hero() {
                   "var(--theme-border)",
               }}
             >
-              <Mail size={18} />
+              <Mail
+                size={18}
+                aria-hidden="true"
+              />
             </motion.a>
           </motion.div>
         </motion.div>
