@@ -269,6 +269,7 @@ function Hero() {
               whileTap={{
                 scale: 0.97,
               }}
+              aria-label="View my work"
               className="
                 inline-flex
                 items-center
@@ -289,7 +290,7 @@ function Hero() {
             >
               View My Work
 
-              <ArrowUpRight size={17} />
+              <ArrowUpRight size={17} aria-hidden="true" />
             </motion.a>
 
             {/* Resume */}
@@ -297,6 +298,8 @@ function Hero() {
             <motion.a
               href="/resume.pdf"
               download
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{
                 y: -3,
                 scale: 1.02,
@@ -304,6 +307,7 @@ function Hero() {
               whileTap={{
                 scale: 0.97,
               }}
+              aria-label="Download Sparsh Soni's resume"
               className="
                 inline-flex
                 items-center
@@ -323,7 +327,7 @@ function Hero() {
                   "var(--theme-border-strong)",
               }}
             >
-              <Download size={17} />
+              <Download size={17} aria-hidden="true" />
 
               Download Resume
             </motion.a>
@@ -359,7 +363,7 @@ function Hero() {
               title="GitHub"
               whileHover={{
                 y: -3,
-                scale: 1.05,
+                scale: 1.08,
               }}
               whileTap={{
                 scale: 0.95,
@@ -372,6 +376,7 @@ function Hero() {
                 justify-center
                 rounded-xl
                 border
+                transition-colors
               "
               style={{
                 color:
@@ -383,8 +388,8 @@ function Hero() {
               }}
             >
               <svg
-                width="18"
-                height="18"
+                width="19"
+                height="19"
                 viewBox="0 0 24 24"
                 fill="currentColor"
                 aria-hidden="true"
@@ -406,7 +411,7 @@ function Hero() {
               title="LinkedIn"
               whileHover={{
                 y: -3,
-                scale: 1.05,
+                scale: 1.08,
               }}
               whileTap={{
                 scale: 0.95,
@@ -419,6 +424,7 @@ function Hero() {
                 justify-center
                 rounded-xl
                 border
+                transition-colors
               "
               style={{
                 color:
@@ -430,8 +436,8 @@ function Hero() {
               }}
             >
               <svg
-                width="18"
-                height="18"
+                width="19"
+                height="19"
                 viewBox="0 0 24 24"
                 fill="currentColor"
                 aria-hidden="true"
@@ -451,7 +457,7 @@ function Hero() {
               title="Email Sparsh"
               whileHover={{
                 y: -3,
-                scale: 1.05,
+                scale: 1.08,
               }}
               whileTap={{
                 scale: 0.95,
@@ -464,6 +470,7 @@ function Hero() {
                 justify-center
                 rounded-xl
                 border
+                transition-colors
               "
               style={{
                 color:
@@ -475,7 +482,8 @@ function Hero() {
               }}
             >
               <Mail
-                size={18}
+                size={19}
+                strokeWidth={2}
                 aria-hidden="true"
               />
             </motion.a>
@@ -1185,6 +1193,7 @@ function Hero() {
           repeat: Infinity,
           ease: "easeInOut",
         }}
+        aria-label="Scroll to About section"
         className="
           absolute
           bottom-7
