@@ -80,11 +80,9 @@ function Hero() {
   };
 
   const handleCardMouseLeave = () => {
-    // Smoothly reset tilt
     rotateX.set(0);
     rotateY.set(0);
 
-    // Move glow back towards center
     glowX.set(0);
     glowY.set(0);
   };
@@ -106,9 +104,9 @@ function Hero() {
           lg:gap-16
         "
       >
-        {/* =========================
+        {/* =========================================
             LEFT SIDE
-        ========================== */}
+        ========================================== */}
 
         <motion.div
           initial={{ opacity: 0, x: -35 }}
@@ -131,10 +129,12 @@ function Hero() {
               duration: 0.6,
             }}
             className="
-              mb-6
+              mb-7
               font-mono
-              text-sm
-              sm:text-base
+              text-lg
+              font-semibold
+              sm:text-xl
+              md:text-2xl
             "
             style={{
               color: "var(--theme-secondary)",
@@ -468,9 +468,9 @@ function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* =========================
+        {/* =========================================
             RIGHT CODE CARD
-        ========================== */}
+        ========================================== */}
 
         <motion.div
           initial={{
@@ -587,9 +587,9 @@ function Hero() {
             </p>
           </motion.div>
 
-          {/* =========================
+          {/* =========================================
               CODE WINDOW
-          ========================== */}
+          ========================================== */}
 
           <motion.div
             onMouseMove={handleCardMouseMove}
