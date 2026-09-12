@@ -9,16 +9,16 @@ import sparshPhoto from "../assets/sparsh.png";
 
 const stats = [
   {
-    value: "10+",
-    label: "Projects Built",
+    value: "2nd",
+    label: "Year of Engineering",
   },
   {
-    value: "∞",
-    label: "Things to Learn",
+    value: "ELCE",
+    label: "My Branch",
   },
   {
-    value: "24/7",
-    label: "Curiosity",
+    value: "Build",
+    label: "Current Focus",
   },
 ];
 
@@ -30,7 +30,10 @@ function About() {
     >
       <div className="mx-auto max-w-7xl">
 
-        {/* SECTION HEADING */}
+        {/* =========================================
+            SECTION HEADING
+        ========================================== */}
+
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -51,22 +54,24 @@ function About() {
               </span>
             </h2>
 
-            {/* Theme-aware supporting text */}
             <p
               className="
                 max-w-sm
                 text-sm
                 leading-7
                 text-[var(--theme-text-secondary)]
-                opacity-100
               "
             >
-              Learning, experimenting and building one idea at a time.
+              A student who enjoys learning by building things and figuring
+              out how they work.
             </p>
           </div>
         </motion.div>
 
-        {/* MAIN ABOUT CARD */}
+        {/* =========================================
+            MAIN ABOUT CARD
+        ========================================== */}
+
         <motion.div
           initial={{ opacity: 0, y: 35 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -75,6 +80,7 @@ function About() {
           className="theme-border theme-surface relative overflow-hidden rounded-3xl border"
         >
           {/* Background glow */}
+
           <div
             className="pointer-events-none absolute -right-40 -top-40 h-96 w-96 rounded-full blur-[120px]"
             style={{
@@ -85,9 +91,14 @@ function About() {
 
           <div className="relative grid lg:grid-cols-[1fr_360px]">
 
-            {/* CONTENT */}
+            {/* =====================================
+                CONTENT
+            ====================================== */}
+
             <div className="flex flex-col justify-between p-7 md:p-10 lg:p-12">
               <div>
+
+                {/* INTRO LABEL */}
 
                 <div className="mb-7 flex items-center gap-3">
                   <div
@@ -106,23 +117,26 @@ function About() {
 
                   <div>
                     <p className="theme-subtle font-mono text-[10px] uppercase tracking-[0.2em]">
-                      Engineering Student
+                      Electrical & Computer Engineering
                     </p>
 
                     <p className="theme-secondary-text mt-1 text-sm font-medium">
-                      Building with curiosity
+                      Learning by building
                     </p>
                   </div>
                 </div>
 
+                {/* MAIN HEADING */}
+
                 <h3 className="theme-text max-w-3xl text-2xl font-bold leading-tight md:text-3xl">
-                  I enjoy turning ideas into{" "}
+                  I'm interested in technology,{" "}
                   <span className="theme-primary">
-                    useful digital experiences.
+                    but I enjoy building with it even more.
                   </span>
                 </h3>
 
                 {/* ABOUT DESCRIPTION */}
+
                 <div
                   className="
                     mt-6
@@ -130,33 +144,38 @@ function About() {
                     space-y-4
                     text-sm
                     leading-7
-                    md:text-base
                     text-[var(--theme-text-secondary)]
-                    opacity-100
+                    md:text-base
                   "
                 >
                   <p>
                     I'm Sparsh Soni, a 2nd-year Electrical and Computer
-                    Engineering student with a growing interest in web
-                    development, artificial intelligence and problem solving.
+                    Engineering student. I'm currently exploring web
+                    development, artificial intelligence and problem solving,
+                    while trying to understand the fundamentals behind the
+                    things I build.
                   </p>
 
                   <p>
-                    I like exploring new technologies, building projects and
-                    understanding how things work. For me, every project is an
-                    opportunity to learn something new and improve the way I
-                    build.
+                    I learn best when I actually build something. Whether it's
+                    a small website, a clone of an existing product or an idea
+                    of my own, I like experimenting, making mistakes and
+                    improving the result along the way.
                   </p>
 
                   <p>
-                    I'm currently focused on strengthening my development
-                    skills while experimenting with ideas that combine
-                    technology and creativity.
+                    Right now, I'm focused on becoming a better developer,
+                    strengthening my programming and DSA skills, and working on
+                    projects that are useful, interesting and worth putting
+                    out into the real world.
                   </p>
                 </div>
               </div>
 
-              {/* BOTTOM STATEMENT */}
+              {/* =====================================
+                  BOTTOM STATEMENT
+              ====================================== */}
+
               <div className="theme-border mt-10 flex flex-col gap-5 border-t pt-7 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-3">
                   <Sparkles
@@ -165,7 +184,7 @@ function About() {
                   />
 
                   <span className="theme-subtle font-mono text-[10px] uppercase tracking-[0.18em]">
-                    Always learning
+                    Building. Learning. Improving.
                   </span>
                 </div>
 
@@ -183,10 +202,16 @@ function About() {
               </div>
             </div>
 
-            {/* PHOTO + STATS */}
+            {/* =====================================
+                PHOTO + STATS
+            ====================================== */}
+
             <div className="theme-border border-t lg:border-l lg:border-t-0">
 
-              {/* PHOTO */}
+              {/* =====================================
+                  PHOTO
+              ====================================== */}
+
               <div className="p-6 md:p-8">
                 <div className="about-photo-card">
                   <figure className="relative overflow-hidden rounded-2xl border theme-border">
@@ -197,14 +222,32 @@ function About() {
                       className="block aspect-[4/5] w-full select-none object-cover"
                     />
 
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    {/* Dark gradient for text readability */}
+
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+
+                    {/* NAME + TAGLINE */}
 
                     <div className="absolute bottom-4 left-4">
-                      <p className="text-xs font-medium text-white/70">
+                      <p
+                        className="
+                          text-xs
+                          font-semibold
+                          tracking-[0.12em]
+                          text-white
+                        "
+                      >
                         SPARSH SONI
                       </p>
 
-                      <p className="mt-1 text-sm font-semibold text-white">
+                      <p
+                        className="
+                          mt-1
+                          text-sm
+                          font-semibold
+                          text-white
+                        "
+                      >
                         Engineer • Builder • Learner
                       </p>
                     </div>
@@ -212,7 +255,10 @@ function About() {
                 </div>
               </div>
 
-              {/* STATS */}
+              {/* =====================================
+                  QUICK INFO
+              ====================================== */}
+
               <div className="theme-border border-t">
                 {stats.map((stat, index) => (
                   <div
@@ -237,10 +283,14 @@ function About() {
           </div>
         </motion.div>
 
-        {/* BOTTOM MINI CARDS */}
+        {/* =========================================
+            BOTTOM MINI CARDS
+        ========================================== */}
+
         <div className="mt-6 grid gap-6 md:grid-cols-2">
 
           {/* WHAT DRIVES ME */}
+
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -264,20 +314,23 @@ function About() {
                 text-sm
                 leading-7
                 text-[var(--theme-text-secondary)]
-                opacity-100
               "
             >
-              Curiosity, consistency and the excitement of seeing an idea
-              become something real.
+              I enjoy taking an idea, figuring out how to build it and
+              gradually turning it into something that actually works.
             </p>
           </motion.div>
 
-          {/* CURRENTLY EXPLORING */}
+          {/* CURRENTLY WORKING ON */}
+
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            transition={{
+              duration: 0.6,
+              delay: 0.1,
+            }}
             className="theme-border theme-surface rounded-2xl border p-6"
           >
             <div className="mb-4 flex items-center gap-3">
@@ -287,7 +340,7 @@ function About() {
               />
 
               <span className="theme-text text-sm font-semibold">
-                Currently exploring
+                Currently working on
               </span>
             </div>
 
@@ -296,11 +349,10 @@ function About() {
                 text-sm
                 leading-7
                 text-[var(--theme-text-secondary)]
-                opacity-100
               "
             >
-              React, modern frontend development, APIs, artificial
-              intelligence and problem solving.
+              Improving my JavaScript and React skills, practicing DSA and
+              exploring how AI can be used to build better applications.
             </p>
           </motion.div>
         </div>
