@@ -13,14 +13,10 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import MouseEffects from "./components/MouseEffects";
 import GitHubContributions from "./components/GitHubContributions";
-import CustomCursor from "./components/CustomCursor";
 
 function App() {
   return (
     <div className="relative min-h-screen">
-      
-      {/* Custom Cursor */}
-      <CustomCursor />
 
       <Background />
 

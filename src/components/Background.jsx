@@ -92,7 +92,7 @@ const THEME_CONFIG = {
     accent: "#0891b2",
 
     particleOpacity: 0.82,
-    lineOpacity: 0.36,
+    lineOpacity: 0.48,
 
     glow1: "#67e8f9",
     glow2: "#2dd4bf",
