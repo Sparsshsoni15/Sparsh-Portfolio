@@ -10,6 +10,8 @@ import {
   useSpring,
 } from "motion/react";
 
+import TextType from "./TextType";
+
 function Hero() {
   // ============================================
   // CODE CARD - CURSOR FOLLOWING TILT + GLOW
@@ -54,9 +56,9 @@ function Hero() {
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    // --------------------------------------------
+    // ============================================
     // 3D TILT
-    // --------------------------------------------
+    // ============================================
 
     const maxTilt = 5;
 
@@ -69,9 +71,9 @@ function Hero() {
     rotateY.set(rotateYValue);
     rotateX.set(rotateXValue);
 
-    // --------------------------------------------
+    // ============================================
     // CURSOR FOLLOWING GLOW
-    // --------------------------------------------
+    // ============================================
 
     glowX.set(x);
     glowY.set(y);
@@ -106,7 +108,7 @@ function Hero() {
       >
         {/* =========================
             LEFT SIDE
-        ========================= */}
+        ========================== */}
 
         <motion.div
           initial={{ opacity: 0, x: -35 }}
@@ -117,9 +119,11 @@ function Hero() {
           }}
           className="relative z-10"
         >
-          {/* Intro */}
+          {/* =========================================
+              INTRO - TEXT TYPE EFFECT
+          ========================================== */}
 
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
@@ -127,17 +131,29 @@ function Hero() {
               duration: 0.6,
             }}
             className="
-              mb-6 font-mono text-sm
+              mb-6
+              font-mono
+              text-sm
               sm:text-base
             "
             style={{
               color: "var(--theme-secondary)",
             }}
           >
-            Hi, I'm Sparsh Soni 👋
-          </motion.p>
+            <TextType
+              text={["Hi, I am Sparsh Soni 👋"]}
+              typingSpeed={75}
+              deletingSpeed={50}
+              pauseDuration={1500}
+              showCursor
+              cursorCharacter="_"
+              cursorBlinkDuration={0.5}
+            />
+          </motion.div>
 
-          {/* Heading */}
+          {/* =========================================
+              HEADING
+          ========================================== */}
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -192,7 +208,9 @@ function Hero() {
             </span>
           </motion.h1>
 
-          {/* Description */}
+          {/* =========================================
+              DESCRIPTION
+          ========================================== */}
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -202,9 +220,12 @@ function Hero() {
               duration: 0.7,
             }}
             className="
-              mt-7 max-w-[620px]
-              text-sm leading-6
-              sm:text-base sm:leading-7
+              mt-7
+              max-w-[620px]
+              text-sm
+              leading-6
+              sm:text-base
+              sm:leading-7
             "
             style={{
               color: "var(--theme-text-muted)",
@@ -218,7 +239,9 @@ function Hero() {
             real-world projects.
           </motion.p>
 
-          {/* Buttons */}
+          {/* =========================================
+              BUTTONS
+          ========================================== */}
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -228,8 +251,11 @@ function Hero() {
               duration: 0.7,
             }}
             className="
-              mt-8 flex flex-wrap
-              items-center gap-3
+              mt-8
+              flex
+              flex-wrap
+              items-center
+              gap-3
             "
           >
             {/* View Work */}
@@ -244,10 +270,14 @@ function Hero() {
                 scale: 0.97,
               }}
               className="
-                inline-flex items-center
-                gap-2 rounded-xl
-                px-6 py-3.5
-                text-sm font-bold
+                inline-flex
+                items-center
+                gap-2
+                rounded-xl
+                px-6
+                py-3.5
+                text-sm
+                font-bold
               "
               style={{
                 color: "#ffffff",
@@ -258,6 +288,7 @@ function Hero() {
               }}
             >
               View My Work
+
               <ArrowUpRight size={17} />
             </motion.a>
 
@@ -274,10 +305,15 @@ function Hero() {
                 scale: 0.97,
               }}
               className="
-                inline-flex items-center
-                gap-2 rounded-xl
-                border px-6 py-3.5
-                text-sm font-semibold
+                inline-flex
+                items-center
+                gap-2
+                rounded-xl
+                border
+                px-6
+                py-3.5
+                text-sm
+                font-semibold
               "
               style={{
                 color: "var(--theme-text)",
@@ -288,11 +324,14 @@ function Hero() {
               }}
             >
               <Download size={17} />
+
               Download Resume
             </motion.a>
           </motion.div>
 
-          {/* Social Icons */}
+          {/* =========================================
+              SOCIAL ICONS
+          ========================================== */}
 
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -301,7 +340,12 @@ function Hero() {
               delay: 0.5,
               duration: 0.6,
             }}
-            className="mt-7 flex items-center gap-3"
+            className="
+              mt-7
+              flex
+              items-center
+              gap-3
+            "
           >
             {/* GitHub */}
 
@@ -318,12 +362,17 @@ function Hero() {
                 scale: 0.95,
               }}
               className="
-                flex h-10 w-10
-                items-center justify-center
-                rounded-xl border
+                flex
+                h-10
+                w-10
+                items-center
+                justify-center
+                rounded-xl
+                border
               "
               style={{
-                color: "var(--theme-text-secondary)",
+                color:
+                  "var(--theme-text-secondary)",
                 background:
                   "var(--theme-surface)",
                 borderColor:
@@ -356,12 +405,17 @@ function Hero() {
                 scale: 0.95,
               }}
               className="
-                flex h-10 w-10
-                items-center justify-center
-                rounded-xl border
+                flex
+                h-10
+                w-10
+                items-center
+                justify-center
+                rounded-xl
+                border
               "
               style={{
-                color: "var(--theme-text-secondary)",
+                color:
+                  "var(--theme-text-secondary)",
                 background:
                   "var(--theme-surface)",
                 borderColor:
@@ -392,12 +446,17 @@ function Hero() {
                 scale: 0.95,
               }}
               className="
-                flex h-10 w-10
-                items-center justify-center
-                rounded-xl border
+                flex
+                h-10
+                w-10
+                items-center
+                justify-center
+                rounded-xl
+                border
               "
               style={{
-                color: "var(--theme-text-secondary)",
+                color:
+                  "var(--theme-text-secondary)",
                 background:
                   "var(--theme-surface)",
                 borderColor:
@@ -411,7 +470,7 @@ function Hero() {
 
         {/* =========================
             RIGHT CODE CARD
-        ========================= */}
+        ========================== */}
 
         <motion.div
           initial={{
@@ -430,8 +489,10 @@ function Hero() {
             ease: "easeOut",
           }}
           className="
-            relative mx-auto
-            w-full max-w-[680px]
+            relative
+            mx-auto
+            w-full
+            max-w-[680px]
           "
         >
           {/* Outer Glow */}
@@ -448,7 +509,8 @@ function Hero() {
             }}
             className="
               pointer-events-none
-              absolute -inset-10
+              absolute
+              -inset-10
               rounded-[3rem]
               blur-3xl
             "
@@ -474,9 +536,14 @@ function Hero() {
               duration: 0.6,
             }}
             className="
-              absolute -right-1 -top-8
-              z-20 rounded-2xl
-              border px-5 py-3
+              absolute
+              -right-1
+              -top-8
+              z-20
+              rounded-2xl
+              border
+              px-5
+              py-3
               backdrop-blur-xl
               sm:-right-4
             "
@@ -505,7 +572,12 @@ function Hero() {
             </p>
 
             <p
-              className="mt-1 text-xs font-bold sm:text-sm"
+              className="
+                mt-1
+                text-xs
+                font-bold
+                sm:text-sm
+              "
               style={{
                 color:
                   "var(--theme-text)",
@@ -517,7 +589,7 @@ function Hero() {
 
           {/* =========================
               CODE WINDOW
-          ========================= */}
+          ========================== */}
 
           <motion.div
             onMouseMove={handleCardMouseMove}
@@ -534,16 +606,15 @@ function Hero() {
                 "0 25px 70px rgba(0,0,0,0.22), 0 0 50px var(--theme-glow)",
             }}
             className="
-              group relative
+              group
+              relative
               overflow-hidden
               rounded-[1.35rem]
               border
               will-change-transform
             "
           >
-            {/* =====================================
-                CURSOR FOLLOWING GLOW
-            ====================================== */}
+            {/* Cursor Following Glow */}
 
             <motion.div
               className="
@@ -574,7 +645,8 @@ function Hero() {
             <div
               className="
                 pointer-events-none
-                absolute inset-0
+                absolute
+                inset-0
                 z-0
                 rounded-[1.35rem]
                 opacity-40
@@ -589,10 +661,14 @@ function Hero() {
 
             <div
               className="
-                relative z-10
-                flex items-center
+                relative
+                z-10
+                flex
+                items-center
                 justify-between
-                border-b px-5 py-4
+                border-b
+                px-5
+                py-4
               "
               style={{
                 borderColor:
@@ -626,7 +702,8 @@ function Hero() {
 
               <span
                 className="
-                  font-mono text-[10px]
+                  font-mono
+                  text-[10px]
                   font-semibold
                   tracking-[0.08em]
                   sm:text-xs
@@ -654,11 +731,14 @@ function Hero() {
 
             <div
               className="
-                relative z-10
+                relative
+                z-10
                 min-h-[390px]
                 overflow-hidden
-                px-5 py-7
-                font-mono text-[11px]
+                px-5
+                py-7
+                font-mono
+                text-[11px]
                 leading-[2.05]
                 sm:px-7
                 sm:text-[13px]
@@ -990,8 +1070,10 @@ function Hero() {
                   ease: "linear",
                 }}
                 className="
-                  ml-1 inline-block
-                  h-4 w-[2px]
+                  ml-1
+                  inline-block
+                  h-4
+                  w-[2px]
                   align-middle
                 "
                 style={{
@@ -1005,10 +1087,14 @@ function Hero() {
 
             <div
               className="
-                relative z-10
-                flex items-center
+                relative
+                z-10
+                flex
+                items-center
                 justify-between
-                border-t px-5 py-3.5
+                border-t
+                px-5
+                py-3.5
                 sm:px-7
               "
               style={{
@@ -1039,7 +1125,8 @@ function Hero() {
 
                 <span
                   className="
-                    font-mono text-[10px]
+                    font-mono
+                    text-[10px]
                     sm:text-xs
                   "
                   style={{
@@ -1052,7 +1139,11 @@ function Hero() {
               </div>
 
               <span
-                className="font-mono text-[10px] sm:text-xs"
+                className="
+                  font-mono
+                  text-[10px]
+                  sm:text-xs
+                "
                 style={{
                   color:
                     "var(--theme-text-subtle)",
@@ -1065,7 +1156,9 @@ function Hero() {
         </motion.div>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* =========================================
+          SCROLL INDICATOR
+      ========================================== */}
 
       <motion.a
         href="#about"
@@ -1079,10 +1172,13 @@ function Hero() {
           ease: "easeInOut",
         }}
         className="
-          absolute bottom-7
+          absolute
+          bottom-7
           left-1/2
-          hidden -translate-x-1/2
-          items-center gap-2
+          hidden
+          -translate-x-1/2
+          items-center
+          gap-2
           text-[10px]
           font-semibold
           uppercase
@@ -1096,11 +1192,14 @@ function Hero() {
       >
         <span
           className="
-            flex h-8 w-5
+            flex
+            h-8
+            w-5
             items-start
             justify-center
             rounded-full
-            border pt-1.5
+            border
+            pt-1.5
           "
           style={{
             borderColor:
@@ -1118,6 +1217,10 @@ function Hero() {
 
         Scroll
       </motion.a>
+
+      {/* =========================================
+          HERO GRADIENT ANIMATION
+      ========================================== */}
 
       <style>{`
         @keyframes heroGradient {
