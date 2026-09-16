@@ -1,695 +1,1004 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-
-import {
-  ArrowUpRight,
-  Award,
-  CheckCircle2,
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  ExternalLink,
-  X,
-} from "lucide-react";
+import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
-const certificates = [
-  {
-    title: "Machine Learning and Applied AI Internship 2026",
-    issuer: "IBM SkillsBuild",
-    date: "30 August 2026",
-    image: "/certificates/ibm-ml-applied-ai-internship-2026.png",
-    link: "#",
-    verified: false,
-  },
+function InteractiveFolderGallery({
+    photos = [],
+    folderName = "Project.gallery",
+    dragHintText = "Drag any screenshot down to collect all",
+}) {
+    const [isFolderOpen, setIsFolderOpen] = useState(false);
+    const [hoverFolder, setHoverFolder] = useState(false);
+    const [selectedPhoto, setSelectedPhoto] = useState(null);
+    const [collectedPhotos, setCollectedPhotos] = useState(new Set());
 
-  {
-    title: "Artificial Intelligence Fundamentals",
-    issuer: "IBM SkillsBuild",
-    date: "29 August 2026",
-    image: "/certificates/ibm-ai-fundamentals.png",
-    link:
-      "https://www.credly.com/badges/58c83d82-569c-4beb-8394-25ae0c13bc87",
-    verified: true,
-  },
+    const wasDragged = useRef(false);
 
-  {
-    title: "Generative AI in Action",
-    issuer: "IBM SkillsBuild",
-    date: "29 August 2026",
-    image: "/certificates/ibm-generative-ai.png",
-    link:
-      "https://www.credly.com/badges/dcff0034-79ec-4af5-9418-a9db5c493ab8",
-    verified: true,
-  },
+    const getPhotoKey = (photo) => photo.id ?? photo.image;
 
-  {
-    title: "Make Agentic AI Work for You",
-    issuer: "IBM SkillsBuild",
-    date: "29 August 2026",
-    image: "/certificates/ibm-agentic-ai.png",
-    link: "https://www.credly.com/go/c3urvNsH",
-    verified: true,
-  },
+    const allCollected =
+        photos.length > 0 && collectedPhotos.size === photos.length;
 
-  {
-    title: "JavaScript Algorithms & Data Structures V7",
-    issuer: "freeCodeCamp",
-    date: "13 June 2026",
-    image: "/certificates/freecodecamp-javascript.png",
-    link:
-      "https://www.freecodecamp.org/certification/sparsshsoni15/javascript-algorithms-and-data-structures",
-    verified: true,
-  },
+    /* =========================================================
+       OPEN FOLDER
+       ========================================================= */
 
-  {
-    title: "Responsive Web Design V8",
-    issuer: "freeCodeCamp",
-    date: "13 June 2026",
-    image: "/certificates/freecodecamp-responsive-web-design.png",
-    link:
-      "https://www.freecodecamp.org/certification/sparsshsoni15/responsive-web-design",
-    verified: true,
-  },
+    const openFolder = () => {
+        if (allCollected) {
+            setCollectedPhotos(new Set());
+        }
 
-  {
-    title: "TCS iON Career Edge - IT Primer",
-    issuer: "TCS iON",
-    date: "21 June 2026",
-    image: "/certificates/tcs-ion-career-edge.png",
-    link: "#",
-    verified: false,
-  },
-
-  {
-    title: "Problem Solving (Basic)",
-    issuer: "HackerRank",
-    date: "18 March 2026",
-    image: "/certificates/hackerrank-problem-solving-basic.png",
-    link: "#",
-    verified: false,
-  },
-
-  {
-    title: "MATLAB Onramp",
-    issuer: "MathWorks",
-    date: "7 August 2026",
-    image: "/certificates/matlab-onramp.png",
-    link: "#",
-    verified: false,
-  },
-];
-
-const INITIAL_VISIBLE = 4;
-
-export default function Achievements() {
-  const [showAll, setShowAll] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(null);
-
-  const showMoreButtonRef = useRef(null);
-  const previousButtonTopRef = useRef(null);
-
-  const visibleCertificates = showAll
-    ? certificates
-    : certificates.slice(0, INITIAL_VISIBLE);
-
-  const selectedCertificate =
-    selectedIndex !== null ? certificates[selectedIndex] : null;
-
-  const toggleShowAll = () => {
-    if (showMoreButtonRef.current) {
-      previousButtonTopRef.current =
-        showMoreButtonRef.current.getBoundingClientRect().top;
-    }
-
-    setShowAll((current) => !current);
-  };
-
-  useLayoutEffect(() => {
-    if (
-      previousButtonTopRef.current === null ||
-      !showMoreButtonRef.current
-    ) {
-      return;
-    }
-
-    const newButtonTop =
-      showMoreButtonRef.current.getBoundingClientRect().top;
-
-    const difference =
-      newButtonTop - previousButtonTopRef.current;
-
-    if (Math.abs(difference) > 0.5) {
-      window.scrollBy(0, difference);
-    }
-
-    previousButtonTopRef.current = null;
-  }, [showAll]);
-
-  const showPrevious = () => {
-    setSelectedIndex((current) => {
-      if (current === null) return null;
-
-      return current === 0
-        ? certificates.length - 1
-        : current - 1;
-    });
-  };
-
-  const showNext = () => {
-    setSelectedIndex((current) => {
-      if (current === null) return null;
-
-      return current === certificates.length - 1
-        ? 0
-        : current + 1;
-    });
-  };
-
-  useEffect(() => {
-    if (selectedIndex === null) return;
-
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape") {
-        setSelectedIndex(null);
-      }
-
-      if (event.key === "ArrowLeft") {
-        showPrevious();
-      }
-
-      if (event.key === "ArrowRight") {
-        showNext();
-      }
+        setIsFolderOpen(true);
+        setHoverFolder(false);
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    /* =========================================================
+       COLLECT ONE IMAGE
+       ========================================================= */
 
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+    const collectPhoto = (photo) => {
+        const key = getPhotoKey(photo);
+
+        setCollectedPhotos((prev) => {
+            const next = new Set(prev);
+            next.add(key);
+            return next;
+        });
     };
-  }, [selectedIndex]);
 
-  useEffect(() => {
-    if (selectedIndex !== null) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    /* =========================================================
+       COLLECT ALL IMAGES
+       ========================================================= */
 
-    return () => {
-      document.body.style.overflow = "";
+    const collectAllPhotos = () => {
+        const allKeys = photos.map(getPhotoKey);
+        setCollectedPhotos(new Set(allKeys));
     };
-  }, [selectedIndex]);
 
-  const CertificateCard = ({
-    certificate,
-    actualIndex,
-    delay = 0,
-  }) => {
+    /* =========================================================
+       OPEN PREVIEW
+       ========================================================= */
+
+    const openPreview = (photo) => {
+        if (wasDragged.current) {
+            wasDragged.current = false;
+            return;
+        }
+
+        setSelectedPhoto(photo);
+    };
+
+    /* =========================================================
+       CLOSE PREVIEW
+       ONLY SELECTED IMAGE GETS COLLECTED
+       ========================================================= */
+
+    const closePreview = () => {
+        if (!selectedPhoto) return;
+
+        const selectedKey = getPhotoKey(selectedPhoto);
+
+        const wasLastPhoto =
+            !collectedPhotos.has(selectedKey) &&
+            collectedPhotos.size + 1 >= photos.length;
+
+        collectPhoto(selectedPhoto);
+        setSelectedPhoto(null);
+
+        if (wasLastPhoto) {
+            setTimeout(() => {
+                setIsFolderOpen(false);
+                setHoverFolder(false);
+            }, 650);
+        }
+    };
+
+    /* =========================================================
+       CLOSE FOLDER
+       ========================================================= */
+
+    const closeFolder = () => {
+        setIsFolderOpen(false);
+        setHoverFolder(false);
+    };
+
     return (
-      <motion.article
-        initial={{
-          opacity: 0,
-          y: 25,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-        }}
-        exit={{
-          opacity: 0,
-          y: 15,
-        }}
-        transition={{
-          duration: 0.4,
-          ease: [0.22, 1, 0.36, 1],
-          delay,
-        }}
-        className="group relative overflow-hidden rounded-3xl border transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
-        style={{
-          backgroundColor: "var(--theme-surface)",
-          borderColor: "var(--theme-border)",
-        }}
-      >
-        {/* Certificate Image */}
-        <button
-          type="button"
-          onClick={() => setSelectedIndex(actualIndex)}
-          className="relative block w-full cursor-zoom-in text-left"
-          aria-label={`View ${certificate.title}`}
-        >
-          <div
-            className="relative aspect-[4/3] overflow-hidden p-3 sm:p-4"
-            style={{
-              backgroundColor: "var(--theme-surface-hover)",
-            }}
-          >
-            <img
-              src={certificate.image}
-              alt={certificate.title}
-              draggable={false}
-              className="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.015]"
-            />
+        <>
+            {/* =====================================================
+                MAIN GALLERY
+                ====================================================== */}
 
-            {/* Hover Overlay */}
-            <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-all duration-300 group-hover:bg-black/30">
-              <div className="flex h-12 w-12 scale-90 items-center justify-center rounded-full bg-white/90 text-black opacity-0 shadow-xl transition-all duration-300 group-hover:scale-100 group-hover:opacity-100">
-                <ArrowUpRight size={21} />
-              </div>
-            </div>
+            <div className="relative w-full py-8">
+                <div
+                    className="
+                        relative
+                        flex
+                        min-h-[520px]
+                        w-full
+                        items-center
+                        justify-center
+                        overflow-visible
+                    "
+                    style={{ perspective: "1400px" }}
+                >
+                    {/* =================================================
+                        GALLERY STAGE
+                        ================================================== */}
 
-            {/* Number */}
-            <div className="absolute left-5 top-5 flex h-9 w-9 items-center justify-center rounded-full bg-black/70 text-xs font-bold text-white backdrop-blur-md">
-              {String(actualIndex + 1).padStart(2, "0")}
-            </div>
-          </div>
-        </button>
+                    <div className="relative flex h-[450px] w-full max-w-[500px] items-center justify-center">
 
-        {/* Certificate Details */}
-        <div className="p-6 sm:p-7">
-          <div className="mb-4 flex items-start justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <Award
-                size={17}
-                className="shrink-0 text-[var(--theme-primary)]"
-              />
+                        {/* =================================================
+                            BACK FOLDER
+                            ================================================== */}
 
-              <span
-                className="text-xs font-semibold uppercase tracking-[0.16em]"
-                style={{
-                  color: "var(--theme-text-muted)",
-                }}
-              >
-                {certificate.issuer}
-              </span>
-            </div>
+                        <motion.div
+                            className="
+                                absolute
+                                bottom-12
+                                h-[255px]
+                                w-[350px]
+                            "
+                            animate={{
+                                scale: isFolderOpen ? 0.98 : 1,
+                                y: isFolderOpen ? 4 : 0,
+                                opacity: 1,
+                            }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 180,
+                                damping: 22,
+                            }}
+                        >
+                            {/* Folder Tab */}
 
-            {certificate.verified && (
-              <div
-                className="flex shrink-0 items-center gap-1.5 text-xs font-medium text-emerald-500"
-                title="Verified credential"
-              >
-                <CheckCircle2 size={15} />
+                            <motion.div
+                                className="
+                                    absolute
+                                    left-3
+                                    top-0
+                                    h-12
+                                    w-36
+                                    rounded-t-2xl
+                                    border
+                                    border-[var(--theme-border-strong)]
+                                    bg-[var(--theme-surface)]
+                                    shadow-[inset_0_1px_0_var(--theme-glow)]
+                                    transition-all
+                                    duration-300
 
-                <span className="hidden sm:inline">
-                  Verified
-                </span>
-              </div>
-            )}
-          </div>
+                                    [html[data-theme='valentine']_&]:border-pink-200
+                                    [html[data-theme='valentine']_&]:bg-pink-300
 
-          <h3
-            className="text-lg font-semibold leading-snug sm:text-xl"
-            style={{
-              color: "var(--theme-text)",
-            }}
-          >
-            {certificate.title}
-          </h3>
+                                    [html[data-theme='aqua']_&]:border-cyan-200
+                                    [html[data-theme='aqua']_&]:bg-cyan-300
+                                "
+                                animate={{
+                                    x: hoverFolder ? 5 : 0,
+                                }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 220,
+                                    damping: 20,
+                                }}
+                            />
 
-          <div className="mt-4 flex flex-col gap-3 text-sm sm:flex-row sm:items-center sm:justify-between">
-            <span
-              style={{
-                color: "var(--theme-text-muted)",
-              }}
-            >
-              {certificate.date}
-            </span>
+                            {/* Folder Body */}
 
-            {certificate.link !== "#" && (
-              <a
-                href={certificate.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(event) => event.stopPropagation()}
-                className="inline-flex items-center gap-1.5 font-medium text-[var(--theme-primary)] transition-colors hover:text-[var(--theme-secondary)]"
-              >
-                Verify
-                <ExternalLink size={14} />
-              </a>
-            )}
-          </div>
-        </div>
-      </motion.article>
-    );
-  };
+                            <div
+                                className="
+                                    absolute
+                                    inset-x-0
+                                    bottom-0
+                                    top-8
+                                    overflow-hidden
+                                    rounded-b-[26px]
+                                    rounded-tr-[26px]
+                                    border
+                                    border-[var(--theme-border-strong)]
+                                    bg-[var(--theme-surface)]
+                                    shadow-[0_25px_60px_rgba(0,0,0,0.3)]
+                                    transition-all
+                                    duration-300
 
-  return (
-    <section
-      id="achievements"
-      className="relative overflow-hidden py-24 sm:py-28"
-    >
-      {/* Background */}
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div
-          className="absolute left-1/2 top-0 h-[500px] w-[700px] -translate-x-1/2 rounded-full blur-[120px]"
-          style={{
-            backgroundColor: "var(--theme-primary)",
-            opacity: 0.1,
-          }}
-        />
+                                    [html[data-theme='valentine']_&]:border-pink-200
+                                    [html[data-theme='valentine']_&]:bg-pink-300
 
-        <div
-          className="absolute bottom-0 left-0 h-[350px] w-[350px] rounded-full blur-[100px]"
-          style={{
-            backgroundColor: "var(--theme-primary)",
-            opacity: 0.05,
-          }}
-        />
+                                    [html[data-theme='aqua']_&]:border-cyan-200
+                                    [html[data-theme='aqua']_&]:bg-cyan-300
+                                "
+                            >
+                                {/* Inner Glow */}
 
-        <div
-          className="absolute right-0 top-1/3 h-[350px] w-[350px] rounded-full blur-[100px]"
-          style={{
-            backgroundColor: "var(--theme-secondary)",
-            opacity: 0.05,
-          }}
-        />
-      </div>
+                                <motion.div
+                                    className="
+                                        pointer-events-none
+                                        absolute
+                                        -inset-10
+                                        rounded-full
+                                        bg-[var(--theme-glow)]
+                                        blur-3xl
+                                    "
+                                    animate={{
+                                        opacity: hoverFolder ? 0.7 : 0.45,
+                                        scale: hoverFolder ? 1.15 : 1,
+                                    }}
+                                    transition={{
+                                        duration: 0.5,
+                                    }}
+                                />
 
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-        {/* Section Header */}
-        <div className="mb-14 flex flex-col gap-6 sm:mb-16 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <div className="mb-4 flex items-center gap-3">
-              <span
-                className="h-px w-10"
-                style={{
-                  backgroundColor: "var(--theme-primary)",
-                }}
-              />
+                                {/* Top Shine */}
 
-              <span
-                className="text-sm font-semibold uppercase tracking-[0.25em]"
-                style={{
-                  color: "var(--theme-primary)",
-                }}
-              >
-                {String(certificates.length).padStart(2, "0")} Credentials
-              </span>
-            </div>
+                                <div
+                                    className="
+                                        pointer-events-none
+                                        absolute
+                                        left-5
+                                        right-5
+                                        top-2
+                                        h-px
+                                        bg-gradient-to-r
+                                        from-transparent
+                                        via-[var(--theme-primary)]
+                                        to-transparent
+                                        opacity-70
+                                    "
+                                />
 
-            <h2
-              className="max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl"
-              style={{
-                color: "var(--theme-text)",
-              }}
-            >
-              Achievements &amp;
+                                {/* Inner Border */}
 
-              <span
-                className="block"
-                style={{
-                  color: "var(--theme-primary)",
-                }}
-              >
-                Certifications
-              </span>
-            </h2>
-          </div>
+                                <div
+                                    className="
+                                        pointer-events-none
+                                        absolute
+                                        inset-3
+                                        rounded-[20px]
+                                        border
+                                        border-[var(--theme-border)]
+                                        opacity-70
+                                    "
+                                />
+                            </div>
+                        </motion.div>
 
-          <p
-            className="max-w-md text-sm leading-7 sm:text-base"
-            style={{
-              color: "var(--theme-text-muted)",
-            }}
-          >
-            A collection of certifications and credentials earned
-            through continuous learning, technical development and
-            hands-on experience.
-          </p>
-        </div>
+                        {/* =================================================
+                            COLLECTED / TUCKED SCREENSHOT STACK
+                            ================================================== */}
 
-        {/* First 4 Certificates */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-2">
-          {certificates
-            .slice(0, INITIAL_VISIBLE)
-            .map((certificate, index) => (
-              <CertificateCard
-                key={certificate.title}
-                certificate={certificate}
-                actualIndex={index}
-              />
-            ))}
-        </div>
+                        <div
+                            className="
+                                pointer-events-none
+                                absolute
+                                bottom-[150px]
+                                left-1/2
+                                z-40
+                                h-[120px]
+                                w-[340px]
+                                -translate-x-1/2
+                            "
+                        >
+                            {photos.map((photo, index) => {
+                                const photoKey = getPhotoKey(photo);
 
-        {/* Stable scroll anchor */}
-        <div
-          ref={showMoreButtonRef}
-          className="h-0"
-          aria-hidden="true"
-        />
+                                const isCollected =
+                                    collectedPhotos.has(photoKey);
 
-        {/* Show More Button */}
-        {!showAll && certificates.length > INITIAL_VISIBLE && (
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 10,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.4,
-            }}
-            className="mt-12 flex justify-center"
-          >
-            <motion.button
-              type="button"
-              onClick={toggleShowAll}
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.97 }}
-              aria-expanded={false}
-              aria-controls="additional-certificates"
-              className="group inline-flex items-center gap-3 rounded-full border px-7 py-3.5 text-sm font-semibold transition-all duration-300 hover:shadow-lg"
-              style={{
-                color: "var(--theme-text)",
-                backgroundColor: "var(--theme-surface)",
-                borderColor: "var(--theme-border)",
-              }}
-            >
-              <span>
-                Show More ({certificates.length - INITIAL_VISIBLE})
-              </span>
+                                if (!isCollected) return null;
 
-              <ChevronDown
-                size={18}
-                className="transition-transform duration-300 group-hover:translate-y-0.5"
-              />
-            </motion.button>
-          </motion.div>
-        )}
+                                const offset =
+                                    index - (photos.length - 1) / 2;
 
-        {/* Additional Certificates */}
-        <AnimatePresence initial={false}>
-          {showAll && (
-            <motion.div
-              id="additional-certificates"
-              initial={{
-                opacity: 0,
-                y: 20,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              exit={{
-                opacity: 0,
-                y: -10,
-              }}
-              transition={{
-                duration: 0.45,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-2"
-            >
-              {certificates
-                .slice(INITIAL_VISIBLE)
-                .map((certificate, index) => (
-                  <CertificateCard
-                    key={certificate.title}
-                    certificate={certificate}
-                    actualIndex={index + INITIAL_VISIBLE}
-                    delay={index * 0.06}
-                  />
-                ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
+                                const tuckX = offset * 42;
+                                const tuckY = Math.abs(offset) * 3;
+                                const tuckRotate = offset * 4;
 
-        {/* Show Less */}
-        {showAll && certificates.length > INITIAL_VISIBLE && (
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 10,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            exit={{
-              opacity: 0,
-              y: -10,
-            }}
-            transition={{
-              duration: 0.4,
-            }}
-            className="mt-12 flex justify-center"
-          >
-            <motion.button
-              type="button"
-              onClick={toggleShowAll}
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.97 }}
-              aria-expanded={true}
-              aria-controls="additional-certificates"
-              className="group inline-flex items-center gap-3 rounded-full border px-7 py-3.5 text-sm font-semibold transition-all duration-300 hover:shadow-lg"
-              style={{
-                color: "var(--theme-text)",
-                backgroundColor: "var(--theme-surface)",
-                borderColor: "var(--theme-border)",
-              }}
-            >
-              <span>Show Less</span>
+                                return (
+                                    <motion.button
+                                        key={`tucked-${photoKey}`}
+                                        type="button"
+                                        aria-label={`Preview ${
+                                            photo.alt ||
+                                            "project screenshot"
+                                        }`}
+                                        className="
+                                            pointer-events-auto
+                                            absolute
+                                            bottom-0
+                                            left-1/2
+                                            h-[120px]
+                                            w-[210px]
+                                            -translate-x-1/2
+                                            overflow-hidden
+                                            rounded-[18px]
+                                            border
+                                            border-[var(--theme-border-strong)]
+                                            bg-[var(--theme-bg)]
+                                            shadow-[0_18px_45px_rgba(0,0,0,0.42)]
+                                        "
+                                        initial={{
+                                            opacity: 0,
+                                            scale: 0.7,
+                                            y: 30,
+                                        }}
+                                        animate={{
+                                            opacity: isFolderOpen ? 0 : 1,
+                                            scale: isFolderOpen ? 0.82 : 1,
+                                            x: isFolderOpen ? 0 : tuckX,
+                                            y: isFolderOpen ? 20 : tuckY,
+                                            rotate: isFolderOpen
+                                                ? 0
+                                                : tuckRotate,
+                                        }}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 180,
+                                            damping: 20,
+                                            mass: 0.8,
+                                            delay: index * 0.04,
+                                        }}
+                                        whileHover={
+                                            !isFolderOpen
+                                                ? {
+                                                      scale: 1.04,
+                                                      y: tuckY - 5,
+                                                  }
+                                                : {}
+                                        }
+                                        onClick={(event) => {
+                                            event.stopPropagation();
+                                            openPreview(photo);
+                                        }}
+                                        style={{
+                                            zIndex: 45 + index,
+                                        }}
+                                    >
+                                        <img
+                                            src={photo.image}
+                                            alt={
+                                                photo.alt ||
+                                                "Project screenshot thumbnail"
+                                            }
+                                            className="
+                                                h-full
+                                                w-full
+                                                select-none
+                                                bg-[var(--theme-bg)]
+                                                object-contain
+                                            "
+                                            draggable="false"
+                                        />
 
-              <ChevronDown
-                size={18}
-                className="rotate-180 transition-transform duration-300 group-hover:-translate-y-0.5"
-              />
-            </motion.button>
-          </motion.div>
-        )}
+                                        <div
+                                            className="
+                                                pointer-events-none
+                                                absolute
+                                                inset-0
+                                                bg-gradient-to-t
+                                                from-black/20
+                                                via-transparent
+                                                to-white/5
+                                            "
+                                        />
+                                    </motion.button>
+                                );
+                            })}
+                        </div>
 
-        {/* Counter */}
-        <div className="mt-5 text-center">
-          <span
-            className="text-xs"
-            style={{
-              color: "var(--theme-text-muted)",
-            }}
-          >
-            Showing {visibleCertificates.length} of{" "}
-            {certificates.length} certifications
-          </span>
-        </div>
-      </div>
+                        {/* =================================================
+                            OPEN FOLDER SCREENSHOTS
+                            ORIGINAL FAN-OUT LOGIC
+                            ================================================== */}
 
-      {/* =====================================================
-          FULLSCREEN CERTIFICATE VIEWER
-          ===================================================== */}
-      <AnimatePresence>
-        {selectedCertificate && selectedIndex !== null && (
-          <motion.div
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-            }}
-            exit={{
-              opacity: 0,
-            }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm sm:p-8"
-            onClick={() => setSelectedIndex(null)}
-          >
-            {/* Close Button */}
-            <button
-              type="button"
-              onClick={() => setSelectedIndex(null)}
-              className="absolute right-4 top-4 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 sm:right-6 sm:top-6"
-              aria-label="Close certificate viewer"
-            >
-              <X size={22} />
-            </button>
+                        <div className="absolute bottom-[105px] z-50 flex items-center justify-center">
+                            {photos.map((photo, index) => {
+                                const photoKey = getPhotoKey(photo);
 
-            {/* Previous */}
-            {certificates.length > 1 && (
-              <button
-                type="button"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  showPrevious();
-                }}
-                className="absolute left-3 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 sm:left-6"
-                aria-label="Previous certificate"
-              >
-                <ChevronLeft size={24} />
-              </button>
-            )}
+                                const isCollected =
+                                    collectedPhotos.has(photoKey);
 
-            {/* Next */}
-            {certificates.length > 1 && (
-              <button
-                type="button"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  showNext();
-                }}
-                className="absolute right-3 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 sm:right-6"
-                aria-label="Next certificate"
-              >
-                <ChevronRight size={24} />
-              </button>
-            )}
+                                const offset =
+                                    index - (photos.length - 1) / 2;
 
-            {/* Viewer */}
-            <motion.div
-              initial={{
-                opacity: 0,
-                scale: 0.96,
-              }}
-              animate={{
-                opacity: 1,
-                scale: 1,
-              }}
-              exit={{
-                opacity: 0,
-                scale: 0.96,
-              }}
-              transition={{
-                duration: 0.25,
-              }}
-              className="relative flex max-h-[92vh] max-w-[92vw] flex-col items-center"
-              onClick={(event) => event.stopPropagation()}
-            >
-              <div className="relative flex max-h-[80vh] max-w-[90vw] items-center justify-center overflow-hidden rounded-xl bg-white/5 shadow-2xl">
-                <img
-                  src={selectedCertificate.image}
-                  alt={selectedCertificate.title}
-                  draggable={false}
-                  className="max-h-[80vh] max-w-[90vw] object-contain"
-                />
-              </div>
+                                /* Closed stack */
 
-              {/* Viewer Info */}
-              <div className="mt-5 max-w-2xl text-center">
-                <h3 className="text-lg font-semibold text-white sm:text-xl">
-                  {selectedCertificate.title}
-                </h3>
+                                const stackX = offset * 3;
+                                const stackY = offset * -5;
+                                const stackRotate = offset * 3;
 
-                <p className="mt-1 text-sm text-white/60">
-                  {selectedCertificate.issuer} •{" "}
-                  {selectedCertificate.date}
-                </p>
+                                /* Open fan */
 
-                <div className="mt-4 flex items-center justify-center gap-2 text-xs text-white/40">
-                  <span>
-                    {selectedIndex + 1} / {certificates.length}
-                  </span>
+                                const openX = offset * 125;
+                                const openY = -130;
 
-                  <span>•</span>
+                                return (
+                                    <motion.div
+                                        key={photoKey}
+                                        className={`
+                                            absolute
+                                            bottom-0
+                                            h-72
+                                            w-56
+                                            overflow-hidden
+                                            rounded-2xl
+                                            border
+                                            border-[var(--theme-border-strong)]
+                                            bg-[var(--theme-surface)]
+                                            shadow-[0_22px_50px_rgba(0,0,0,0.4)]
+                                            origin-bottom
+                                            ${
+                                                isFolderOpen && !isCollected
+                                                    ? "pointer-events-auto cursor-pointer"
+                                                    : "pointer-events-none"
+                                            }
+                                        `}
+                                        animate={
+                                            isCollected
+                                                ? {
+                                                      x: 0,
+                                                      y: 90,
+                                                      scale: 0.12,
+                                                      rotate: 0,
+                                                      opacity: 0,
+                                                      zIndex: 5,
+                                                  }
+                                                : isFolderOpen
+                                                ? {
+                                                      x: openX,
+                                                      y: openY,
+                                                      rotate: 0,
+                                                      scale: 1.02,
+                                                      opacity: 1,
+                                                      zIndex: 50 + index,
+                                                  }
+                                                : {
+                                                      x: stackX,
+                                                      y: stackY,
+                                                      rotate: stackRotate,
+                                                      scale:
+                                                          1 -
+                                                          Math.abs(offset) *
+                                                              0.025,
+                                                      opacity: 0,
+                                                      zIndex: 1,
+                                                  }
+                                        }
+                                        whileHover={
+                                            isFolderOpen && !isCollected
+                                                ? {
+                                                      scale: 1.07,
+                                                      y: openY - 8,
+                                                      zIndex: 500,
+                                                  }
+                                                : {}
+                                        }
+                                        whileDrag={{
+                                            scale: 1.1,
+                                            rotate: 4,
+                                            zIndex: 1000,
+                                        }}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 180,
+                                            damping: 22,
+                                            mass: 0.85,
+                                        }}
+                                        style={{
+                                            transformOrigin:
+                                                "bottom center",
+                                        }}
+                                        drag={
+                                            isFolderOpen && !isCollected
+                                                ? true
+                                                : false
+                                        }
+                                        dragSnapToOrigin
+                                        dragElastic={0.1}
+                                        onDragStart={() => {
+                                            wasDragged.current = true;
+                                        }}
+                                        onDragEnd={(event, info) => {
+                                            setTimeout(() => {
+                                                wasDragged.current = false;
+                                            }, 60);
 
-                  <span className="hidden sm:inline">
-                    Use ← → to navigate · Esc to close
-                  </span>
+                                            if (info.offset.y > 100) {
+                                                collectAllPhotos();
+
+                                                setTimeout(() => {
+                                                    setIsFolderOpen(false);
+                                                    setHoverFolder(false);
+                                                }, 650);
+                                            }
+                                        }}
+                                        onClick={() => {
+                                            if (!isCollected) {
+                                                openPreview(photo);
+                                            }
+                                        }}
+                                    >
+                                        <img
+                                            src={photo.image}
+                                            alt={
+                                                photo.alt ||
+                                                "Project screenshot"
+                                            }
+                                            className="
+                                                h-full
+                                                w-full
+                                                select-none
+                                                bg-[var(--theme-bg)]
+                                                object-contain
+                                            "
+                                            draggable="false"
+                                        />
+
+                                        {/* Glass Overlay */}
+
+                                        {isFolderOpen && !isCollected && (
+                                            <div
+                                                className="
+                                                    pointer-events-none
+                                                    absolute
+                                                    inset-0
+                                                    bg-gradient-to-t
+                                                    from-black/25
+                                                    via-transparent
+                                                    to-white/5
+                                                "
+                                            />
+                                        )}
+
+                                        {/* Preview Badge */}
+
+                                        {isFolderOpen && !isCollected && (
+                                            <div
+                                                className="
+                                                    pointer-events-none
+                                                    absolute
+                                                    bottom-3
+                                                    left-1/2
+                                                    -translate-x-1/2
+                                                    rounded-full
+                                                    border
+                                                    border-[var(--theme-border-strong)]
+                                                    bg-[var(--theme-surface)]
+                                                    px-3
+                                                    py-1.5
+                                                    text-[9px]
+                                                    font-semibold
+                                                    uppercase
+                                                    tracking-[0.14em]
+                                                    text-[var(--theme-text)]
+                                                    opacity-0
+                                                    backdrop-blur-md
+                                                "
+                                            >
+                                                Preview
+                                            </div>
+                                        )}
+                                    </motion.div>
+                                );
+                            })}
+                        </div>
+
+                        {/* =================================================
+                            FRONT FOLDER
+                            ================================================== */}
+
+                        <motion.div
+                            className="
+                                absolute
+                                bottom-7
+                                z-[100]
+                                h-[185px]
+                                w-[375px]
+                                cursor-pointer
+                                drop-shadow-[0_25px_45px_rgba(0,0,0,0.3)]
+                            "
+                            style={{
+                                transformOrigin: "bottom center",
+                                transformStyle: "preserve-3d",
+                                pointerEvents: isFolderOpen
+                                    ? "none"
+                                    : "auto",
+                            }}
+                            animate={{
+                                opacity: 1,
+                                rotateX: hoverFolder ? -18 : 0,
+                                rotateY: hoverFolder ? -2 : 0,
+                                y: hoverFolder ? 7 : 0,
+                                scale: hoverFolder ? 1.025 : 1,
+                            }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 180,
+                                damping: 20,
+                                mass: 0.8,
+                            }}
+                            onMouseEnter={() => setHoverFolder(true)}
+                            onMouseLeave={() => setHoverFolder(false)}
+                            onClick={openFolder}
+                        >
+                            <div
+                                className="
+                                    relative
+                                    flex
+                                    h-full
+                                    w-full
+                                    items-end
+                                    justify-center
+                                    overflow-hidden
+                                    rounded-[26px]
+                                    border
+                                    border-[var(--theme-border-strong)]
+                                    bg-[var(--theme-surface)]
+                                    pb-8
+                                    shadow-[0_25px_70px_rgba(0,0,0,0.35)]
+                                    transition-all
+                                    duration-300
+
+                                    [html[data-theme='valentine']_&]:border-pink-200
+                                    [html[data-theme='valentine']_&]:bg-pink-300
+
+                                    [html[data-theme='aqua']_&]:border-cyan-200
+                                    [html[data-theme='aqua']_&]:bg-cyan-300
+                                "
+                            >
+                                {/* Folder Gradient */}
+
+                                <div
+                                    className="
+                                        pointer-events-none
+                                        absolute
+                                        inset-0
+                                        bg-gradient-to-b
+                                        from-[var(--theme-glow)]
+                                        via-transparent
+                                        to-transparent
+                                        opacity-70
+                                    "
+                                />
+
+                                {/* Top Edge Shine */}
+
+                                <div
+                                    className="
+                                        pointer-events-none
+                                        absolute
+                                        left-4
+                                        right-4
+                                        top-0
+                                        h-px
+                                        bg-gradient-to-r
+                                        from-transparent
+                                        via-[var(--theme-primary)]
+                                        to-transparent
+                                        opacity-90
+                                    "
+                                />
+
+                                {/* Folder Glow */}
+
+                                <motion.div
+                                    className="
+                                        pointer-events-none
+                                        absolute
+                                        left-1/2
+                                        top-1/2
+                                        h-36
+                                        w-64
+                                        -translate-x-1/2
+                                        -translate-y-1/2
+                                        rounded-full
+                                        bg-[var(--theme-glow)]
+                                        blur-3xl
+                                    "
+                                    animate={{
+                                        scale: hoverFolder ? 1.3 : 1,
+                                        opacity: hoverFolder ? 0.8 : 0.45,
+                                    }}
+                                    transition={{
+                                        duration: 0.45,
+                                    }}
+                                />
+
+                                {/* Folder Inner Border */}
+
+                                <div
+                                    className="
+                                        pointer-events-none
+                                        absolute
+                                        inset-3
+                                        rounded-[21px]
+                                        border
+                                        border-[var(--theme-border)]
+                                        opacity-70
+                                    "
+                                />
+
+                                {/* =================================================
+                                    FOLDER LABEL
+                                    ================================================== */}
+
+                                <motion.div
+                                    className="
+                                        relative
+                                        z-[150]
+                                        flex
+                                        items-center
+                                        justify-center
+                                        rounded-xl
+                                        border
+                                        border-[var(--theme-border-strong)]
+                                        bg-[var(--theme-surface)]
+                                        px-6
+                                        py-3
+                                        shadow-[0_8px_25px_rgba(0,0,0,0.2)]
+                                    "
+                                    animate={{
+                                        y: hoverFolder ? -4 : 0,
+                                        scale: hoverFolder ? 1.03 : 1,
+                                    }}
+                                    transition={{
+                                        type: "spring",
+                                        stiffness: 240,
+                                        damping: 18,
+                                    }}
+                                >
+                                    <span
+                                        className="
+                                            theme-text
+                                            text-sm
+                                            font-semibold
+                                            tracking-[0.04em]
+                                        "
+                                    >
+                                        {folderName}
+                                    </span>
+                                </motion.div>
+
+                                {/* Bottom Indicator */}
+
+                                <motion.div
+                                    className="
+                                        absolute
+                                        bottom-3
+                                        left-1/2
+                                        h-1
+                                        -translate-x-1/2
+                                        rounded-full
+                                        bg-[var(--theme-primary)]
+                                    "
+                                    animate={{
+                                        width: hoverFolder ? 48 : 28,
+                                        opacity: hoverFolder ? 1 : 0.5,
+                                    }}
+                                    transition={{
+                                        duration: 0.3,
+                                    }}
+                                />
+                            </div>
+                        </motion.div>
+                    </div>
+
+                    {/* =================================================
+                        DRAG HINT
+                        ================================================== */}
+
+                    <motion.div
+                        animate={{
+                            opacity:
+                                isFolderOpen && !allCollected
+                                    ? 1
+                                    : 0,
+                            y:
+                                isFolderOpen && !allCollected
+                                    ? 0
+                                    : 20,
+                        }}
+                        transition={{
+                            duration: 0.4,
+                            ease: "easeOut",
+                        }}
+                        className="
+                            pointer-events-none
+                            absolute
+                            bottom-0
+                            rounded-full
+                            border
+                            border-[var(--theme-border)]
+                            bg-[var(--theme-glow)]
+                            px-5
+                            py-2.5
+                            text-center
+                            text-[10px]
+                            font-semibold
+                            uppercase
+                            tracking-[0.14em]
+                            text-[var(--theme-text-muted)]
+                            backdrop-blur-xl
+                        "
+                    >
+                        {dragHintText}
+                    </motion.div>
                 </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </section>
-  );
+            </div>
+
+            {/* =====================================================
+                FULLSCREEN SCREENSHOT PREVIEW
+                ====================================================== */}
+
+            <AnimatePresence>
+                {selectedPhoto && (
+                    <motion.div
+                        initial={{
+                            opacity: 0,
+                        }}
+                        animate={{
+                            opacity: 1,
+                        }}
+                        exit={{
+                            opacity: 0,
+                        }}
+                        transition={{
+                            duration: 0.25,
+                            ease: "easeOut",
+                        }}
+                        className="
+                            fixed
+                            inset-0
+                            z-[9999]
+                            flex
+                            items-center
+                            justify-center
+                            bg-black/90
+                            p-3
+                            backdrop-blur-xl
+                            sm:p-5
+                            md:p-8
+                        "
+                        onClick={closePreview}
+                    >
+                        <motion.div
+                            initial={{
+                                opacity: 0,
+                                scale: 0.94,
+                                y: 25,
+                            }}
+                            animate={{
+                                opacity: 1,
+                                scale: 1,
+                                y: 0,
+                            }}
+                            exit={{
+                                opacity: 0,
+                                scale: 0.96,
+                                y: 15,
+                            }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 200,
+                                damping: 24,
+                                mass: 0.8,
+                            }}
+                            className="
+                                relative
+                                flex
+                                h-[calc(100vh-24px)]
+                                w-[calc(100vw-24px)]
+                                items-center
+                                justify-center
+                                sm:h-[calc(100vh-40px)]
+                                sm:w-[calc(100vw-40px)]
+                                md:h-[calc(100vh-64px)]
+                                md:w-[calc(100vw-64px)]
+                            "
+                            onClick={(event) => {
+                                event.stopPropagation();
+                            }}
+                        >
+                            <div
+                                className="
+                                    relative
+                                    flex
+                                    h-full
+                                    w-full
+                                    items-center
+                                    justify-center
+                                    overflow-hidden
+                                    rounded-2xl
+                                    border
+                                    border-white/15
+                                    bg-[#050505]
+                                    shadow-[0_30px_120px_rgba(0,0,0,0.75)]
+                                "
+                            >
+                                {/* Full Screenshot */}
+
+                                <img
+                                    src={selectedPhoto.image}
+                                    alt={
+                                        selectedPhoto.alt ||
+                                        "Project screenshot preview"
+                                    }
+                                    className="
+                                        max-h-full
+                                        max-w-full
+                                        select-none
+                                        object-contain
+                                    "
+                                    draggable="false"
+                                />
+
+                                {/* Close Button */}
+
+                                <button
+                                    type="button"
+                                    onClick={closePreview}
+                                    className="
+                                        absolute
+                                        right-4
+                                        top-4
+                                        z-30
+                                        flex
+                                        h-11
+                                        w-11
+                                        items-center
+                                        justify-center
+                                        rounded-full
+                                        border
+                                        border-white/20
+                                        bg-black/65
+                                        text-2xl
+                                        leading-none
+                                        text-white
+                                        shadow-xl
+                                        backdrop-blur-xl
+                                        transition-all
+                                        duration-300
+                                        hover:scale-110
+                                        hover:bg-black/85
+                                        active:scale-95
+                                    "
+                                    aria-label="Close screenshot preview"
+                                >
+                                    ×
+                                </button>
+
+                                {/* Screenshot Name */}
+
+                                {selectedPhoto.alt && (
+                                    <div
+                                        className="
+                                            absolute
+                                            bottom-5
+                                            left-1/2
+                                            z-20
+                                            max-w-[85%]
+                                            -translate-x-1/2
+                                            rounded-full
+                                            border
+                                            border-white/15
+                                            bg-black/65
+                                            px-4
+                                            py-2
+                                            text-center
+                                            text-xs
+                                            font-medium
+                                            text-white
+                                            shadow-lg
+                                            backdrop-blur-xl
+                                        "
+                                    >
+                                        {selectedPhoto.alt}
+                                    </div>
+                                )}
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </>
+    );
 }
+
+export default InteractiveFolderGallery;
