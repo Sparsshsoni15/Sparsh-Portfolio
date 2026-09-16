@@ -17,16 +17,20 @@ import GitHubContributions from "./components/GitHubContributions";
 function App() {
   return (
     <div className="relative min-h-screen">
-
+      {/* Background */}
       <Background />
 
+      {/* Click Spark Mouse Effect */}
       <MouseEffects
-        color="var(--theme-primary)"
-        duration={0.3}
-        strokeWidth={2}
-        effectSize={90}
+        sparkColor="var(--theme-primary)"
+        sparkSize={10}
+        sparkRadius={15}
+        sparkCount={8}
+        duration={400}
+        extraScale={1.0}
       />
 
+      {/* Main Content */}
       <div className="relative z-10">
         <Navbar />
 

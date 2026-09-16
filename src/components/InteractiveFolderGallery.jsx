@@ -11,6 +11,9 @@ function InteractiveFolderGallery({
     const [selectedPhoto, setSelectedPhoto] = useState(null);
     const [collectedPhotos, setCollectedPhotos] = useState(new Set());
 
+    // Magnetic mouse offsets for every screenshot
+    const [paperOffsets, setPaperOffsets] = useState({});
+
     const wasDragged = useRef(false);
 
     const getPhotoKey = (photo) => photo.id ?? photo.image;
@@ -27,6 +30,7 @@ function InteractiveFolderGallery({
             setCollectedPhotos(new Set());
         }
 
+        setPaperOffsets({});
         setIsFolderOpen(true);
         setHoverFolder(false);
     };
@@ -43,6 +47,13 @@ function InteractiveFolderGallery({
             next.add(key);
             return next;
         });
+
+        // Reset magnetic position after collecting
+        setPaperOffsets((prev) => {
+            const next = { ...prev };
+            delete next[key];
+            return next;
+        });
     };
 
     /* =========================================================
@@ -51,7 +62,47 @@ function InteractiveFolderGallery({
 
     const collectAllPhotos = () => {
         const allKeys = photos.map(getPhotoKey);
+
         setCollectedPhotos(new Set(allKeys));
+        setPaperOffsets({});
+    };
+
+    /* =========================================================
+       MAGNETIC PAPER EFFECT
+       ========================================================= */
+
+    const handlePaperMouseMove = (event, photo) => {
+        if (!isFolderOpen) return;
+
+        const key = getPhotoKey(photo);
+        const rect = event.currentTarget.getBoundingClientRect();
+
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        // Same magnetic calculation as the Folder effect
+        const offsetX = (event.clientX - centerX) * 0.15;
+        const offsetY = (event.clientY - centerY) * 0.15;
+
+        setPaperOffsets((prev) => ({
+            ...prev,
+            [key]: {
+                x: offsetX,
+                y: offsetY,
+            },
+        }));
+    };
+
+    const handlePaperMouseLeave = (photo) => {
+        const key = getPhotoKey(photo);
+
+        setPaperOffsets((prev) => ({
+            ...prev,
+            [key]: {
+                x: 0,
+                y: 0,
+            },
+        }));
     };
 
     /* =========================================================
@@ -99,6 +150,7 @@ function InteractiveFolderGallery({
     const closeFolder = () => {
         setIsFolderOpen(false);
         setHoverFolder(false);
+        setPaperOffsets({});
     };
 
     return (
@@ -385,7 +437,7 @@ function InteractiveFolderGallery({
 
                         {/* =================================================
                             OPEN FOLDER SCREENSHOTS
-                            ORIGINAL FAN-OUT LOGIC
+                            WITH MAGNETIC PAPER EFFECT
                             ================================================== */}
 
                         <div className="absolute bottom-[105px] z-50 flex items-center justify-center">
@@ -408,6 +460,12 @@ function InteractiveFolderGallery({
 
                                 const openX = offset * 125;
                                 const openY = -130;
+
+                                const magneticOffset =
+                                    paperOffsets[photoKey] || {
+                                        x: 0,
+                                        y: 0,
+                                    };
 
                                 return (
                                     <motion.div
@@ -442,9 +500,15 @@ function InteractiveFolderGallery({
                                                   }
                                                 : isFolderOpen
                                                 ? {
-                                                      x: openX,
-                                                      y: openY,
-                                                      rotate: 0,
+                                                      x:
+                                                          openX +
+                                                          magneticOffset.x,
+                                                      y:
+                                                          openY +
+                                                          magneticOffset.y,
+                                                      rotate:
+                                                          magneticOffset.x *
+                                                          0.025,
                                                       scale: 1.02,
                                                       opacity: 1,
                                                       zIndex: 50 + index,
@@ -465,7 +529,6 @@ function InteractiveFolderGallery({
                                             isFolderOpen && !isCollected
                                                 ? {
                                                       scale: 1.07,
-                                                      y: openY - 8,
                                                       zIndex: 500,
                                                   }
                                                 : {}
@@ -492,6 +555,15 @@ function InteractiveFolderGallery({
                                         }
                                         dragSnapToOrigin
                                         dragElastic={0.1}
+                                        onMouseMove={(event) =>
+                                            handlePaperMouseMove(
+                                                event,
+                                                photo
+                                            )
+                                        }
+                                        onMouseLeave={() =>
+                                            handlePaperMouseLeave(photo)
+                                        }
                                         onDragStart={() => {
                                             wasDragged.current = true;
                                         }}
@@ -547,10 +619,40 @@ function InteractiveFolderGallery({
                                             />
                                         )}
 
+                                        {/* Magnetic Glow */}
+
+                                        {isFolderOpen && !isCollected && (
+                                            <motion.div
+                                                className="
+                                                    pointer-events-none
+                                                    absolute
+                                                    inset-0
+                                                    rounded-2xl
+                                                    bg-[var(--theme-glow)]
+                                                    opacity-0
+                                                    blur-xl
+                                                "
+                                                animate={{
+                                                    opacity:
+                                                        Math.abs(
+                                                            magneticOffset.x
+                                                        ) > 5 ||
+                                                        Math.abs(
+                                                            magneticOffset.y
+                                                        ) > 5
+                                                            ? 0.12
+                                                            : 0,
+                                                }}
+                                                transition={{
+                                                    duration: 0.2,
+                                                }}
+                                            />
+                                        )}
+
                                         {/* Preview Badge */}
 
                                         {isFolderOpen && !isCollected && (
-                                            <div
+                                            <motion.div
                                                 className="
                                                     pointer-events-none
                                                     absolute
@@ -571,9 +673,12 @@ function InteractiveFolderGallery({
                                                     opacity-0
                                                     backdrop-blur-md
                                                 "
+                                                whileHover={{
+                                                    opacity: 1,
+                                                }}
                                             >
                                                 Preview
-                                            </div>
+                                            </motion.div>
                                         )}
                                     </motion.div>
                                 );

@@ -1,236 +1,316 @@
-"use client";
+import { useRef, useEffect, useCallback } from "react";
 
-import { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
+const MouseEffects = ({
+  sparkColor,
+  sparkSize = 10,
+  sparkRadius = 18,
+  sparkCount = 8,
+  duration = 400,
+  easing = "ease-out",
+  extraScale = 1.2,
+}) => {
+  const canvasRef = useRef(null);
+  const sparksRef = useRef([]);
 
-function MouseEffects({
-  color = "var(--theme-primary)",
-  duration = 0.3,
-  strokeWidth = 2,
-  effectSize = 90,
-  rotation = 0,
-}) {
-  const containerRef = useRef(null);
-  const [snipers, setSnipers] = useState([]);
+  // ============================================
+  // GET ACTUAL THEME COLOR
+  // ============================================
+
+  const getThemeColor = useCallback(() => {
+    if (sparkColor && !sparkColor.includes("var(")) {
+      return sparkColor;
+    }
+
+    const rootStyles =
+      getComputedStyle(document.documentElement);
+
+    const primary =
+      rootStyles
+        .getPropertyValue("--theme-primary")
+        .trim();
+
+    return primary || "#8B5CF6";
+  }, [sparkColor]);
+
+  // ============================================
+  // CANVAS SETUP
+  // ============================================
 
   useEffect(() => {
-    const handleClick = (e) => {
-      const container = containerRef.current;
+    const canvas = canvasRef.current;
 
-      if (!container) return;
+    if (!canvas) return;
 
-      const rect = container.getBoundingClientRect();
+    const ctx = canvas.getContext("2d");
 
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+    if (!ctx) return;
 
-      const id = `${e.timeStamp}-${Math.round(x)}-${Math.round(y)}`;
+    const resizeCanvas = () => {
+      const dpr =
+        window.devicePixelRatio || 1;
 
-      setSnipers((prev) => [...prev, { id, x, y }]);
+      canvas.width =
+        window.innerWidth * dpr;
+
+      canvas.height =
+        window.innerHeight * dpr;
+
+      canvas.style.width =
+        `${window.innerWidth}px`;
+
+      canvas.style.height =
+        `${window.innerHeight}px`;
+
+      ctx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+      );
     };
 
-    document.addEventListener("click", handleClick);
+    resizeCanvas();
+
+    window.addEventListener(
+      "resize",
+      resizeCanvas
+    );
 
     return () => {
-      document.removeEventListener("click", handleClick);
+      window.removeEventListener(
+        "resize",
+        resizeCanvas
+      );
     };
   }, []);
 
-  const svgStyle = (x, y) => ({
-    position: "absolute",
-    left: x - effectSize / 2,
-    top: y - effectSize / 2,
-    width: effectSize,
-    height: effectSize,
-    pointerEvents: "none",
-    overflow: "visible",
-    transform: `rotate(${rotation}deg)`,
-    transformOrigin: "center",
-  });
+  // ============================================
+  // EASING
+  // ============================================
+
+  const easeFunc = useCallback(
+    (t) => {
+      switch (easing) {
+        case "linear":
+          return t;
+
+        case "ease-in":
+          return t * t;
+
+        case "ease-in-out":
+          return t < 0.5
+            ? 2 * t * t
+            : -1 + (4 - 2 * t) * t;
+
+        default:
+          return t * (2 - t);
+      }
+    },
+    [easing]
+  );
+
+  // ============================================
+  // ANIMATION
+  // ============================================
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+
+    if (!ctx) return;
+
+    let animationId;
+
+    const draw = (timestamp) => {
+      ctx.clearRect(
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight
+      );
+
+      const currentColor =
+        getThemeColor();
+
+      sparksRef.current =
+        sparksRef.current.filter(
+          (spark) => {
+            const elapsed =
+              timestamp -
+              spark.startTime;
+
+            if (elapsed >= duration) {
+              return false;
+            }
+
+            const progress =
+              elapsed / duration;
+
+            const eased =
+              easeFunc(progress);
+
+            const distance =
+              eased *
+              sparkRadius *
+              extraScale;
+
+            const lineLength =
+              sparkSize *
+              (1 - eased);
+
+            const x1 =
+              spark.x +
+              distance *
+                Math.cos(
+                  spark.angle
+                );
+
+            const y1 =
+              spark.y +
+              distance *
+                Math.sin(
+                  spark.angle
+                );
+
+            const x2 =
+              spark.x +
+              (distance +
+                lineLength) *
+                Math.cos(
+                  spark.angle
+                );
+
+            const y2 =
+              spark.y +
+              (distance +
+                lineLength) *
+                Math.sin(
+                  spark.angle
+                );
+
+            // ==================================
+            // SPARK STYLE
+            // ==================================
+
+            ctx.save();
+
+            ctx.strokeStyle =
+              currentColor;
+
+            ctx.lineWidth = 2;
+
+            ctx.lineCap = "round";
+
+            ctx.shadowBlur = 8;
+
+            ctx.shadowColor =
+              currentColor;
+
+            ctx.beginPath();
+
+            ctx.moveTo(x1, y1);
+
+            ctx.lineTo(x2, y2);
+
+            ctx.stroke();
+
+            ctx.restore();
+
+            return true;
+          }
+        );
+
+      animationId =
+        requestAnimationFrame(draw);
+    };
+
+    animationId =
+      requestAnimationFrame(draw);
+
+    return () => {
+      cancelAnimationFrame(
+        animationId
+      );
+    };
+  }, [
+    sparkSize,
+    sparkRadius,
+    sparkCount,
+    duration,
+    easeFunc,
+    extraScale,
+    getThemeColor,
+  ]);
+
+  // ============================================
+  // CLICK HANDLER
+  // ============================================
+
+  useEffect(() => {
+    const handleClick = (e) => {
+      const now =
+        performance.now();
+
+      const newSparks =
+        Array.from(
+          {
+            length: sparkCount,
+          },
+          (_, i) => ({
+            x: e.clientX,
+            y: e.clientY,
+
+            angle:
+              (2 * Math.PI * i) /
+              sparkCount,
+
+            startTime: now,
+          })
+        );
+
+      sparksRef.current.push(
+        ...newSparks
+      );
+    };
+
+    window.addEventListener(
+      "click",
+      handleClick
+    );
+
+    return () => {
+      window.removeEventListener(
+        "click",
+        handleClick
+      );
+    };
+  }, [sparkCount]);
+
+  // ============================================
+  // CANVAS
+  // ============================================
 
   return (
-    <div
-      ref={containerRef}
-      className="pointer-events-none fixed inset-0 z-[9999]"
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
       style={{
-        overflow: "visible",
+        position: "fixed",
+        inset: 0,
+        width: "100vw",
+        height: "100vh",
+        display: "block",
+        pointerEvents: "none",
+        userSelect: "none",
+        zIndex: 99999,
       }}
-    >
-      {snipers.map((sniper) => (
-        <div key={sniper.id}>
-          {/* ==============================
-              FOUR TARGETING LINES
-          ============================== */}
-
-          <svg
-            style={svgStyle(sniper.x, sniper.y)}
-            ref={(el) => {
-              if (!el) return;
-
-              const lines = el.querySelectorAll("line");
-
-              lines.forEach((line, index) => {
-                const angle =
-                  [0, 90, 180, 270][index] * (Math.PI / 180);
-
-                const centerX = effectSize / 2;
-                const centerY = effectSize / 2;
-
-                const lineLength = effectSize * 0.2;
-
-                const startX =
-                  centerX + 5 * Math.cos(angle);
-
-                const startY =
-                  centerY - 5 * Math.sin(angle);
-
-                const endX =
-                  centerX +
-                  (5 + lineLength) * Math.cos(angle);
-
-                const endY =
-                  centerY -
-                  (5 + lineLength) * Math.sin(angle);
-
-                gsap.set(line, {
-                  attr: {
-                    x1: startX,
-                    y1: startY,
-                    x2: endX,
-                    y2: endY,
-                  },
-                  strokeWidth,
-                });
-
-                gsap.timeline()
-                  .to(line, {
-                    attr: {
-                      x1: endX,
-                      y1: endY,
-                      x2: endX,
-                      y2: endY,
-                    },
-
-                    translateX:
-                      (5 + lineLength) *
-                      Math.cos(angle),
-
-                    translateY:
-                      -(5 + lineLength) *
-                      Math.sin(angle),
-
-                    duration,
-                    ease: "power2.out",
-                  })
-                  .to(
-                    line,
-                    {
-                      strokeWidth: 0,
-                      duration: duration * 0.4,
-                      ease: "linear",
-                    },
-                    duration * 0.6
-                  );
-              });
-            }}
-          >
-            {[0, 90, 180, 270].map((_, index) => {
-              const centerX = effectSize / 2;
-              const centerY = effectSize / 2;
-
-              return (
-                <line
-                  key={index}
-                  x1={centerX}
-                  y1={centerY}
-                  x2={centerX}
-                  y2={centerY}
-                  stroke={color}
-                  strokeWidth={strokeWidth}
-                  strokeLinecap="square"
-                />
-              );
-            })}
-          </svg>
-
-          {/* ==============================
-              EIGHT OUTWARD PARTICLES
-          ============================== */}
-
-          {[
-            Math.PI / 3,
-            (2 * Math.PI) / 3,
-            (4 * Math.PI) / 3,
-            (5 * Math.PI) / 3,
-            Math.PI / 6,
-            (5 * Math.PI) / 6,
-            (7 * Math.PI) / 6,
-            (11 * Math.PI) / 6,
-          ].map((angle, index) => (
-            <div
-              key={index}
-              style={{
-                position: "absolute",
-                left: sniper.x - strokeWidth / 2,
-                top: sniper.y - strokeWidth / 2,
-                width: strokeWidth,
-                height: strokeWidth,
-                backgroundColor: color,
-                pointerEvents: "none",
-                transformOrigin: "center",
-                transform: `rotate(${rotation}deg)`,
-              }}
-              ref={(el) => {
-                if (!el || el.dataset.animated) return;
-
-                el.dataset.animated = "true";
-
-                gsap.set(el, {
-                  x: 0,
-                  y: 0,
-                  width: strokeWidth,
-                  height: strokeWidth,
-                });
-
-                gsap.timeline()
-                  .to(el, {
-                    x:
-                      Math.cos(angle) *
-                      (effectSize * 0.4),
-
-                    y:
-                      Math.sin(angle) *
-                      (effectSize * 0.4),
-
-                    duration,
-                    ease: "power2.out",
-                  })
-                  .to(
-                    el,
-                    {
-                      width: 0,
-                      height: 0,
-                      duration: duration * 0.4,
-                      ease: "linear",
-
-                      onComplete: () => {
-                        setSnipers((prev) =>
-                          prev.filter(
-                            (item) =>
-                              item.id !== sniper.id
-                          )
-                        );
-                      },
-                    },
-                    duration * 0.6
-                  );
-              }}
-            />
-          ))}
-        </div>
-      ))}
-    </div>
+    />
   );
-}
+};
 
 export default MouseEffects;
