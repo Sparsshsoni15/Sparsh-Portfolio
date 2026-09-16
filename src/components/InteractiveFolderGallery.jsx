@@ -11,12 +11,13 @@ function InteractiveFolderGallery({
     const [selectedPhoto, setSelectedPhoto] = useState(null);
     const [collectedPhotos, setCollectedPhotos] = useState(new Set());
 
-    // Magnetic mouse offsets for every screenshot
+    // Stores the individual magnetic movement of every screenshot
     const [paperOffsets, setPaperOffsets] = useState({});
 
     const wasDragged = useRef(false);
 
-    const getPhotoKey = (photo) => photo.id ?? photo.image;
+    const getPhotoKey = (photo, index) =>
+        photo.id ?? photo.image ?? `photo-${index}`;
 
     const allCollected =
         photos.length > 0 && collectedPhotos.size === photos.length;
@@ -28,9 +29,9 @@ function InteractiveFolderGallery({
     const openFolder = () => {
         if (allCollected) {
             setCollectedPhotos(new Set());
+            setPaperOffsets({});
         }
 
-        setPaperOffsets({});
         setIsFolderOpen(true);
         setHoverFolder(false);
     };
@@ -39,8 +40,8 @@ function InteractiveFolderGallery({
        COLLECT ONE IMAGE
        ========================================================= */
 
-    const collectPhoto = (photo) => {
-        const key = getPhotoKey(photo);
+    const collectPhoto = (photo, index) => {
+        const key = getPhotoKey(photo, index);
 
         setCollectedPhotos((prev) => {
             const next = new Set(prev);
@@ -48,12 +49,10 @@ function InteractiveFolderGallery({
             return next;
         });
 
-        // Reset magnetic position after collecting
-        setPaperOffsets((prev) => {
-            const next = { ...prev };
-            delete next[key];
-            return next;
-        });
+        setPaperOffsets((prev) => ({
+            ...prev,
+            [key]: { x: 0, y: 0 },
+        }));
     };
 
     /* =========================================================
@@ -61,7 +60,9 @@ function InteractiveFolderGallery({
        ========================================================= */
 
     const collectAllPhotos = () => {
-        const allKeys = photos.map(getPhotoKey);
+        const allKeys = photos.map((photo, index) =>
+            getPhotoKey(photo, index)
+        );
 
         setCollectedPhotos(new Set(allKeys));
         setPaperOffsets({});
@@ -69,20 +70,26 @@ function InteractiveFolderGallery({
 
     /* =========================================================
        MAGNETIC PAPER EFFECT
+       Same basic behaviour as the Folder effect:
+       mouse position -> paper moves toward mouse
        ========================================================= */
 
-    const handlePaperMouseMove = (event, photo) => {
+    const handlePaperMouseMove = (event, photo, index) => {
         if (!isFolderOpen) return;
 
-        const key = getPhotoKey(photo);
+        const key = getPhotoKey(photo, index);
         const rect = event.currentTarget.getBoundingClientRect();
 
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
 
-        // Same magnetic calculation as the Folder effect
-        const offsetX = (event.clientX - centerX) * 0.15;
-        const offsetY = (event.clientY - centerY) * 0.15;
+        // Distance from the centre of the screenshot
+        const mouseX = event.clientX - centerX;
+        const mouseY = event.clientY - centerY;
+
+        // Same 0.15 magnetic strength as the Folder code
+        const offsetX = mouseX * 0.15;
+        const offsetY = mouseY * 0.15;
 
         setPaperOffsets((prev) => ({
             ...prev,
@@ -93,8 +100,12 @@ function InteractiveFolderGallery({
         }));
     };
 
-    const handlePaperMouseLeave = (photo) => {
-        const key = getPhotoKey(photo);
+    /* =========================================================
+       RESET MAGNETIC EFFECT
+       ========================================================= */
+
+    const handlePaperMouseLeave = (photo, index) => {
+        const key = getPhotoKey(photo, index);
 
         setPaperOffsets((prev) => ({
             ...prev,
@@ -120,19 +131,26 @@ function InteractiveFolderGallery({
 
     /* =========================================================
        CLOSE PREVIEW
-       ONLY SELECTED IMAGE GETS COLLECTED
+       Selected screenshot gets collected
        ========================================================= */
 
     const closePreview = () => {
         if (!selectedPhoto) return;
 
-        const selectedKey = getPhotoKey(selectedPhoto);
+        const selectedIndex = photos.findIndex(
+            (photo) => photo === selectedPhoto
+        );
+
+        const selectedKey = getPhotoKey(
+            selectedPhoto,
+            selectedIndex
+        );
 
         const wasLastPhoto =
             !collectedPhotos.has(selectedKey) &&
             collectedPhotos.size + 1 >= photos.length;
 
-        collectPhoto(selectedPhoto);
+        collectPhoto(selectedPhoto, selectedIndex);
         setSelectedPhoto(null);
 
         if (wasLastPhoto) {
@@ -170,14 +188,25 @@ function InteractiveFolderGallery({
                         justify-center
                         overflow-visible
                     "
-                    style={{ perspective: "1400px" }}
+                    style={{
+                        perspective: "1400px",
+                    }}
                 >
                     {/* =================================================
                         GALLERY STAGE
                         ================================================== */}
 
-                    <div className="relative flex h-[450px] w-full max-w-[500px] items-center justify-center">
-
+                    <div
+                        className="
+                            relative
+                            flex
+                            h-[450px]
+                            w-full
+                            max-w-[500px]
+                            items-center
+                            justify-center
+                        "
+                    >
                         {/* =================================================
                             BACK FOLDER
                             ================================================== */}
@@ -192,7 +221,6 @@ function InteractiveFolderGallery({
                             animate={{
                                 scale: isFolderOpen ? 0.98 : 1,
                                 y: isFolderOpen ? 4 : 0,
-                                opacity: 1,
                             }}
                             transition={{
                                 type: "spring",
@@ -214,14 +242,6 @@ function InteractiveFolderGallery({
                                     border-[var(--theme-border-strong)]
                                     bg-[var(--theme-surface)]
                                     shadow-[inset_0_1px_0_var(--theme-glow)]
-                                    transition-all
-                                    duration-300
-
-                                    [html[data-theme='valentine']_&]:border-pink-200
-                                    [html[data-theme='valentine']_&]:bg-pink-300
-
-                                    [html[data-theme='aqua']_&]:border-cyan-200
-                                    [html[data-theme='aqua']_&]:bg-cyan-300
                                 "
                                 animate={{
                                     x: hoverFolder ? 5 : 0,
@@ -248,14 +268,6 @@ function InteractiveFolderGallery({
                                     border-[var(--theme-border-strong)]
                                     bg-[var(--theme-surface)]
                                     shadow-[0_25px_60px_rgba(0,0,0,0.3)]
-                                    transition-all
-                                    duration-300
-
-                                    [html[data-theme='valentine']_&]:border-pink-200
-                                    [html[data-theme='valentine']_&]:bg-pink-300
-
-                                    [html[data-theme='aqua']_&]:border-cyan-200
-                                    [html[data-theme='aqua']_&]:bg-cyan-300
                                 "
                             >
                                 {/* Inner Glow */}
@@ -270,8 +282,12 @@ function InteractiveFolderGallery({
                                         blur-3xl
                                     "
                                     animate={{
-                                        opacity: hoverFolder ? 0.7 : 0.45,
-                                        scale: hoverFolder ? 1.15 : 1,
+                                        opacity: hoverFolder
+                                            ? 0.7
+                                            : 0.45,
+                                        scale: hoverFolder
+                                            ? 1.15
+                                            : 1,
                                     }}
                                     transition={{
                                         duration: 0.5,
@@ -313,7 +329,7 @@ function InteractiveFolderGallery({
                         </motion.div>
 
                         {/* =================================================
-                            COLLECTED / TUCKED SCREENSHOT STACK
+                            COLLECTED SCREENSHOTS
                             ================================================== */}
 
                         <div
@@ -329,19 +345,28 @@ function InteractiveFolderGallery({
                             "
                         >
                             {photos.map((photo, index) => {
-                                const photoKey = getPhotoKey(photo);
+                                const photoKey = getPhotoKey(
+                                    photo,
+                                    index
+                                );
 
-                                const isCollected =
-                                    collectedPhotos.has(photoKey);
-
-                                if (!isCollected) return null;
+                                if (
+                                    !collectedPhotos.has(
+                                        photoKey
+                                    )
+                                ) {
+                                    return null;
+                                }
 
                                 const offset =
-                                    index - (photos.length - 1) / 2;
+                                    index -
+                                    (photos.length - 1) / 2;
 
                                 const tuckX = offset * 42;
-                                const tuckY = Math.abs(offset) * 3;
-                                const tuckRotate = offset * 4;
+                                const tuckY =
+                                    Math.abs(offset) * 3;
+                                const tuckRotate =
+                                    offset * 4;
 
                                 return (
                                     <motion.button
@@ -372,10 +397,20 @@ function InteractiveFolderGallery({
                                             y: 30,
                                         }}
                                         animate={{
-                                            opacity: isFolderOpen ? 0 : 1,
-                                            scale: isFolderOpen ? 0.82 : 1,
-                                            x: isFolderOpen ? 0 : tuckX,
-                                            y: isFolderOpen ? 20 : tuckY,
+                                            opacity:
+                                                isFolderOpen
+                                                    ? 0
+                                                    : 1,
+                                            scale:
+                                                isFolderOpen
+                                                    ? 0.82
+                                                    : 1,
+                                            x: isFolderOpen
+                                                ? 0
+                                                : tuckX,
+                                            y: isFolderOpen
+                                                ? 20
+                                                : tuckY,
                                             rotate: isFolderOpen
                                                 ? 0
                                                 : tuckRotate,
@@ -385,13 +420,16 @@ function InteractiveFolderGallery({
                                             stiffness: 180,
                                             damping: 20,
                                             mass: 0.8,
-                                            delay: index * 0.04,
+                                            delay:
+                                                index * 0.04,
                                         }}
                                         whileHover={
                                             !isFolderOpen
                                                 ? {
                                                       scale: 1.04,
-                                                      y: tuckY - 5,
+                                                      y:
+                                                          tuckY -
+                                                          5,
                                                   }
                                                 : {}
                                         }
@@ -436,33 +474,57 @@ function InteractiveFolderGallery({
                         </div>
 
                         {/* =================================================
-                            OPEN FOLDER SCREENSHOTS
-                            WITH MAGNETIC PAPER EFFECT
+                            OPEN FOLDER PAPERS
                             ================================================== */}
 
-                        <div className="absolute bottom-[105px] z-50 flex items-center justify-center">
+                        <div
+                            className="
+                                absolute
+                                bottom-[105px]
+                                z-50
+                                flex
+                                items-center
+                                justify-center
+                            "
+                        >
                             {photos.map((photo, index) => {
-                                const photoKey = getPhotoKey(photo);
+                                const photoKey =
+                                    getPhotoKey(
+                                        photo,
+                                        index
+                                    );
 
                                 const isCollected =
-                                    collectedPhotos.has(photoKey);
+                                    collectedPhotos.has(
+                                        photoKey
+                                    );
 
                                 const offset =
-                                    index - (photos.length - 1) / 2;
+                                    index -
+                                    (photos.length - 1) / 2;
 
                                 /* Closed stack */
 
-                                const stackX = offset * 3;
-                                const stackY = offset * -5;
-                                const stackRotate = offset * 3;
+                                const stackX =
+                                    offset * 3;
+
+                                const stackY =
+                                    offset * -5;
+
+                                const stackRotate =
+                                    offset * 3;
 
                                 /* Open fan */
 
-                                const openX = offset * 125;
+                                const openX =
+                                    offset * 125;
+
                                 const openY = -130;
 
                                 const magneticOffset =
-                                    paperOffsets[photoKey] || {
+                                    paperOffsets[
+                                        photoKey
+                                    ] || {
                                         x: 0,
                                         y: 0,
                                     };
@@ -483,7 +545,8 @@ function InteractiveFolderGallery({
                                             shadow-[0_22px_50px_rgba(0,0,0,0.4)]
                                             origin-bottom
                                             ${
-                                                isFolderOpen && !isCollected
+                                                isFolderOpen &&
+                                                !isCollected
                                                     ? "pointer-events-auto cursor-pointer"
                                                     : "pointer-events-none"
                                             }
@@ -511,7 +574,9 @@ function InteractiveFolderGallery({
                                                           0.025,
                                                       scale: 1.02,
                                                       opacity: 1,
-                                                      zIndex: 50 + index,
+                                                      zIndex:
+                                                          50 +
+                                                          index,
                                                   }
                                                 : {
                                                       x: stackX,
@@ -519,17 +584,19 @@ function InteractiveFolderGallery({
                                                       rotate: stackRotate,
                                                       scale:
                                                           1 -
-                                                          Math.abs(offset) *
+                                                          Math.abs(
+                                                              offset
+                                                          ) *
                                                               0.025,
                                                       opacity: 0,
                                                       zIndex: 1,
                                                   }
                                         }
                                         whileHover={
-                                            isFolderOpen && !isCollected
+                                            isFolderOpen &&
+                                            !isCollected
                                                 ? {
-                                                      scale: 1.07,
-                                                      zIndex: 500,
+                                                      scale: 1.05,
                                                   }
                                                 : {}
                                         }
@@ -547,9 +614,12 @@ function InteractiveFolderGallery({
                                         style={{
                                             transformOrigin:
                                                 "bottom center",
+                                            willChange:
+                                                "transform",
                                         }}
                                         drag={
-                                            isFolderOpen && !isCollected
+                                            isFolderOpen &&
+                                            !isCollected
                                                 ? true
                                                 : false
                                         }
@@ -558,35 +628,71 @@ function InteractiveFolderGallery({
                                         onMouseMove={(event) =>
                                             handlePaperMouseMove(
                                                 event,
-                                                photo
+                                                photo,
+                                                index
                                             )
                                         }
                                         onMouseLeave={() =>
-                                            handlePaperMouseLeave(photo)
+                                            handlePaperMouseLeave(
+                                                photo,
+                                                index
+                                            )
                                         }
                                         onDragStart={() => {
-                                            wasDragged.current = true;
+                                            wasDragged.current =
+                                                true;
                                         }}
-                                        onDragEnd={(event, info) => {
+                                        onDragEnd={(
+                                            event,
+                                            info
+                                        ) => {
                                             setTimeout(() => {
-                                                wasDragged.current = false;
+                                                wasDragged.current =
+                                                    false;
                                             }, 60);
 
-                                            if (info.offset.y > 100) {
+                                            if (
+                                                info.offset.y >
+                                                100
+                                            ) {
                                                 collectAllPhotos();
 
                                                 setTimeout(() => {
-                                                    setIsFolderOpen(false);
-                                                    setHoverFolder(false);
+                                                    setIsFolderOpen(
+                                                        false
+                                                    );
+                                                    setHoverFolder(
+                                                        false
+                                                    );
+                                                    setPaperOffsets(
+                                                        {}
+                                                    );
                                                 }, 650);
                                             }
                                         }}
                                         onClick={() => {
-                                            if (!isCollected) {
-                                                openPreview(photo);
+                                            if (
+                                                !isCollected
+                                            ) {
+                                                openPreview(
+                                                    photo
+                                                );
                                             }
                                         }}
                                     >
+                                        {/* Paper backing */}
+
+                                        <div
+                                            className="
+                                                pointer-events-none
+                                                absolute
+                                                inset-0
+                                                bg-white
+                                            "
+                                        />
+
+                                        {/* Screenshot */}
+
                                         <img
                                             src={photo.image}
                                             alt={
@@ -594,6 +700,8 @@ function InteractiveFolderGallery({
                                                 "Project screenshot"
                                             }
                                             className="
+                                                relative
+                                                z-10
                                                 h-full
                                                 w-full
                                                 select-none
@@ -605,81 +713,81 @@ function InteractiveFolderGallery({
 
                                         {/* Glass Overlay */}
 
-                                        {isFolderOpen && !isCollected && (
-                                            <div
-                                                className="
-                                                    pointer-events-none
-                                                    absolute
-                                                    inset-0
-                                                    bg-gradient-to-t
-                                                    from-black/25
-                                                    via-transparent
-                                                    to-white/5
-                                                "
-                                            />
-                                        )}
+                                        {isFolderOpen &&
+                                            !isCollected && (
+                                                <div
+                                                    className="
+                                                        pointer-events-none
+                                                        absolute
+                                                        inset-0
+                                                        z-20
+                                                        bg-gradient-to-t
+                                                        from-black/25
+                                                        via-transparent
+                                                        to-white/5
+                                                    "
+                                                />
+                                            )}
 
-                                        {/* Magnetic Glow */}
+                                        {/* Magnetic highlight */}
 
-                                        {isFolderOpen && !isCollected && (
-                                            <motion.div
-                                                className="
-                                                    pointer-events-none
-                                                    absolute
-                                                    inset-0
-                                                    rounded-2xl
-                                                    bg-[var(--theme-glow)]
-                                                    opacity-0
-                                                    blur-xl
-                                                "
-                                                animate={{
-                                                    opacity:
-                                                        Math.abs(
-                                                            magneticOffset.x
-                                                        ) > 5 ||
-                                                        Math.abs(
-                                                            magneticOffset.y
-                                                        ) > 5
-                                                            ? 0.12
-                                                            : 0,
-                                                }}
-                                                transition={{
-                                                    duration: 0.2,
-                                                }}
-                                            />
-                                        )}
+                                        {isFolderOpen &&
+                                            !isCollected && (
+                                                <motion.div
+                                                    className="
+                                                        pointer-events-none
+                                                        absolute
+                                                        inset-0
+                                                        z-30
+                                                        rounded-2xl
+                                                        border
+                                                        border-[var(--theme-primary)]
+                                                    "
+                                                    animate={{
+                                                        opacity:
+                                                            magneticOffset.x !==
+                                                                0 ||
+                                                            magneticOffset.y !==
+                                                                0
+                                                                ? 0.35
+                                                                : 0,
+                                                    }}
+                                                    transition={{
+                                                        duration: 0.2,
+                                                    }}
+                                                />
+                                            )}
 
                                         {/* Preview Badge */}
 
-                                        {isFolderOpen && !isCollected && (
-                                            <motion.div
-                                                className="
-                                                    pointer-events-none
-                                                    absolute
-                                                    bottom-3
-                                                    left-1/2
-                                                    -translate-x-1/2
-                                                    rounded-full
-                                                    border
-                                                    border-[var(--theme-border-strong)]
-                                                    bg-[var(--theme-surface)]
-                                                    px-3
-                                                    py-1.5
-                                                    text-[9px]
-                                                    font-semibold
-                                                    uppercase
-                                                    tracking-[0.14em]
-                                                    text-[var(--theme-text)]
-                                                    opacity-0
-                                                    backdrop-blur-md
-                                                "
-                                                whileHover={{
-                                                    opacity: 1,
-                                                }}
-                                            >
-                                                Preview
-                                            </motion.div>
-                                        )}
+                                        {isFolderOpen &&
+                                            !isCollected && (
+                                                <div
+                                                    className="
+                                                        pointer-events-none
+                                                        absolute
+                                                        bottom-3
+                                                        left-1/2
+                                                        z-40
+                                                        -translate-x-1/2
+                                                        rounded-full
+                                                        border
+                                                        border-[var(--theme-border-strong)]
+                                                        bg-[var(--theme-surface)]
+                                                        px-3
+                                                        py-1.5
+                                                        text-[9px]
+                                                        font-semibold
+                                                        uppercase
+                                                        tracking-[0.14em]
+                                                        text-[var(--theme-text)]
+                                                        opacity-0
+                                                        backdrop-blur-md
+                                                    "
+                                                >
+                                                    Preview
+                                                </div>
+                                            )}
                                     </motion.div>
                                 );
                             })}
@@ -700,18 +808,28 @@ function InteractiveFolderGallery({
                                 drop-shadow-[0_25px_45px_rgba(0,0,0,0.3)]
                             "
                             style={{
-                                transformOrigin: "bottom center",
-                                transformStyle: "preserve-3d",
-                                pointerEvents: isFolderOpen
-                                    ? "none"
-                                    : "auto",
+                                transformOrigin:
+                                    "bottom center",
+                                transformStyle:
+                                    "preserve-3d",
+                                pointerEvents:
+                                    isFolderOpen
+                                        ? "none"
+                                        : "auto",
                             }}
                             animate={{
-                                opacity: 1,
-                                rotateX: hoverFolder ? -18 : 0,
-                                rotateY: hoverFolder ? -2 : 0,
-                                y: hoverFolder ? 7 : 0,
-                                scale: hoverFolder ? 1.025 : 1,
+                                rotateX: hoverFolder
+                                    ? -18
+                                    : 0,
+                                rotateY: hoverFolder
+                                    ? -2
+                                    : 0,
+                                y: hoverFolder
+                                    ? 7
+                                    : 0,
+                                scale: hoverFolder
+                                    ? 1.025
+                                    : 1,
                             }}
                             transition={{
                                 type: "spring",
@@ -719,8 +837,12 @@ function InteractiveFolderGallery({
                                 damping: 20,
                                 mass: 0.8,
                             }}
-                            onMouseEnter={() => setHoverFolder(true)}
-                            onMouseLeave={() => setHoverFolder(false)}
+                            onMouseEnter={() =>
+                                setHoverFolder(true)
+                            }
+                            onMouseLeave={() =>
+                                setHoverFolder(false)
+                            }
                             onClick={openFolder}
                         >
                             <div
@@ -738,14 +860,6 @@ function InteractiveFolderGallery({
                                     bg-[var(--theme-surface)]
                                     pb-8
                                     shadow-[0_25px_70px_rgba(0,0,0,0.35)]
-                                    transition-all
-                                    duration-300
-
-                                    [html[data-theme='valentine']_&]:border-pink-200
-                                    [html[data-theme='valentine']_&]:bg-pink-300
-
-                                    [html[data-theme='aqua']_&]:border-cyan-200
-                                    [html[data-theme='aqua']_&]:bg-cyan-300
                                 "
                             >
                                 {/* Folder Gradient */}
@@ -798,8 +912,12 @@ function InteractiveFolderGallery({
                                         blur-3xl
                                     "
                                     animate={{
-                                        scale: hoverFolder ? 1.3 : 1,
-                                        opacity: hoverFolder ? 0.8 : 0.45,
+                                        scale: hoverFolder
+                                            ? 1.3
+                                            : 1,
+                                        opacity: hoverFolder
+                                            ? 0.8
+                                            : 0.45,
                                     }}
                                     transition={{
                                         duration: 0.45,
@@ -820,9 +938,7 @@ function InteractiveFolderGallery({
                                     "
                                 />
 
-                                {/* =================================================
-                                    FOLDER LABEL
-                                    ================================================== */}
+                                {/* Folder Label */}
 
                                 <motion.div
                                     className="
@@ -840,8 +956,12 @@ function InteractiveFolderGallery({
                                         shadow-[0_8px_25px_rgba(0,0,0,0.2)]
                                     "
                                     animate={{
-                                        y: hoverFolder ? -4 : 0,
-                                        scale: hoverFolder ? 1.03 : 1,
+                                        y: hoverFolder
+                                            ? -4
+                                            : 0,
+                                        scale: hoverFolder
+                                            ? 1.03
+                                            : 1,
                                     }}
                                     transition={{
                                         type: "spring",
@@ -874,8 +994,12 @@ function InteractiveFolderGallery({
                                         bg-[var(--theme-primary)]
                                     "
                                     animate={{
-                                        width: hoverFolder ? 48 : 28,
-                                        opacity: hoverFolder ? 1 : 0.5,
+                                        width: hoverFolder
+                                            ? 48
+                                            : 28,
+                                        opacity: hoverFolder
+                                            ? 1
+                                            : 0.5,
                                     }}
                                     transition={{
                                         duration: 0.3,
@@ -892,11 +1016,13 @@ function InteractiveFolderGallery({
                     <motion.div
                         animate={{
                             opacity:
-                                isFolderOpen && !allCollected
+                                isFolderOpen &&
+                                !allCollected
                                     ? 1
                                     : 0,
                             y:
-                                isFolderOpen && !allCollected
+                                isFolderOpen &&
+                                !allCollected
                                     ? 0
                                     : 20,
                         }}
@@ -1017,8 +1143,6 @@ function InteractiveFolderGallery({
                                     shadow-[0_30px_120px_rgba(0,0,0,0.75)]
                                 "
                             >
-                                {/* Full Screenshot */}
-
                                 <img
                                     src={selectedPhoto.image}
                                     alt={
