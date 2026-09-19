@@ -1,5 +1,7 @@
-import { Mail, Send } from "lucide-react";
+import { Mail, Send, CheckCircle, AlertCircle } from "lucide-react";
+import emailjs from "@emailjs/browser";
 import { motion } from "motion/react";
+import { useState } from "react";
 
 function GitHubIcon({ size = 20 }) {
   return (
@@ -65,8 +67,39 @@ function ContactCard({ icon, title, value, href }) {
 }
 
 function Contact() {
-  const handleSubmit = (event) => {
+  const [status, setStatus] = useState("idle");
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    setStatus("sending");
+
+    const form = event.currentTarget;
+
+    try {
+      await emailjs.sendForm(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        form,
+        {
+          publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+        }
+      );
+
+      setStatus("success");
+      form.reset();
+
+      setTimeout(() => {
+        setStatus("idle");
+      }, 5000);
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      setStatus("error");
+
+      setTimeout(() => {
+        setStatus("idle");
+      }, 5000);
+    }
   };
 
   return (
@@ -100,7 +133,6 @@ function Contact() {
               </span>
             </h2>
 
-            {/* Fixed: theme-aware supporting text */}
             <p className="max-w-xl text-sm leading-7 text-[var(--theme-text-secondary)] opacity-100 md:text-base lg:justify-self-end">
               Have an idea, opportunity or just want to connect? Feel free to
               reach out.
@@ -159,7 +191,6 @@ function Contact() {
                 </span>
               </div>
 
-              {/* Fixed: theme-aware supporting text */}
               <p className="mt-3 text-sm leading-6 text-[var(--theme-text-secondary)] opacity-100">
                 Interested in internships, collaborations, projects and
                 learning opportunities.
@@ -191,6 +222,7 @@ function Contact() {
                     name="name"
                     type="text"
                     placeholder="Your name"
+                    required
                     className="theme-input w-full rounded-xl border theme-border px-4 py-3.5 text-sm transition-all duration-300 focus:border-[var(--theme-primary)]"
                   />
                 </div>
@@ -208,6 +240,7 @@ function Contact() {
                     name="email"
                     type="email"
                     placeholder="you@example.com"
+                    required
                     className="theme-input w-full rounded-xl border theme-border px-4 py-3.5 text-sm transition-all duration-300 focus:border-[var(--theme-primary)]"
                   />
                 </div>
@@ -226,6 +259,7 @@ function Contact() {
                   name="subject"
                   type="text"
                   placeholder="What would you like to discuss?"
+                  required
                   className="theme-input w-full rounded-xl border theme-border px-4 py-3.5 text-sm transition-all duration-300 focus:border-[var(--theme-primary)]"
                 />
               </div>
@@ -243,32 +277,68 @@ function Contact() {
                   name="message"
                   rows="6"
                   placeholder="Tell me a little about your idea..."
+                  required
                   className="theme-input w-full resize-none rounded-xl border theme-border px-4 py-3.5 text-sm leading-6 transition-all duration-300 focus:border-[var(--theme-primary)]"
                 />
               </div>
 
               <button
                 type="submit"
-                className="group inline-flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110"
+                disabled={status === "sending"}
+                className="group inline-flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
                 style={{
                   background:
                     "linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))",
                   boxShadow: "0 0 30px var(--theme-glow)",
                 }}
               >
-                Send Message
-
-                <Send
-                  size={16}
-                  className="transition-transform duration-300 group-hover:translate-x-1"
-                />
+                {status === "sending" ? (
+                  <>
+                    Sending...
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                  </>
+                ) : (
+                  <>
+                    Send Message
+                    <Send
+                      size={16}
+                      className="transition-transform duration-300 group-hover:translate-x-1"
+                    />
+                  </>
+                )}
               </button>
 
-              {/* Fixed: theme-aware supporting text */}
-              <p className="text-center text-[11px] text-[var(--theme-text-secondary)] opacity-100">
-                This form is currently UI-only. A backend/email service can be
-                connected later.
-              </p>
+              {/* Success */}
+              {status === "success" && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-center justify-center gap-2 text-sm font-medium"
+                  style={{ color: "var(--theme-primary)" }}
+                >
+                  <CheckCircle size={17} />
+                  Message sent successfully!
+                </motion.div>
+              )}
+
+              {/* Error */}
+              {status === "error" && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-center justify-center gap-2 text-sm font-medium"
+                  style={{ color: "var(--theme-primary)" }}
+                >
+                  <AlertCircle size={17} />
+                  Something went wrong. Please try again.
+                </motion.div>
+              )}
+
+              {status === "idle" && (
+                <p className="text-center text-[11px] text-[var(--theme-text-secondary)] opacity-100">
+                  Your message will be sent directly to my email.
+                </p>
+              )}
 
             </form>
           </motion.div>

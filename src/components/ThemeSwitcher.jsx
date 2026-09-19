@@ -47,20 +47,31 @@ function ThemeSwitcher() {
   return (
     <div className="relative">
       {/* Theme Button */}
-
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
         aria-haspopup="listbox"
         aria-expanded={open}
         className="
-          flex items-center gap-2
+          flex
+          items-center
+          gap-1.5
           rounded-full
-          px-4 py-2.5
-          text-xs font-semibold
-          uppercase tracking-[0.12em]
-          transition-all duration-300
+          px-2.5
+          py-2
+          text-[10px]
+          font-semibold
+          uppercase
+          tracking-[0.08em]
+          transition-all
+          duration-300
           focus:outline-none
+
+          md:gap-2
+          md:px-4
+          md:py-2.5
+          md:text-xs
+          md:tracking-[0.12em]
         "
         style={{
           color: "var(--theme-text)",
@@ -69,7 +80,7 @@ function ThemeSwitcher() {
           boxShadow: "0 0 18px var(--theme-glow)",
         }}
       >
-        <span className="text-sm">
+        <span className="text-xs md:text-sm">
           {currentTheme.icon}
         </span>
 
@@ -78,16 +89,21 @@ function ThemeSwitcher() {
         </span>
 
         <svg
-          width="11"
-          height="11"
+          width="9"
+          height="9"
           viewBox="0 0 2048 2048"
           fill="currentColor"
           className={`
-            ml-1
+            ml-0.5
             opacity-80
-            transition-transform duration-300
-            ${open ? "rotate-180" : ""}
+            transition-transform
+            duration-300
+
+            md:ml-1
           `}
+          style={{
+            transform: open ? "rotate(180deg)" : "rotate(0deg)",
+          }}
           aria-hidden="true"
         >
           <path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z" />
@@ -95,7 +111,6 @@ function ThemeSwitcher() {
       </button>
 
       {/* Dropdown */}
-
       {open && (
         <div
           className="
@@ -104,10 +119,13 @@ function ThemeSwitcher() {
             top-full
             z-50
             mt-2
-            w-52
+            w-44
             overflow-hidden
             rounded-2xl
-            p-2
+            p-1.5
+
+            md:w-52
+            md:p-2
           "
           style={{
             background: "var(--theme-dropdown-bg)",
@@ -130,17 +148,27 @@ function ThemeSwitcher() {
                   handleThemeChange(item.name)
                 }
                 className="
-                  flex w-full
-                  items-center gap-3
+                  flex
+                  w-full
+                  items-center
+                  gap-2.5
                   rounded-xl
-                  px-3 py-2.5
-                  text-left text-sm
-                  transition-all duration-200
+                  px-3
+                  py-2
+                  text-left
+                  text-xs
+                  transition-all
+                  duration-200
+
+                  md:gap-3
+                  md:py-2.5
+                  md:text-sm
                 "
                 style={{
                   color: isActive
                     ? "var(--theme-active-text)"
                     : "var(--theme-text)",
+
                   background: isActive
                     ? "var(--theme-primary)"
                     : "transparent",

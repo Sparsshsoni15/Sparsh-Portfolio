@@ -5,8 +5,6 @@ import About from "./sections/About";
 import Skills from "./sections/Skills";
 import Experience from "./sections/Experience";
 import Work from "./sections/Work";
-import Hackathons from "./sections/Hackathons";
-import Achievements from "./sections/Achievements";
 import GitHubActivity from "./sections/GitHubActivity";
 import CurrentlyExploring from "./sections/CurrentlyExploring";
 import Contact from "./components/Contact";
@@ -44,10 +42,6 @@ function App() {
           <Experience />
 
           <Work />
-
-          <Hackathons />
-
-          <Achievements />
 
           <GitHubActivity />
 

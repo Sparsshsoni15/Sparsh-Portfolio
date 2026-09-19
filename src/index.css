@@ -117,7 +117,7 @@
 
 [data-theme="valentine"] {
   --theme-primary: #e11d48;
-  --theme-secondary: #db2777;
+  --theme-secondary: #be185d;
 
   --theme-bg: #fff1f6;
   --theme-bg-secondary: #fce7f3;
@@ -125,11 +125,11 @@
   --theme-surface: #fff7fa;
   --theme-surface-hover: #ffe4ec;
 
-  /* Dark readable text for light background */
-  --theme-text: #4c0519;
-  --theme-text-secondary: #881337;
-  --theme-text-muted: #9f1239;
-  --theme-text-subtle: #be123c;
+  /* Rich contrast text palette */
+  --theme-text: #3f1722;
+  --theme-text-secondary: #6b3445;
+  --theme-text-muted: #8f5a69;
+  --theme-text-subtle: #a97886;
 
   --theme-border: rgba(190, 24, 93, 0.18);
   --theme-border-strong: rgba(190, 24, 93, 0.32);
@@ -155,7 +155,7 @@
 
 [data-theme="aqua"] {
   --theme-primary: #0891b2;
-  --theme-secondary: #0d9488;
+  --theme-secondary: #0f766e;
 
   --theme-bg: #effcff;
   --theme-bg-secondary: #e0f7fa;
@@ -163,11 +163,11 @@
   --theme-surface: #f5feff;
   --theme-surface-hover: #dff6f9;
 
-  /* Dark readable text for light background */
-  --theme-text: #083344;
-  --theme-text-secondary: #155e75;
-  --theme-text-muted: #0e7490;
-  --theme-text-subtle: #0f766e;
+  /* Rich contrast text palette */
+  --theme-text: #102f3d;
+  --theme-text-secondary: #315968;
+  --theme-text-muted: #557783;
+  --theme-text-subtle: #71919b;
 
   --theme-border: rgba(8, 145, 178, 0.18);
   --theme-border-strong: rgba(8, 145, 178, 0.32);
@@ -461,6 +461,7 @@ a {
   }
 }
 
+
 /* =========================================================
    MOBILE
    ========================================================= */
@@ -475,23 +476,27 @@ a {
     transform: scale(0.97) !important;
   }
 }
+
+
 /* =========================================================
    LIGHT THEME TEXT OVERRIDE
    Valentine + Aqua ONLY
    ========================================================= */
+
 
 /* -------------------------
    VALENTINE
 ------------------------- */
 
 [data-theme="valentine"] {
-  --light-heading: #4c0519;
-  --light-body: #881337;
-  --light-muted: #9f1239;
+  --light-heading: #3f1722;
+  --light-body: #6b3445;
+  --light-muted: #8f5a69;
 }
 
 
 /* Main readable text */
+
 [data-theme="valentine"] main p {
   color: var(--light-body) !important;
   opacity: 1 !important;
@@ -499,6 +504,7 @@ a {
 
 
 /* Small supporting text */
+
 [data-theme="valentine"] main small {
   color: var(--light-body) !important;
   opacity: 1 !important;
@@ -506,6 +512,7 @@ a {
 
 
 /* Lists */
+
 [data-theme="valentine"] main li {
   color: var(--light-body) !important;
   opacity: 1 !important;
@@ -513,6 +520,7 @@ a {
 
 
 /* Headings remain darker */
+
 [data-theme="valentine"] main h1,
 [data-theme="valentine"] main h2,
 [data-theme="valentine"] main h3,
@@ -527,13 +535,14 @@ a {
 ------------------------- */
 
 [data-theme="aqua"] {
-  --light-heading: #083344;
-  --light-body: #155e75;
-  --light-muted: #0e7490;
+  --light-heading: #102f3d;
+  --light-body: #315968;
+  --light-muted: #557783;
 }
 
 
 /* Main readable text */
+
 [data-theme="aqua"] main p {
   color: var(--light-body) !important;
   opacity: 1 !important;
@@ -541,6 +550,7 @@ a {
 
 
 /* Small supporting text */
+
 [data-theme="aqua"] main small {
   color: var(--light-body) !important;
   opacity: 1 !important;
@@ -548,6 +558,7 @@ a {
 
 
 /* Lists */
+
 [data-theme="aqua"] main li {
   color: var(--light-body) !important;
   opacity: 1 !important;
@@ -555,6 +566,7 @@ a {
 
 
 /* Headings remain darker */
+
 [data-theme="aqua"] main h1,
 [data-theme="aqua"] main h2,
 [data-theme="aqua"] main h3,

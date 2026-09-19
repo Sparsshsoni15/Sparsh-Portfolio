@@ -1,12 +1,12 @@
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import ThemeSwitcher from "./ThemeSwitcher";
+import SparshLogo from "./SparshLogo";
 
 const links = [
   { label: "About", href: "#about" },
   { label: "Skills", href: "#skills" },
   { label: "Work", href: "#work" },
-  { label: "Achievements", href: "#achievements" },
   { label: "GitHub", href: "#github" },
   { label: "Contact", href: "#contact" },
 ];
@@ -15,7 +15,7 @@ function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 px-4 pt-4 md:px-6">
+    <header className="fixed left-0 right-0 top-0 z-50 px-3 pt-3 md:px-6 md:pt-4">
       <nav
         className="
           mx-auto
@@ -27,12 +27,14 @@ function Navbar() {
           border
           border-[color-mix(in_srgb,var(--theme-primary)_12%,transparent)]
           bg-[color-mix(in_srgb,var(--theme-surface)_72%,transparent)]
-          px-5
-          py-3
+          px-4
+          py-2.5
           shadow-[0_8px_30px_rgba(0,0,0,0.08)]
           backdrop-blur-xl
           transition-all
           duration-300
+          md:px-5
+          md:py-3
           lg:px-7
         "
       >
@@ -40,15 +42,26 @@ function Navbar() {
         <a
           href="#home"
           className="
+            flex
+            min-w-0
+            items-center
+            gap-2
             theme-text
-            text-lg
+            text-base
             font-bold
-            tracking-[0.25em]
+            tracking-[0.18em]
             transition-colors
             duration-300
+            md:gap-2.5
+            md:text-lg
+            md:tracking-[0.25em]
           "
         >
-          SPARSH<span className="theme-primary">.</span>
+          <SparshLogo className="h-8 w-8 shrink-0 md:h-9 md:w-9" />
+
+          <span className="truncate">
+            SPARSH<span className="theme-primary">.</span>
+          </span>
         </a>
 
         {/* Desktop Navigation */}
@@ -91,6 +104,8 @@ function Navbar() {
           className="
             theme-text
             theme-border
+            ml-2
+            shrink-0
             rounded-xl
             border
             bg-[var(--theme-glow)]
@@ -104,7 +119,7 @@ function Navbar() {
           aria-label="Toggle navigation menu"
           aria-expanded={open}
         >
-          {open ? <X size={20} /> : <Menu size={20} />}
+          {open ? <X size={19} /> : <Menu size={19} />}
         </button>
       </nav>
 
@@ -115,18 +130,18 @@ function Navbar() {
             theme-border
             theme-surface
             mx-auto
-            mt-3
+            mt-2
             max-w-7xl
             rounded-2xl
             border
-            bg-[color-mix(in_srgb,var(--theme-surface)_80%,transparent)]
-            p-5
+            bg-[color-mix(in_srgb,var(--theme-surface)_88%,transparent)]
+            p-3
             shadow-[0_12px_40px_rgba(0,0,0,0.12)]
             backdrop-blur-xl
             md:hidden
           "
         >
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1">
             {links.map((link) => (
               <a
                 key={link.label}
@@ -134,11 +149,14 @@ function Navbar() {
                 onClick={() => setOpen(false)}
                 className="
                   theme-text
+                  flex
+                  min-h-11
+                  items-center
                   rounded-xl
                   border
                   border-transparent
                   px-4
-                  py-3
+                  py-2.5
                   text-sm
                   transition-all
                   duration-300
@@ -152,7 +170,7 @@ function Navbar() {
             ))}
 
             {/* Theme Switcher */}
-            <div className="pt-2">
+            <div className="px-1 pt-2">
               <ThemeSwitcher />
             </div>
           </div>
