@@ -32,7 +32,6 @@ function Hero() {
     mass: 0.5,
   });
 
-  // Cursor-following glow position
   const glowX = useMotionValue(0);
   const glowY = useMotionValue(0);
 
@@ -56,10 +55,6 @@ function Hero() {
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    // ============================================
-    // 3D TILT
-    // ============================================
-
     const maxTilt = 5;
 
     const rotateYValue =
@@ -70,10 +65,6 @@ function Hero() {
 
     rotateY.set(rotateYValue);
     rotateX.set(rotateXValue);
-
-    // ============================================
-    // CURSOR FOLLOWING GLOW
-    // ============================================
 
     glowX.set(x);
     glowY.set(y);
@@ -91,15 +82,21 @@ function Hero() {
     <section
       id="home"
       className="
-        relative flex min-h-screen items-center
-        overflow-hidden px-6 pb-16 pt-28
-        sm:px-8 lg:px-12
+        relative flex min-h-[100svh] items-center
+        overflow-hidden
+        px-4
+        pb-12
+        pt-28
+        sm:px-8
+        sm:pb-16
+        lg:px-12
       "
     >
       <div
         className="
           mx-auto grid w-full max-w-7xl
-          items-center gap-14
+          items-center
+          gap-12
           lg:grid-cols-[0.9fr_1.1fr]
           lg:gap-16
         "
@@ -115,7 +112,7 @@ function Hero() {
             duration: 0.8,
             ease: "easeOut",
           }}
-          className="relative z-10"
+          className="relative z-10 min-w-0"
         >
           {/* =========================================
               INTRO - TEXT TYPE EFFECT
@@ -129,10 +126,11 @@ function Hero() {
               duration: 0.6,
             }}
             className="
-              mb-7
+              mb-5
               font-mono
-              text-lg
+              text-base
               font-semibold
+              sm:mb-7
               sm:text-xl
               md:text-2xl
             "
@@ -165,9 +163,9 @@ function Hero() {
             className="
               max-w-[680px]
               pb-1
-              text-[3.5rem]
+              text-[2.8rem]
               font-black
-              leading-[1.08]
+              leading-[1.05]
               tracking-[-0.055em]
               sm:text-6xl
               md:text-7xl
@@ -220,10 +218,11 @@ function Hero() {
               duration: 0.7,
             }}
             className="
-              mt-7
+              mt-5
               max-w-[620px]
-              text-sm
+              text-[13px]
               leading-6
+              sm:mt-7
               sm:text-base
               sm:leading-7
             "
@@ -251,11 +250,15 @@ function Hero() {
               duration: 0.7,
             }}
             className="
-              mt-8
+              mt-7
               flex
-              flex-wrap
-              items-center
+              w-full
+              flex-col
               gap-3
+              min-[420px]:flex-row
+              min-[420px]:flex-wrap
+              min-[420px]:items-center
+              sm:mt-8
             "
           >
             {/* View Work */}
@@ -271,13 +274,19 @@ function Hero() {
               }}
               className="
                 inline-flex
+                min-h-12
+                w-full
                 items-center
+                justify-center
                 gap-2
                 rounded-xl
-                px-6
-                py-3.5
+                px-5
+                py-3
                 text-sm
                 font-bold
+                min-[420px]:w-auto
+                sm:px-6
+                sm:py-3.5
               "
               style={{
                 color: "#ffffff",
@@ -306,14 +315,20 @@ function Hero() {
               }}
               className="
                 inline-flex
+                min-h-12
+                w-full
                 items-center
+                justify-center
                 gap-2
                 rounded-xl
                 border
-                px-6
-                py-3.5
+                px-5
+                py-3
                 text-sm
                 font-semibold
+                min-[420px]:w-auto
+                sm:px-6
+                sm:py-3.5
               "
               style={{
                 color: "var(--theme-text)",
@@ -341,11 +356,13 @@ function Hero() {
               duration: 0.6,
             }}
             className="
-              mt-7
+              mt-6
               flex
               flex-wrap
               items-center
-              gap-3
+              gap-2
+              sm:mt-7
+              sm:gap-3
             "
           >
             {/* =====================================
@@ -367,28 +384,34 @@ function Hero() {
               }}
               className="
                 inline-flex
+                min-h-11
                 items-center
-                gap-2
+                gap-1.5
                 rounded-xl
                 border
-                px-4
-                py-2.5
-                text-sm
+                px-3
+                py-2
+                text-xs
                 font-semibold
                 transition-all
                 duration-200
+                sm:gap-2
+                sm:px-4
+                sm:py-2.5
+                sm:text-sm
               "
               style={{
-                color: "var(--theme-text-secondary)",
-                background: "var(--theme-surface)",
-                borderColor: "var(--theme-border)",
+                color:
+                  "var(--theme-text-secondary)",
+                background:
+                  "var(--theme-surface)",
+                borderColor:
+                  "var(--theme-border)",
               }}
             >
-              {/* GitHub Icon */}
-
               <svg
-                width="18"
-                height="18"
+                width="17"
+                height="17"
                 viewBox="0 0 24 24"
                 fill="currentColor"
                 aria-hidden="true"
@@ -401,8 +424,8 @@ function Hero() {
             </motion.a>
 
             {/* =====================================
-    LINKEDIN
-====================================== */}
+                LINKEDIN
+            ====================================== */}
 
             <motion.a
               href="https://www.linkedin.com/in/sparsshsoni15/"
@@ -418,29 +441,35 @@ function Hero() {
                 scale: 0.97,
               }}
               className="
-    inline-flex
-    items-center
-    gap-2
-    rounded-xl
-    border
-    px-4
-    py-2.5
-    text-sm
-    font-semibold
-    transition-all
-    duration-200
-  "
+                inline-flex
+                min-h-11
+                items-center
+                gap-1.5
+                rounded-xl
+                border
+                px-3
+                py-2
+                text-xs
+                font-semibold
+                transition-all
+                duration-200
+                sm:gap-2
+                sm:px-4
+                sm:py-2.5
+                sm:text-sm
+              "
               style={{
-                color: "var(--theme-text-secondary)",
-                background: "var(--theme-surface)",
-                borderColor: "var(--theme-border)",
+                color:
+                  "var(--theme-text-secondary)",
+                background:
+                  "var(--theme-surface)",
+                borderColor:
+                  "var(--theme-border)",
               }}
             >
-              {/* LinkedIn Official-style Icon */}
-
               <svg
-                width="18"
-                height="18"
+                width="17"
+                height="17"
                 viewBox="0 0 24 24"
                 fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg"
@@ -450,7 +479,7 @@ function Hero() {
                 <path
                   fillRule="evenodd"
                   clipRule="evenodd"
-                  d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V8.998h3.414v1.561h.046c.476-.9 1.637-1.85 3.37-1.85 3.604 0 4.267 2.373 4.267 5.461v6.282ZM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124ZM3.555 20.452h3.558V8.998H3.555v11.454ZM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.454C23.205 24 24 23.227 24 22.271V1.729C24 .774 23.205 0 22.225 0Z"
+                  d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V8.998h3.414v1.561h.046c.476-.9 1.637-1.85 3.37-1.85 3.604 0 4.267 2.373 4.267 5.461v6.282ZM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0-4.124ZM3.555 20.452h3.558V8.998H3.555v11.454ZM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.454C23.205 24 24 23.227 24 22.271V1.729C24 .774 23.205 0 22.225 0Z"
                 />
               </svg>
 
@@ -474,25 +503,33 @@ function Hero() {
               }}
               className="
                 inline-flex
+                min-h-11
                 items-center
-                gap-2
+                gap-1.5
                 rounded-xl
                 border
-                px-4
-                py-2.5
-                text-sm
+                px-3
+                py-2
+                text-xs
                 font-semibold
                 transition-all
                 duration-200
+                sm:gap-2
+                sm:px-4
+                sm:py-2.5
+                sm:text-sm
               "
               style={{
-                color: "var(--theme-text-secondary)",
-                background: "var(--theme-surface)",
-                borderColor: "var(--theme-border)",
+                color:
+                  "var(--theme-text-secondary)",
+                background:
+                  "var(--theme-surface)",
+                borderColor:
+                  "var(--theme-border)",
               }}
             >
               <Mail
-                size={18}
+                size={17}
                 aria-hidden="true"
                 strokeWidth={2}
               />
@@ -504,6 +541,7 @@ function Hero() {
 
         {/* =========================================
             RIGHT CODE CARD
+            Hidden on mobile
         ========================================== */}
 
         <motion.div
@@ -525,8 +563,10 @@ function Hero() {
           className="
             relative
             mx-auto
+            hidden
             w-full
             max-w-[680px]
+            md:block
           "
         >
           {/* Outer Glow */}
