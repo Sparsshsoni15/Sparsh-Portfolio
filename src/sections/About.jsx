@@ -48,7 +48,7 @@ function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7 }}
-          className="mb-10 sm:mb-12 lg:mb-16"
+          className="mb-8 sm:mb-12 lg:mb-16"
         >
           <div
             className="
@@ -56,7 +56,7 @@ function About() {
               mb-4
               flex
               items-center
-              gap-2.5
+              gap-2
               text-[11px]
               uppercase
               tracking-[0.22em]
@@ -75,7 +75,7 @@ function About() {
               flex
               flex-col
               justify-between
-              gap-4
+              gap-3
               sm:gap-6
               md:flex-row
               md:items-end
@@ -85,7 +85,7 @@ function About() {
               className="
                 theme-text
                 max-w-4xl
-                text-[2.15rem]
+                text-[2rem]
                 font-bold
                 leading-[1.08]
                 tracking-tight
@@ -167,36 +167,167 @@ function About() {
             }}
           />
 
-          <div className="relative grid lg:grid-cols-[1fr_360px]">
+          <div className="relative">
 
             {/* =====================================
-                CONTENT
+                MOBILE PHOTO + STATS
+                375 / 390 / 430px
             ====================================== */}
 
-            <div
-              className="
-                flex
-                flex-col
-                justify-between
-                p-5
-                sm:p-7
-                md:p-10
-                lg:p-12
-              "
-            >
-              <div>
+            <div className="lg:hidden">
+
+              <div className="p-4 sm:p-6">
+
+                <div className="grid grid-cols-[minmax(0,1fr)_112px] gap-3 sm:grid-cols-[minmax(0,1fr)_125px] sm:gap-4">
+
+                  {/* PHOTO */}
+
+                  <div className="min-w-0">
+                    <div className="about-photo-card">
+                      <figure
+                        className="
+                          theme-border
+                          relative
+                          overflow-hidden
+                          rounded-xl
+                          border
+                          sm:rounded-2xl
+                        "
+                      >
+                        <img
+                          src={sparshPhoto}
+                          alt="Sparsh Soni"
+                          draggable={false}
+                          className="
+                            block
+                            aspect-[4/5]
+                            w-full
+                            select-none
+                            object-cover
+                          "
+                        />
+
+                        {/* Dark gradient */}
+
+                        <div
+                          className="
+                            pointer-events-none
+                            absolute
+                            inset-0
+                            bg-gradient-to-t
+                            from-black/70
+                            via-black/10
+                            to-transparent
+                          "
+                        />
+
+                        {/* NAME + TAGLINE */}
+
+                        <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4">
+                          <p
+                            className="
+                              text-[9px]
+                              font-semibold
+                              tracking-[0.1em]
+                              text-white
+                              sm:text-xs
+                              sm:tracking-[0.12em]
+                            "
+                          >
+                            SPARSH SONI
+                          </p>
+
+                          <p
+                            className="
+                              mt-0.5
+                              text-[10px]
+                              font-semibold
+                              leading-4
+                              text-white
+                              sm:mt-1
+                              sm:text-sm
+                            "
+                          >
+                            Engineer • Builder • Learner
+                          </p>
+                        </div>
+                      </figure>
+                    </div>
+                  </div>
+
+                  {/* STATS */}
+
+                  <div
+                    className="
+                      theme-border
+                      flex
+                      min-w-0
+                      flex-col
+                      overflow-hidden
+                      rounded-xl
+                      border
+                      sm:rounded-2xl
+                    "
+                  >
+                    {stats.map((stat, index) => (
+                      <div
+                        key={stat.label}
+                        className={`
+                          flex
+                          min-h-0
+                          flex-1
+                          flex-col
+                          justify-center
+                          px-3
+                          py-3
+                          sm:px-3.5
+                          sm:py-4
+                          ${
+                            index !== stats.length - 1
+                              ? "border-b theme-border"
+                              : ""
+                          }
+                        `}
+                      >
+                        <span
+                          className="
+                            theme-text
+                            text-lg
+                            font-bold
+                            leading-none
+                            sm:text-xl
+                          "
+                        >
+                          {stat.value}
+                        </span>
+
+                        <span
+                          className="
+                            theme-muted
+                            mt-1.5
+                            text-[9px]
+                            leading-3
+                            sm:text-[10px]
+                            sm:leading-4
+                          "
+                        >
+                          {stat.label}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* =====================================
+                  MOBILE CONTENT
+              ====================================== */}
+
+              <div className="px-5 pb-5 sm:px-7 sm:pb-7">
 
                 {/* INTRO LABEL */}
 
-                <div
-                  className="
-                    mb-6
-                    flex
-                    items-center
-                    gap-3
-                    sm:mb-7
-                  "
-                >
+                <div className="mb-5 flex items-center gap-3 sm:mb-7">
                   <div
                     className="
                       flex
@@ -218,7 +349,7 @@ function About() {
                   >
                     <Code2
                       size={18}
-                      className="theme-primary sm:h-[19px] sm:w-[19px]"
+                      className="theme-primary"
                     />
                   </div>
 
@@ -254,7 +385,6 @@ function About() {
                     font-bold
                     leading-[1.25]
                     sm:text-2xl
-                    md:text-3xl
                   "
                 >
                   I'm interested in technology,{" "}
@@ -269,7 +399,7 @@ function About() {
                   className="
                     mt-5
                     max-w-3xl
-                    space-y-3.5
+                    space-y-3
                     text-[13px]
                     leading-6
                     text-[var(--theme-text-secondary)]
@@ -277,7 +407,6 @@ function About() {
                     sm:space-y-4
                     sm:text-sm
                     sm:leading-7
-                    md:text-base
                   "
                 >
                   <p>
@@ -302,205 +431,277 @@ function About() {
                     out into the real world.
                   </p>
                 </div>
-              </div>
 
-              {/* =====================================
-                  BOTTOM STATEMENT
-              ====================================== */}
+                {/* ENGINEERING BADGE */}
 
-              <div
-                className="
-                  theme-border
-                  mt-8
-                  flex
-                  flex-col
-                  gap-4
-                  border-t
-                  pt-6
-                  sm:mt-10
-                  sm:gap-5
-                  sm:pt-7
-                  min-[420px]:flex-row
-                  min-[420px]:items-center
-                  min-[420px]:justify-between
-                "
-              >
-                <div className="flex items-center gap-3">
-                  <Sparkles
-                    size={15}
-                    className="theme-primary shrink-0 sm:h-4 sm:w-4"
-                  />
-
-                  <span
+                <div className="mt-5 sm:mt-6">
+                  <div
                     className="
-                      theme-subtle
-                      font-mono
-                      text-[9px]
-                      uppercase
-                      tracking-[0.13em]
-                      sm:text-[10px]
-                      sm:tracking-[0.18em]
+                      inline-flex
+                      items-center
+                      gap-2
+                      rounded-full
+                      border
+                      px-3
+                      py-1.5
+                      text-[10px]
+                      font-medium
                     "
+                    style={{
+                      borderColor:
+                        "color-mix(in srgb, var(--theme-primary) 35%, transparent)",
+                      background: "var(--theme-glow)",
+                      color: "var(--theme-primary)",
+                    }}
                   >
-                    Building. Learning. Improving.
-                  </span>
+                    <Code2 size={12} />
+                    Electrical & Computer Engineering
+                  </div>
                 </div>
 
-                <a
-                  href="#work"
+                {/* BOTTOM STATEMENT */}
+
+                <div
                   className="
-                    theme-primary
-                    group
-                    inline-flex
-                    items-center
-                    gap-2
-                    text-xs
-                    font-semibold
-                    transition-all
-                    duration-300
-                    hover:gap-3
-                    sm:text-sm
+                    theme-border
+                    mt-6
+                    flex
+                    flex-col
+                    gap-4
+                    border-t
+                    pt-5
+                    min-[420px]:flex-row
+                    min-[420px]:items-center
+                    min-[420px]:justify-between
+                    sm:mt-8
+                    sm:pt-7
                   "
                 >
-                  Explore my work
+                  <div className="flex items-center gap-3">
+                    <Sparkles
+                      size={15}
+                      className="theme-primary shrink-0"
+                    />
 
-                  <ArrowUpRight
-                    size={15}
+                    <span
+                      className="
+                        theme-subtle
+                        font-mono
+                        text-[9px]
+                        uppercase
+                        tracking-[0.13em]
+                        sm:text-[10px]
+                        sm:tracking-[0.18em]
+                      "
+                    >
+                      Building. Learning. Improving.
+                    </span>
+                  </div>
+
+                  <a
+                    href="#work"
                     className="
-                      transition-transform
+                      theme-primary
+                      group
+                      inline-flex
+                      items-center
+                      gap-2
+                      text-xs
+                      font-semibold
+                      transition-all
                       duration-300
-                      group-hover:-translate-y-0.5
-                      group-hover:translate-x-0.5
-                      sm:h-4
-                      sm:w-4
+                      hover:gap-3
+                      sm:text-sm
                     "
-                  />
-                </a>
+                  >
+                    Explore my work
+
+                    <ArrowUpRight
+                      size={15}
+                      className="
+                        transition-transform
+                        duration-300
+                        group-hover:-translate-y-0.5
+                        group-hover:translate-x-0.5
+                        sm:h-4
+                        sm:w-4
+                      "
+                    />
+                  </a>
+                </div>
               </div>
             </div>
 
             {/* =====================================
-                PHOTO + STATS
+                DESKTOP CONTENT + PHOTO
+                EXISTING LAYOUT
             ====================================== */}
 
-            <div
-              className="
-                theme-border
-                border-t
-                lg:border-l
-                lg:border-t-0
-              "
-            >
+            <div className="hidden lg:grid lg:grid-cols-[1fr_360px]">
 
               {/* =====================================
-                  PHOTO
+                  CONTENT
               ====================================== */}
 
-              <div className="p-4 sm:p-6 md:p-8">
-                <div className="about-photo-card">
-                  <figure
-                    className="
-                      theme-border
-                      relative
-                      overflow-hidden
-                      rounded-xl
-                      border
-                      sm:rounded-2xl
-                    "
-                  >
-                    <img
-                      src={sparshPhoto}
-                      alt="Sparsh Soni"
-                      draggable={false}
-                      className="
-                        block
-                        aspect-[4/5]
-                        w-full
-                        select-none
-                        object-cover
-                      "
-                    />
+              <div className="flex flex-col justify-between p-12">
 
-                    {/* Dark gradient for text readability */}
+                {/* INTRO LABEL */}
 
+                <div>
+                  <div className="mb-7 flex items-center gap-3">
                     <div
-                      className="
-                        pointer-events-none
-                        absolute
-                        inset-0
-                        bg-gradient-to-t
-                        from-black/70
-                        via-black/10
-                        to-transparent
-                      "
-                    />
+                      className="flex h-10 w-10 items-center justify-center rounded-xl border"
+                      style={{
+                        borderColor:
+                          "color-mix(in srgb, var(--theme-primary) 25%, transparent)",
+                        background: "var(--theme-glow)",
+                      }}
+                    >
+                      <Code2
+                        size={19}
+                        className="theme-primary"
+                      />
+                    </div>
 
-                    {/* NAME + TAGLINE */}
-
-                    <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4">
-                      <p
-                        className="
-                          text-[11px]
-                          font-semibold
-                          tracking-[0.1em]
-                          text-white
-                          sm:text-xs
-                          sm:tracking-[0.12em]
-                        "
-                      >
-                        SPARSH SONI
+                    <div>
+                      <p className="theme-subtle font-mono text-[10px] uppercase tracking-[0.2em]">
+                        Electrical & Computer Engineering
                       </p>
 
-                      <p
-                        className="
-                          mt-0.5
-                          text-xs
-                          font-semibold
-                          text-white
-                          sm:mt-1
-                          sm:text-sm
-                        "
-                      >
-                        Engineer • Builder • Learner
+                      <p className="theme-secondary-text mt-1 text-sm font-medium">
+                        Learning by building
                       </p>
                     </div>
-                  </figure>
+                  </div>
+
+                  {/* MAIN HEADING */}
+
+                  <h3 className="theme-text max-w-3xl text-3xl font-bold leading-tight">
+                    I'm interested in technology,{" "}
+                    <span className="theme-primary">
+                      but I enjoy building with it even more.
+                    </span>
+                  </h3>
+
+                  {/* ABOUT DESCRIPTION */}
+
+                  <div
+                    className="
+                      mt-6
+                      max-w-3xl
+                      space-y-4
+                      text-base
+                      leading-7
+                      text-[var(--theme-text-secondary)]
+                    "
+                  >
+                    <p>
+                      I'm Sparsh Soni, a 2nd-year Electrical and Computer
+                      Engineering student. I'm currently exploring web
+                      development, artificial intelligence and problem solving,
+                      while trying to understand the fundamentals behind the
+                      things I build.
+                    </p>
+
+                    <p>
+                      I learn best when I actually build something. Whether
+                      it's a small website, a clone of an existing product or
+                      an idea of my own, I like experimenting, making mistakes
+                      and improving the result along the way.
+                    </p>
+
+                    <p>
+                      Right now, I'm focused on becoming a better developer,
+                      strengthening my programming and DSA skills, and working
+                      on projects that are useful, interesting and worth
+                      putting out into the real world.
+                    </p>
+                  </div>
+                </div>
+
+                {/* BOTTOM STATEMENT */}
+
+                <div className="theme-border mt-10 flex items-center justify-between gap-5 border-t pt-7">
+                  <div className="flex items-center gap-3">
+                    <Sparkles
+                      size={16}
+                      className="theme-primary"
+                    />
+
+                    <span className="theme-subtle font-mono text-[10px] uppercase tracking-[0.18em]">
+                      Building. Learning. Improving.
+                    </span>
+                  </div>
+
+                  <a
+                    href="#work"
+                    className="theme-primary group inline-flex items-center gap-2 text-sm font-semibold transition-all duration-300 hover:gap-3"
+                  >
+                    Explore my work
+
+                    <ArrowUpRight
+                      size={16}
+                      className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    />
+                  </a>
                 </div>
               </div>
 
               {/* =====================================
-                  QUICK INFO
+                  PHOTO + STATS
               ====================================== */}
 
-              <div className="theme-border border-t">
-                {stats.map((stat, index) => (
-                  <div
-                    key={stat.label}
-                    className={`
-                      flex
-                      items-center
-                      justify-between
-                      px-5
-                      py-4
-                      sm:px-7
-                      sm:py-5
-                      md:px-8
-                      ${
+              <div className="theme-border border-l">
+
+                {/* PHOTO */}
+
+                <div className="p-8">
+                  <div className="about-photo-card">
+                    <figure className="theme-border relative overflow-hidden rounded-2xl border">
+                      <img
+                        src={sparshPhoto}
+                        alt="Sparsh Soni"
+                        draggable={false}
+                        className="block aspect-[4/5] w-full select-none object-cover"
+                      />
+
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+
+                      <div className="absolute bottom-4 left-4">
+                        <p className="text-xs font-semibold tracking-[0.12em] text-white">
+                          SPARSH SONI
+                        </p>
+
+                        <p className="mt-1 text-sm font-semibold text-white">
+                          Engineer • Builder • Learner
+                        </p>
+                      </div>
+                    </figure>
+                  </div>
+                </div>
+
+                {/* STATS */}
+
+                <div className="theme-border border-t">
+                  {stats.map((stat, index) => (
+                    <div
+                      key={stat.label}
+                      className={`flex items-center justify-between px-8 py-5 ${
                         index !== stats.length - 1
                           ? "border-b theme-border"
                           : ""
-                      }
-                    `}
-                  >
-                    <span className="theme-muted text-xs sm:text-sm">
-                      {stat.label}
-                    </span>
+                      }`}
+                    >
+                      <span className="theme-muted text-sm">
+                        {stat.label}
+                      </span>
 
-                    <span className="theme-text text-lg font-bold sm:text-xl">
-                      {stat.value}
-                    </span>
-                  </div>
-                ))}
+                      <span className="theme-text text-xl font-bold">
+                        {stat.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
